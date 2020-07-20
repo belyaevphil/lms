@@ -1,7 +1,7 @@
 const express = require('express')
 const controller = require('../controllers/usersController')
 const validation = require('../helpers/validators/userValidation')
-const permission = require('../helpers/permissions.js/userPermission')
+const permission = require('../helpers/permissions/userPermission')
 const pagination = require('../helpers/pagination/pagination')
 const User = require('../models/User')
 

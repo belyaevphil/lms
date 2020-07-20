@@ -32,12 +32,12 @@ const canModerate = (req, res, next) => {
     })
 
     const decoded = verify(token, process.env.JWT_LOGIN)
-    const role = decoded.role
+    const { role, userId } = decoded.role
     if (role !== 'Модератор') return res.status(403).json({
         success: false,
         message: 'Недостаточно прав'
     })
-    req.userId = decoded.userId
+    req.userId = userId
     next()
 }
 
