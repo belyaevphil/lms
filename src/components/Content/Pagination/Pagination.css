@@ -1,0 +1,41 @@
+.pagination-wrapper {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    display: flex;
+    justify-content: center;
+    background-color: #fff;
+    -ms-user-select: none;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+}
+
+.pagination {
+    color: #1155FF;
+}
+
+.not-current-page, .current-page {
+    padding: 10px;
+}
+
+.not-current-page, .not-current-page:hover, .not-current-page:active {
+    cursor: pointer;
+}
+
+.not-current-page:hover {
+    background-color: #1155FF;
+    color: #FFFFFF;
+}
+
+.not-current-page:active {
+    background-color: #04C;
+    color: #FFFFFF;
+}
+
+.current-page {
+    color: #000000;
+}
+
+.not-current-page {}
