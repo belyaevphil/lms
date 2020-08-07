@@ -1,0 +1,44 @@
+.article-wrapper {
+    padding: 20px;
+    background-color: #fff;
+    margin-top: 10px;
+}
+
+.article {
+    display: flex;
+    flex-direction: column;
+    min-width: 984px;
+}
+
+.article-title {
+    color: #202020;
+}
+
+.article-image {
+    max-width: 984px;
+    max-height: 615px;
+    align-self: center;
+}
+
+.article-image img {
+    max-width: 984px;
+    max-height: 615px;
+}
+
+.article-info {
+    display: flex;
+    justify-content: space-between;
+}
+
+.article-category {
+    color: #777777;
+}
+
+.article-date {
+    color: #777777;
+}
+
+.article-text {
+    text-align: justify;
+    color: #4a4a4a;
+}
