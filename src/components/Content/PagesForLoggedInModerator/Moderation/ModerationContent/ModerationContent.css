@@ -1,0 +1,95 @@
+.moderationContent-wrapper {
+    display: flex;
+    justify-content: center;
+}
+
+.moderationContent {
+    width: 800px;
+    max-width: 800px;
+    display: flex;
+    min-height: 758px;
+    height: 758px;
+    color: #000;
+    font-size: 16px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    max-width: 100vw;
+    background-color: #fff;
+    padding: 40px 40px 20px 40px;
+    box-sizing: border-box;
+}
+
+.moderationContent_form {
+    width: 100%;
+    max-width: 100vw;
+}
+
+.moderationContent_form h2 {
+    margin: 0 0 20px 0;
+    font-size: 32px;
+}
+
+.moderationContent_input {
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.moderationContent_input select {
+    overflow-y: scroll;
+    max-width: 200px;
+}
+
+.moderationContent_input input {
+    width: 50%;
+    max-width: 100vw;
+    padding: 5px 10px;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: 1px solid #bbbbbb;
+    font-size: 16px;
+}
+
+.moderationContent_input textarea {
+    height: 200px;
+    font-size: 16px;
+}
+
+.moderationContent_button {
+    display: flex;
+    justify-content: center;
+}
+
+.moderationContent_button button {
+    padding: 10px;
+    margin: 40px 0 20px 0;
+    border: none;
+    background-color: #1155ff;
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 500;
+    width: 200px;
+}
+
+.moderationContent_input button:hover {
+    background-color: #0033ff;
+}
+
+.moderationContent_input button:active {
+    background-color: #0022cc;
+}
+
+@media screen and (max-width: 1049px) {
+    .moderationContent_input input {
+        width: 100%;
+        max-width: 100vw;
+        padding: 5px 10px;
+        border-top: none;
+        border-left: none;
+        border-right: none;
+        border-bottom: 1px solid #bbbbbb;
+        font-size: 16px;
+    }
+}
