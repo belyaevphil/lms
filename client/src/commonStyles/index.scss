@@ -1,0 +1,13 @@
+@import './normalize';
+@import './reset';
+@import './vars';
+
+body {
+  font-family: $mainRegularFont;
+  color: $mainFontColor;
+}
+
+*:focus {
+  outline: #222222;
+  box-shadow: 0 0 0 2px #222222;
+}
