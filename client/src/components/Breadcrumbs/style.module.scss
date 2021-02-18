@@ -1,0 +1,11 @@
+@import '../../commonStyles/vars';
+
+.breadcrumbs {
+  background-color: #ffffff;
+  width: 1560px;
+  height: 50px;
+  border-radius: $cornerRadius;
+  font-size: $mainFontSize;
+  line-height: 50px;
+  padding: $mainPadding;
+}
