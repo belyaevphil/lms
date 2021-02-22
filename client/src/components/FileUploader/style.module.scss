@@ -1,0 +1,27 @@
+@import '../../commonStyles/vars';
+
+.dropzoneContainer {
+  font-size: $mainFontSize;
+}
+
+.dropzone {
+  width: 370px;
+  background-color: #ffffff;
+  border: 2px dashed #959595;
+  border-radius: $cornerRadius;
+  padding: 20px;
+  cursor: pointer;
+  text-align: center;
+}
+
+.actionText {
+  color: #959595;
+}
+
+.attachedFilesContainer {
+  padding-top: 20px;
+}
+
+.attachedFiles {
+  margin: 10px 0 0 10px;
+}
