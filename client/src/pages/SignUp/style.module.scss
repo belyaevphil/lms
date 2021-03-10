@@ -1,0 +1,12 @@
+@import '../../commonStyles/vars';
+
+.linkWrapper {
+  margin-top: 20px;
+  font-size: $mainFontSize;
+  min-width: 100%;
+  text-align: center;
+}
+
+.link {
+  color: $mainClickableColor;
+}
