@@ -1,0 +1,12 @@
+@import '../../commonStyles/vars';
+
+.courseCards {
+  display: grid;
+  grid-template-columns: repeat(4, 380px);
+  column-gap: 20px;
+  row-gap: 20px;
+}
+
+.courseCardsPlaceholder {
+  font-size: $mainFontSize;
+}
