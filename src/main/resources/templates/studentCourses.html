@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <th:block th:replace="partials/globalCss :: globalCss"></th:block>
+    <title>Курсы</title>
+  </head>
+  <body>
+    <th:block th:replace="partials/header :: header"></th:block>
+
+    <main>
+      <div class="container">
+        <h1>Курсы</h1>
+        <p th:if="${studentCoursesDto.isEmpty()}">У вас пока нет курсов</p>
+        <ul class="row mt-4 list-unstyled" th:if="${!studentCoursesDto.isEmpty()}">
+          <li class="col-12 col-md-6 col-xl-4 mb-4" th:each="studentCourseDto : ${studentCoursesDto}">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title" th:text="${studentCourseDto.studentCourse.course.name}"></h5>
+                <p
+                  class="card-text text-truncate"
+                  th:text="${studentCourseDto.studentCourse.course.description}"
+                ></p>
+                <p
+                  class="card-text text-truncate"
+                  th:text="|Выполнено заданий: ${studentCourseDto.completedLessonsCount} / ${studentCourseDto.lessonsCount}|"
+                ></p>
+                <p
+                  class="card-text text-truncate"
+                  th:text="|Средний балл: ${studentCourseDto.averageGrade?: '0'}|"
+                ></p>
+                <p
+                  class="card-text text-truncate"
+                  th:text="|${studentCourseDto.completeness} &#37;|"
+                ></p>
+                <a
+                  class="btn btn-primary"
+                  th:href="@{/courses/{id}(id=${studentCourseDto.studentCourse.id})}"
+                  >Перейти</a
+                >
+              </div>
+            </div>
+          </li>
+        </ul>
+        <th:block th:replace="partials/paginator :: paginator"></th:block>
+      </div>
+    </main>
+
+    <th:block th:replace="partials/globalScripts :: globalScripts"></th:block>
+  </body>
+</html>

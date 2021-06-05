@@ -1,0 +1,78 @@
+<th:block th:fragment="paginator">
+  <ul
+    class="pagination justify-content-center flex-wrap"
+    th:if="${totalPages > 1}"
+    th:with="currentUrl=${#httpServletRequest.requestURI}, size=${5}"
+  >
+    <li th:class="|page-item ${currentPage > 1 ? '' : 'disabled'}|">
+      <a
+        class="page-link"
+        th:if="${currentPage > 1}"
+        th:href="@{${currentUrl}(page=${currentPage - 1},size=${size})}"
+        >&laquo;</a
+      >
+      <span class="page-link" th:if="${currentPage <= 1}">&laquo;</span>
+    </li>
+    <li
+      th:class="|page-item ${currentPage != page ? '' : 'disabled'}|"
+      th:if="${totalPages <= 5}"
+      th:each="page : ${#numbers.sequence(1, totalPages)}"
+    >
+      <a
+        class="page-link"
+        th:if="${currentPage != page}"
+        th:href="@{${currentUrl}(page=${page},size=${size})}"
+        >[[${page}]]</a
+      >
+      <span class="page-link" th:if="${currentPage == page}">[[${page}]]</span>
+    </li>
+    <li
+      th:class="|page-item ${currentPage != page ? '' : 'disabled'}|"
+      th:if="${totalPages > 5 && currentPage <= 3}"
+      th:each="page : ${#numbers.sequence(1, 5)}"
+    >
+      <a
+        class="page-link"
+        th:if="${currentPage != page}"
+        th:href="@{${currentUrl}(page=${page},size=${size})}"
+        >[[${page}]]</a
+      >
+      <span class="page-link" th:if="${currentPage == page}">[[${page}]]</span>
+    </li>
+    <li
+      th:class="|page-item ${currentPage != page ? '' : 'disabled'}|"
+      th:if="${totalPages > 5 && currentPage > 3 && currentPage < totalPages - 2}"
+      th:each="page : ${#numbers.sequence(currentPage - 2, currentPage + 2)}"
+    >
+      <a
+        class="page-link"
+        th:if="${currentPage != page}"
+        th:href="@{${currentUrl}(page=${page},size=${size})}"
+        >[[${page}]]</a
+      >
+      <span class="page-link" th:if="${currentPage == page}">[[${page}]]</span>
+    </li>
+    <li
+      th:class="|page-item ${currentPage != page ? '' : 'disabled'}|"
+      th:if="${totalPages > 5 && currentPage > 3 && currentPage >= totalPages - 2}"
+      th:each="page : ${#numbers.sequence(totalPages - 4, totalPages)}"
+    >
+      <a
+        class="page-link"
+        th:if="${currentPage != page}"
+        th:href="@{${currentUrl}(page=${page},size=${size})}"
+        >[[${page}]]</a
+      >
+      <span class="page-link" th:if="${currentPage == page}">[[${page}]]</span>
+    </li>
+    <li th:class="|page-item ${currentPage < totalPages ? '' : 'disabled'}|">
+      <a
+        class="page-link"
+        th:if="${currentPage < totalPages}"
+        th:href="@{${currentUrl}(page=${currentPage + 1},size=${size})}"
+        >&raquo;</a
+      >
+      <span class="page-link" th:if="${currentPage >= totalPages}">&raquo;</span>
+    </li>
+  </ul>
+</th:block>

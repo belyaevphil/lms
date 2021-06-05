@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <th:block th:replace="partials/globalCss :: globalCss"></th:block>
+    <title>Создание аккаунта</title>
+  </head>
+  <body>
+    <th:block th:replace="partials/header :: header"></th:block>
+
+    <main>
+      <div class="container">
+        <h1>Создание аккаунта</h1>
+        <div class="alert alert-success" role="alert" th:if="${success}" th:text="${success}"></div>
+        <div class="alert alert-danger" role="alert" th:if="${error}" th:text="${error}"></div>
+        <form th:object="${signUpDto}" method="post">
+          <div class="form-group">
+            <label for="username">Имя пользователя</label>
+            <input
+              class="form-control"
+              th:field="*{username}"
+              placeholder="Имя пользователя"
+              required
+            />
+            <div
+              class="text-danger"
+              th:if="${#fields.hasErrors('username')}"
+              th:errors="*{username}"
+            ></div>
+          </div>
+          <div class="form-group">
+            <label for="firstName">Имя</label>
+            <input class="form-control" th:field="*{firstName}" placeholder="Имя" required />
+            <div
+              class="text-danger"
+              th:if="${#fields.hasErrors('firstName')}"
+              th:errors="*{firstName}"
+            ></div>
+          </div>
+          <div class="form-group">
+            <label for="lastName">Фамилия</label>
+            <input class="form-control" th:field="*{lastName}" placeholder="Фамилия" required />
+            <div
+              class="text-danger"
+              th:if="${#fields.hasErrors('lastName')}"
+              th:errors="*{lastName}"
+            ></div>
+          </div>
+          <div class="form-group">
+            <label for="password">Пароль</label>
+            <input
+              type="password"
+              class="form-control"
+              th:field="*{password}"
+              placeholder="Пароль"
+              required
+              minlength="6"
+              maxlength="20"
+            />
+            <div
+              class="text-danger"
+              th:if="${#fields.hasErrors('password')}"
+              th:errors="*{password}"
+            ></div>
+          </div>
+          <div class="form-group">
+            <label for="repeatPassword">Повторный пароль</label>
+            <input
+              type="password"
+              class="form-control"
+              th:field="*{repeatPassword}"
+              placeholder="Повторный пароль"
+              required
+              minlength="6"
+              maxlength="20"
+            />
+            <div
+              class="text-danger"
+              th:if="${#fields.hasErrors('repeatPassword')}"
+              th:errors="*{repeatPassword}"
+            ></div>
+          </div>
+          <div class="form-check mb-3">
+            <input class="form-check-input" id="agreement" type="checkbox" required />
+            <label class="form-check-label" for="agreement"
+              >Я даю согласие на обработку
+              <a th:href="@{/personalData.pdf}">персональных данных</a></label
+            >
+          </div>
+          <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+          <a class="d-block mb-3" th:href="@{/signin}">Уже есть аккаунт?</a>
+          <button type="submit" class="btn btn-primary">Создать</button>
+        </form>
+      </div>
+    </main>
+
+    <th:block th:replace="partials/globalScripts :: globalScripts"></th:block>
+  </body>
+</html>

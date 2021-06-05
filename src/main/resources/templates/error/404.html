@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <th:block th:replace="partials/globalCss :: globalCss"></th:block>
+    <title>Не найдено</title>
+  </head>
+  <body>
+    <header th:replace="partials/header :: header"></header>
+
+    <main>
+      <div class="container">
+        <h1>Не найдено</h1>
+      </div>
+    </main>
+
+    <th:block th:replace="partials/globalScripts :: globalScripts"></th:block>
+  </body>
+</html>

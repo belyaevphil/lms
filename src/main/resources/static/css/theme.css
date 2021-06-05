@@ -1,0 +1,32 @@
+.navbar {
+  background-color: rgb(255, 255, 255);
+}
+
+body {
+  padding-top: 77px;
+}
+
+/* * {
+  letter-spacing: 0px;
+  background-color: rgb(255, 255, 255) !important;
+  color: rgb(0, 0, 0) !important;
+}
+
+*:focus {
+  border-color: #000000 !important;
+  box-shadow: 0 0 0 0.2rem rgb(0 0 0) !important;
+  outline: 0 !important;
+}
+
+button,
+input {
+  border-color: #000000 !important;
+}
+
+*::placeholder {
+  color: rgb(0, 0, 0) !important;
+}
+
+html {
+  font-size: 16px;
+} */
