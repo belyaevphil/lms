@@ -1,4 +1,4 @@
-# Linguistic school
+# LMS (Learning management system)
 
 Technologies and tools were used to create this app:
 
@@ -6,14 +6,14 @@ Technologies and tools were used to create this app:
 
 - Figma
 - Photoshop
-- JSX
-- CSS3
+- HTML
+- CSS
 
 #### Back-end:
 
-- NodeJS
-- Express
+- Java
 - MySQL
+- Redis
 
 Using this app you can do such things as:
 
