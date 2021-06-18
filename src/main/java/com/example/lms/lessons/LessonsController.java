@@ -59,26 +59,32 @@ public class LessonsController {
     editLessonDto.setName(lesson.getName());
     editLessonDto.setDescription(lesson.getDescription());
 
+    model.addAttribute("lesson", lesson);
     model.addAttribute("editLessonDto", editLessonDto);
-    return "teacherLesson";
+    return "teacher/lesson";
   }
 
   @PostMapping("/lessons/teacher/{id}")
   @PreAuthorize("hasAuthority('TEACHER')")
   public String edit(@PathVariable("id") Long id, @Valid EditLessonDto editLessonDto, BindingResult bindingResult, Model model) {
+    Lesson lesson = lessonsService.get(id);
+
     if (bindingResult.hasErrors()) {
-      return "teacherLesson";
+      model.addAttribute("lesson", lesson);
+      return "teacher/lesson";
     }
 
     try {
       lessonsService.edit(id, editLessonDto);
     } catch (Exception e) {
+      model.addAttribute("lesson", lesson);
       model.addAttribute("error", e.getMessage());
-      return "teacherLesson";
+      return "teacher/lesson";
     }
 
+    model.addAttribute("lesson", lesson);
     model.addAttribute("success", "Урок был отредактирован успешно");
-    return "teacherLesson";
+    return "teacher/lesson";
   }
 
   @GetMapping("/lessons/teacher/{id}/grade")
@@ -87,29 +93,42 @@ public class LessonsController {
     Long teacherId = principal.getUserData().getId();
     StudentLesson teacherLessonToGrade = lessonsService.getTeacherLessonToGrade(teacherId, id);
     GradeAnswerDto gradeAnswerDto = new GradeAnswerDto();
-    gradeAnswerDto.setGrade(5);
+    int gradePlaceholder = 5;
+    gradeAnswerDto.setGrade(gradePlaceholder);
 
     model.addAttribute("teacherLessonToGrade", teacherLessonToGrade);
     model.addAttribute("gradeAnswerDto", gradeAnswerDto);
-    return "teacherLessonToGrade";
+    return "teacher/lessonToGrade";
   }
 
   @PostMapping("/lessons/teacher/{id}/grade")
   @PreAuthorize("hasAuthority('TEACHER')")
-  public String grade(@Valid GradeAnswerDto gradeAnswerDto, BindingResult bindingResult, @PathVariable("id") Long id, Model model) {
+  public String grade(
+    @AuthenticationPrincipal UserDetailsImpl principal,
+    @PathVariable("id") Long id,
+    @Valid GradeAnswerDto gradeAnswerDto,
+    BindingResult bindingResult,
+    Model model
+  ) {
+    Long teacherId = principal.getUserData().getId();
+    StudentLesson teacherLessonToGrade = lessonsService.getTeacherLessonToGrade(teacherId, id);
+
     if (bindingResult.hasErrors()) {
-      return "teacherLessonToGrade";
+      model.addAttribute("teacherLessonToGrade", teacherLessonToGrade);
+      return "teacher/lessonToGrade";
     }
 
     try {
-      lessonsService.grade(id, gradeAnswerDto);
+      lessonsService.grade(teacherLessonToGrade, gradeAnswerDto);
     } catch (Exception e) {
+      model.addAttribute("teacherLessonToGrade", teacherLessonToGrade);
       model.addAttribute("error", e.getMessage());
-      return "teacherLessonToGrade";
+      return "teacher/lessonToGrade";
     }
 
+    model.addAttribute("teacherLessonToGrade", teacherLessonToGrade);
     model.addAttribute("success", "Оценка была выставлена успешно");
-    return "teacherLessonToGrade";
+    return "teacher/lessonToGrade";
   }
 
   @GetMapping("/courses/teacher/{id}/grade")
@@ -127,7 +146,7 @@ public class LessonsController {
     model.addAttribute("totalPages", teacherLessonsToGradeDto.getTotalPages());
     model.addAttribute("totalElements", teacherLessonsToGradeDto.getTotalElements());
     model.addAttribute("teacherLessonsToGrade", teacherLessonsToGradeDto.getStudentLessons());
-    return "teacherLessonsToGrade";
+    return "teacher/lessonsToGrade";
   }
 
   @GetMapping("/lessons/{id}")
@@ -139,24 +158,34 @@ public class LessonsController {
 
     model.addAttribute("studentLesson", studentLesson);
     model.addAttribute("addAnswerDto", addAnswerDto);
-    return "studentLesson";
+    return "student/lesson";
   }
 
   @PostMapping("/lessons/{id}")
   @PreAuthorize("hasAuthority('STUDENT')")
-  public String addAnswer(@PathVariable("id") Long id, @Valid AddAnswerDto addAnswerDto, BindingResult bindingResult, Model model) {
+  public String addAnswer(
+    @PathVariable("id") Long id,
+    @Valid AddAnswerDto addAnswerDto,
+    BindingResult bindingResult,
+    Model model
+  ) {
+    StudentLesson studentLesson = lessonsService.getStudentLesson(id);
+
     if (bindingResult.hasErrors()) {
-      return "studentLesson";
+      model.addAttribute("studentLesson", studentLesson);
+      return "student/lesson";
     }
 
     try {
-      lessonsService.addAnswer(id, addAnswerDto);
+      lessonsService.addAnswer(studentLesson, addAnswerDto);
     } catch (Exception e) {
+      model.addAttribute("studentLesson", studentLesson);
       model.addAttribute("error", e.getMessage());
-      return "studentLesson";
+      return "student/lesson";
     }
 
+    model.addAttribute("studentLesson", studentLesson);
     model.addAttribute("success", "Ответ был добавлен успешно");
-    return "studentLesson";
+    return "student/lesson";
   }
 }

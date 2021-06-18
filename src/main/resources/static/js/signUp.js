@@ -1,8 +1,11 @@
-var password = document.getElementById("password");
-var repeatPassword = document.getElementById("repeatPassword");
-
-function validatePassword() {
-  if (password.value != repeatPassword.value) {
-    repeatPassword.setCustomValidity("Пароли не совпадают");
+window.onload = function () {
+  document.getElementById('signupForm').onsubmit = function () {
+    var passwordInput = document.getElementById('password')
+    var confirmPasswordInput = document.getElementById('confirmPassword')
+    if (passwordInput.value !== confirmPasswordInput.value) {
+      alert('Пароли должны совпадать')
+      return false
+    }
+    return true
   }
 }

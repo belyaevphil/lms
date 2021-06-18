@@ -5,20 +5,23 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <th:block th:replace="partials/globalCss :: globalCss"></th:block>
-    <title th:text="${teacherLessonToGrade.studentCourse.course.name}"></title>
+    <title>[[${teacherLessonToGrade.studentCourse.course.name}]]</title>
   </head>
   <body>
     <th:block th:replace="partials/header :: header"></th:block>
 
     <main>
       <div class="container">
-        <h1 th:text="${teacherLessonToGrade.lesson.name}"></h1>
-        <div>Ответ: [[${teacherLessonToGrade.answer}]]</div>
-        <div>Текущая оценка: [[${teacherLessonToGrade.grade?: '-'}]]</div>
+        <h1>[[${teacherLessonToGrade.lesson.name}]]</h1>
+        <div><strong>Ответ:</strong> [(${teacherLessonToGrade.answer})]</div>
+        <div><strong>Текущая оценка:</strong> [[${teacherLessonToGrade.grade?: '-'}]]</div>
+        <div class="alert alert-success" role="alert" th:if="${success}" th:text="${success}"></div>
+        <div class="alert alert-danger" role="alert" th:if="${error}" th:text="${error}"></div>
         <form
           th:action="@{/lessons/teacher/{id}/grade(id=${teacherLessonToGrade.id})}"
           th:object="${gradeAnswerDto}"
           method="post"
+          id="gradeAnswerForm"
         >
           <div class="form-group">
             <label for="grade">Оценка</label>
@@ -34,7 +37,8 @@
         </form>
       </div>
     </main>
-
+    <th:block th:replace="partials/footer :: footer"></th:block>
     <th:block th:replace="partials/globalScripts :: globalScripts"></th:block>
+    <script th:src="@{/js/teacher/lessonToGrade.js}"></script>
   </body>
 </html>

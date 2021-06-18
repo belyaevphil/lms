@@ -5,35 +5,38 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <th:block th:replace="partials/globalCss :: globalCss"></th:block>
-    <title>Задания для проверки</title>
+    <title>[[${teacherCourse.name}]]</title>
   </head>
   <body>
     <th:block th:replace="partials/header :: header"></th:block>
 
     <main>
       <div class="container">
-        <h1>Задания для проверки</h1>
-        <ul class="row mt-4 list-unstyled">
-          <li
+        <h1>[[${teacherCourse.name}]]</h1>
+        <p th:if="${teacherCourse.note != null}">[[${teacherCourse.note}]]</p>
+        <a
+          class="btn btn-primary"
+          th:href="@{/courses/teacher/{id}/create/lesson(id=${teacherCourse.id})}"
+          >Новый урок</a
+        >
+        <div class="row mt-4">
+          <div
             class="col-12 col-md-6 col-xl-4 mb-4"
-            th:each="teacherLessonToGrade : ${teacherLessonsToGrade}"
+            th:each="teacherLesson : ${teacherCourse.lessons}"
           >
             <div class="card">
               <div class="card-body">
-                <h5 class="card-title" th:text="${teacherLessonToGrade.lesson.name}"></h5>
-                <a
-                  class="btn btn-primary"
-                  th:href="@{/lessons/teacher/{id}/grade(id=${teacherLessonToGrade.id})}"
+                <h5 class="card-title" th:text="${teacherLesson.name}"></h5>
+                <a class="btn btn-primary" th:href="@{/lessons/teacher/{id}(id=${teacherLesson.id})}"
                   >Перейти</a
                 >
               </div>
             </div>
-          </li>
-        </ul>
-        <th:block th:replace="partials/paginator :: paginator"></th:block>
+          </div>
+        </div>
       </div>
     </main>
-
+    <th:block th:replace="partials/footer :: footer"></th:block>
     <th:block th:replace="partials/globalScripts :: globalScripts"></th:block>
   </body>
 </html>

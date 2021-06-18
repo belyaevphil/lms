@@ -1,9 +1,22 @@
 .navbar {
-  background-color: rgb(255, 255, 255);
+  background-color: #343a40;
 }
 
 body {
-  padding-top: 77px;
+  background-color: #fcfcfc;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+main {
+  margin-top: 78px;
+  margin-bottom: 20px;
+}
+
+footer {
+  background-color: #343a40;
+  margin-top: auto;
 }
 
 /* * {

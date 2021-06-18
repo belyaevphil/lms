@@ -21,7 +21,7 @@
                 <h5 class="card-title" th:text="${studentCourseDto.studentCourse.course.name}"></h5>
                 <p
                   class="card-text text-truncate"
-                  th:text="${studentCourseDto.studentCourse.course.description}"
+                  th:text="${studentCourseDto.studentCourse.course.note}"
                 ></p>
                 <p
                   class="card-text text-truncate"
@@ -37,7 +37,7 @@
                 ></p>
                 <a
                   class="btn btn-primary"
-                  th:href="@{/courses/{id}(id=${studentCourseDto.studentCourse.id})}"
+                  th:href="@{/courses/student/{id}(id=${studentCourseDto.studentCourse.id})}"
                   >Перейти</a
                 >
               </div>
@@ -47,7 +47,7 @@
         <th:block th:replace="partials/paginator :: paginator"></th:block>
       </div>
     </main>
-
+    <th:block th:replace="partials/footer :: footer"></th:block>
     <th:block th:replace="partials/globalScripts :: globalScripts"></th:block>
   </body>
 </html>

@@ -3,7 +3,7 @@ package com.example.lms.auth;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.example.lms.auth.dto.SignUpDto;
+import com.example.lms.auth.dto.SignupDto;
 import com.example.lms.exceptions.BadRequestException;
 import com.example.lms.exceptions.NotFoundException;
 import com.example.lms.users.entities.Role;
@@ -38,20 +38,20 @@ public class AuthService {
   }
 
   @Transactional(rollbackFor = Throwable.class)
-  public void signUp(SignUpDto signUpDto) {
-    if (!signUpDto.getPassword().equals(signUpDto.getRepeatPassword())) {
+  public void signup(SignupDto signupDto) {
+    if (!signupDto.getPassword().equals(signupDto.getConfirmPassword())) {
       throw new BadRequestException("Пароли не совпадают");
     }
 
-    usersRepository.findByUsername(signUpDto.getUsername()).ifPresent(candidate -> {
+    usersRepository.findByUsername(signupDto.getUsername()).ifPresent(candidate -> {
       throw new BadRequestException("Имя пользователя уже существует");
     });
 
     User newUser = new User();
-    newUser.setUsername(signUpDto.getUsername());
-    newUser.setPassword(passwordEncoder.encode(signUpDto.getPassword()));
-    newUser.setFirstName(signUpDto.getFirstName());
-    newUser.setLastName(signUpDto.getLastName());
+    newUser.setUsername(signupDto.getUsername());
+    newUser.setPassword(passwordEncoder.encode(signupDto.getPassword()));
+    newUser.setFirstName(signupDto.getFirstName());
+    newUser.setLastName(signupDto.getLastName());
     usersRepository.save(newUser);
 
     Role role = rolesRepository.findByName("STUDENT").orElseThrow(() -> new NotFoundException("Роль не найдена"));

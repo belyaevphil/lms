@@ -2,7 +2,7 @@ package com.example.lms.auth;
 
 import javax.validation.Valid;
 
-import com.example.lms.auth.dto.SignUpDto;
+import com.example.lms.auth.dto.SignupDto;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,23 +18,23 @@ public class AuthController {
   private final AuthService authService;
 
   @GetMapping("/signin")
-  public String getSignin(SignUpDto signUpDto) {
+  public String getSignin(SignupDto signupDto) {
     return "signin";
   }
 
   @GetMapping("/signup")
-  public String getSignUp(SignUpDto signUpDto) {
+  public String getSignup(SignupDto signupDto) {
     return "signup";
   }
 
   @PostMapping("/signup")
-  public String postSignUp(@Valid SignUpDto signUpDto, BindingResult bindingResult, Model model) {
+  public String postSignup(@Valid SignupDto signupDto, BindingResult bindingResult, Model model) {
     if (bindingResult.hasErrors()) {
       return "signup";
     }
   
     try {
-      authService.signUp(signUpDto);
+      authService.signup(signupDto);
     } catch (Exception e) {
       model.addAttribute("error", e.getMessage());
       return "signup";

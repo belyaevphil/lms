@@ -4,10 +4,11 @@ import lombok.Data;
 
 @Data
 public class StudentOverviewDto {
-  private Integer completedCoursesCount;
   private Integer coursesCount;
-  private Integer completedLessonsCount;
+  private Integer completedCoursesCount;
+  private Integer inProgressCoursesCount;
   private Integer lessonsCount;
-  private Integer completeness;
+  private Integer completedLessonsCount;
+  private Integer idlingLessonsCount;
   private Float averageGrade;
 }

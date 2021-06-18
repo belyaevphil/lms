@@ -42,18 +42,18 @@ public class UsersController {
     StudentOverviewDto studentOverviewDto = usersService.getStudentOverviewData(userId);
 
     model.addAttribute("studentOverviewDto", studentOverviewDto);
-    return "studentOverview";
+    return "student/overview";
   }
 
-  @GetMapping("/overview/teacher")
-  @PreAuthorize("hasAuthority('TEACHER')")
-  public String getTeacherOverviewPage(@AuthenticationPrincipal UserDetailsImpl principal, Model model) {
-    Long userId = principal.getUserData().getId();
-    TeacherOverviewDto teacherOverviewDto = usersService.getTeacherOverviewData(userId);
+  // @GetMapping("/overview/teacher")
+  // @PreAuthorize("hasAuthority('TEACHER')")
+  // public String getTeacherOverviewPage(@AuthenticationPrincipal UserDetailsImpl principal, Model model) {
+  //   Long userId = principal.getUserData().getId();
+  //   TeacherOverviewDto teacherOverviewDto = usersService.getTeacherOverviewData(userId);
 
-    model.addAttribute("teacherOverviewDto", teacherOverviewDto);
-    return "teacherOverview";
-  }
+  //   model.addAttribute("teacherOverviewDto", teacherOverviewDto);
+  //   return "teacher/overview";
+  // }
 
   @GetMapping("/overview/admin")
   @PreAuthorize("hasAuthority('ADMIN')")
@@ -62,6 +62,6 @@ public class UsersController {
     AdminOverviewDto adminOverviewDto = usersService.getAdminOverviewData(userId);
 
     model.addAttribute("adminOverviewDto", adminOverviewDto);
-    return "adminOverview";
+    return "admin/overview";
   }
 }

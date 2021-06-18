@@ -1,5 +1,7 @@
 package com.example.lms.courses;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import com.example.lms.courses.dto.AssignCourseDto;
@@ -34,25 +36,25 @@ public class CoursesController {
   @GetMapping("/courses/teacher/{id}/create/lesson")
   @PreAuthorize("hasAuthority('TEACHER')")
   public String getCreateLessonPage(CreateLessonDto createLessonDto) {
-    return "teacherCreateLesson";
+    return "teacher/createLesson";
   }
 
   @PostMapping("/courses/teacher/{id}/create/lesson")
   @PreAuthorize("hasAuthority('TEACHER')")
   public String createLesson(@PathVariable("id") Long id, @Valid CreateLessonDto createLessonDto, BindingResult bindingResult, Model model) {
     if (bindingResult.hasErrors()) {
-      return "teacherCreateLesson";
+      return "teacher/createLesson";
     }
 
     try {
       lessonsService.create(createLessonDto, id);
     } catch (Exception e) {
       model.addAttribute("error", e.getMessage());
-      return "teacherCreateLesson";
+      return "teacher/createLesson";
     }
 
     model.addAttribute("success", "Урок был создан успешно");
-    return "teacherCreateLesson";
+    return "teacher/createLesson";
   }
 
   @GetMapping("/courses/teacher/{id}")
@@ -61,7 +63,7 @@ public class CoursesController {
     Course teacherCourse = coursesService.getTeacherCourse(id);
 
     model.addAttribute("teacherCourse", teacherCourse);
-    return "teacherCourse";
+    return "teacher/course";
   }
 
   @GetMapping("/courses/teacher")
@@ -74,19 +76,19 @@ public class CoursesController {
     model.addAttribute("totalPages", teacherCoursesPage.getTotalPages());
     model.addAttribute("totalElements", teacherCoursesPage.getTotalElements());
     model.addAttribute("teacherCourses", teacherCoursesPage.getContent());
-    return "teacherCourses";
+    return "teacher/courses";
   }
 
-  @GetMapping("/courses/{id}")
+  @GetMapping("/courses/student/{id}")
   @PreAuthorize("hasAuthority('STUDENT')")
   public String getStudentCourse(@PathVariable("id") Long id, Model model) {
     StudentCourseDto studentCourseDto = coursesService.getStudentCourse(id);
 
     model.addAttribute("studentCourseDto", studentCourseDto);
-    return "studentCourse";
+    return "student/course";
   }
 
-  @GetMapping("/courses")
+  @GetMapping("/courses/student")
   @PreAuthorize("hasAuthority('STUDENT')")
   public String getStudentCourses(@AuthenticationPrincipal UserDetailsImpl principal, Pageable pageable, Model model) {
     Long studentId = principal.getUserData().getId();
@@ -96,78 +98,95 @@ public class CoursesController {
     model.addAttribute("totalPages", studentCoursesDto.getTotalPages());
     model.addAttribute("totalElements", studentCoursesDto.getTotalElements());
     model.addAttribute("studentCoursesDto", studentCoursesDto.getStudentCourseDtos());
-    return "studentCourses";
+    return "student/courses";
   }
 
   @GetMapping("/courses/create")
   @PreAuthorize("hasAuthority('ADMIN')")
   public String getCreatePage(CreateCourseDto createCourseDto) {
-    return "adminCreateCourse";
+    return "admin/createCourse";
   }
 
   @PostMapping("/courses/create")
   @PreAuthorize("hasAuthority('ADMIN')")
   public String create(@Valid CreateCourseDto createCourseDto, BindingResult bindingResult, Model model) {
     if (bindingResult.hasErrors()) {
-      return "adminCreateCourse";
+      return "admin/createCourse";
     }
 
     try {
       coursesService.create(createCourseDto);
     } catch (Exception e) {
       model.addAttribute("error", e.getMessage());
-      return "adminCreateCourse";
+      return "admin/createCourse";
     }
 
     model.addAttribute("success", "Курс был создан успешно");
-    return "adminCreateCourse";
+    return "admin/createCourse";
   }
 
   @GetMapping("/courses/assign")
   @PreAuthorize("hasAuthority('ADMIN')")
   public String getAssignPage(AssignCourseDto assignCourseDto) {
-    return "adminAssignCourse";
+    return "admin/assignCourse";
   }
 
   @PostMapping("/courses/assign")
   @PreAuthorize("hasAuthority('ADMIN')")
   public String assign(@Valid AssignCourseDto assignCourseDto, BindingResult bindingResult, Model model) {
     if (bindingResult.hasErrors()) {
-      return "adminAssignCourse";
+      return "admin/assignCourse";
     }
 
     try {
       coursesService.assign(assignCourseDto);
     } catch (Exception e) {
       model.addAttribute("error", e.getMessage());
-      return "adminAssignCourse";
+      return "admin/assignCourse";
     }
 
     model.addAttribute("success", "Курс был назначен успешно");
-    return "adminAssignCourse";
+    return "admin/assignCourse";
   }
 
   @GetMapping("/courses/assign/teacher")
   @PreAuthorize("hasAuthority('ADMIN')")
   public String getAssignTeacherPage(AssignTeacherDto assignTeacherDto) {
-    return "adminAssignTeacher";
+    return "admin/assignTeacher";
   }
 
   @PostMapping("/courses/assign/teacher")
   @PreAuthorize("hasAuthority('ADMIN')")
   public String assignTeacher(@Valid AssignTeacherDto assignTeacherDto, BindingResult bindingResult, Model model) {
     if (bindingResult.hasErrors()) {
-      return "adminAssignTeacher";
+      return "admin/assignTeacher";
     }
 
     try {
       coursesService.assignTeacher(assignTeacherDto);
     } catch (Exception e) {
       model.addAttribute("error", e.getMessage());
-      return "adminAssignTeacher";
+      return "admin/assignTeacher";
     }
 
     model.addAttribute("success", "Преподаватель был назначен успешно");
-    return "adminAssignTeacher";
+    return "admin/assignTeacher";
+  }
+
+  @GetMapping("/")
+  public String getIndexPage(Model model) {
+    List<Course> courses = coursesService.getCourses();
+
+    model.addAttribute("courses", courses);
+    return "index";
+  }
+
+  @GetMapping("/courses/{id}")
+  @PreAuthorize("hasAuthority('STUDENT')")
+  public String getCourse(@PathVariable("id") Long id, Model model) {
+    Course course = coursesService.getCourse(id);
+
+    model.addAttribute("course", course);
+    return "course";
   }
 }

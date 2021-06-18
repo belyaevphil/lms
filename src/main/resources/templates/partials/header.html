@@ -1,6 +1,6 @@
 <th:block th:fragment="header">
   <header>
-    <nav class="navbar navbar-expand-lg navbar-light fixed-top border-bottom">
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
       <div class="container">
         <a class="navbar-brand" th:href="@{/}">ДО при БФ БашГУ</a>
         <button
@@ -20,7 +20,7 @@
               <a class="nav-link" th:href="@{/profile}">Профиль</a>
             </li>
             <li class="nav-item" sec:authorize="hasAuthority('STUDENT')">
-              <a class="nav-link" th:href="@{/courses}">Мои курсы</a>
+              <a class="nav-link" th:href="@{/courses/student}">Мои курсы</a>
             </li>
             <li class="nav-item dropdown" sec:authorize="hasAuthority('TEACHER')">
               <a

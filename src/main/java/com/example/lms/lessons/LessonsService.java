@@ -52,15 +52,13 @@ public class LessonsService {
     return studentLessonRepository.findByIdWithLessonFiles(id).orElseThrow(() -> new NotFoundException("Такого урока не найдено"));
   }
 
-  public void addAnswer(Long id, AddAnswerDto addAnswerDto) {
-    StudentLesson studentLesson = studentLessonRepository.findById(id).orElseThrow(() -> new NotFoundException("Такого урока не найдено"));
+  public void addAnswer(StudentLesson studentLesson, AddAnswerDto addAnswerDto) {
     studentLesson.setAnswer(addAnswerDto.getAnswer());
     studentLesson.setStatus("ожидается проверка");
     studentLessonRepository.save(studentLesson);
   }
 
-  public void grade(Long id, GradeAnswerDto gradeAnswerDto) {
-    StudentLesson studentLesson = studentLessonRepository.findById(id).orElseThrow(() -> new NotFoundException("Такого урока не найдено"));
+  public void grade(StudentLesson studentLesson, GradeAnswerDto gradeAnswerDto) {
     studentLesson.setGrade(gradeAnswerDto.getGrade());
     studentLesson.setStatus("выполнено");
     studentLessonRepository.save(studentLesson);

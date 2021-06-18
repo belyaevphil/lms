@@ -100,6 +100,14 @@ public class CoursesService {
     return coursesRepository.findAllByTeachersUserId(id, pageable);
   }
 
+  public Course getCourse(Long id) {
+    return coursesRepository.findById(id).orElseThrow(() -> new NotFoundException("Такого курса не найдено"));
+  }
+
+  public List<Course> getCourses() {
+    return coursesRepository.findAll();
+  }
+
   public void create(CreateCourseDto createCourseDto) {
     Optional<Course> course = coursesRepository.findByName(createCourseDto.getName());
     if (course.isPresent()) {

@@ -5,16 +5,17 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <th:block th:replace="partials/globalCss :: globalCss"></th:block>
-    <title>Обзор</title>
+    <title>Преподавателю / Обзор</title>
   </head>
   <body>
     <th:block th:replace="partials/header :: header"></th:block>
     <main>
       <div class="container">
-        <h1>Обзор</h1>
-        <div>Всего курсов: [[${studentOverviewResponseDto.completeness}]]</div>
+        <h1>Преподавателю / Обзор</h1>
+        <div>Всего курсов: [[${studentCourseResponseDto.completeness}]]</div>
       </div>
     </main>
+    <th:block th:replace="partials/footer :: footer"></th:block>
     <th:block th:replace="partials/globalScripts :: globalScripts"></th:block>
   </body>
 </html>

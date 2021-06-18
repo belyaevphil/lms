@@ -6,7 +6,7 @@ import javax.validation.constraints.Size;
 import lombok.Data;
 
 @Data
-public class SignUpDto {
+public class SignupDto {
     @NotEmpty
     private String username;
 
@@ -20,5 +20,5 @@ public class SignUpDto {
     private String password;
 
     @NotEmpty
-    private String repeatPassword;
+    private String confirmPassword;
 }

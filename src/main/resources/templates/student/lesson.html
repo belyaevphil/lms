@@ -6,16 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <th:block th:replace="partials/globalCss :: globalCss"></th:block>
     <title th:text="${studentLesson.lesson.name}"></title>
+    <link rel="stylesheet" th:href="@{/summernote-0.8.18-dist/summernote-bs4.min.css}" />
   </head>
   <body>
     <th:block th:replace="partials/header :: header"></th:block>
 
     <main>
       <div class="container">
-        <h1 th:text="${studentLesson.lesson.name}"></h1>
-        <div th:text="${studentLesson.lesson.description}"></div>
+        <h1>[[${studentLesson.lesson.name}]]</h1>
+        <p><strong>Задание к уроку:</strong> [[${studentLesson.lesson.description}]]</p>
         <div th:if="${!studentLesson.lesson.lessonFiles.isEmpty()}">
-          <div>Материалы к уроку</div>
+          <h2>Материалы к уроку</h2>
           <a
             class="d-block"
             th:each="lessonFile : ${studentLesson.lesson.lessonFiles}"
@@ -25,19 +26,10 @@
         </div>
         <div class="alert alert-success" role="alert" th:if="${success}" th:text="${success}"></div>
         <div class="alert alert-danger" role="alert" th:if="${error}" th:text="${error}"></div>
-        <form
-          th:action="@{/lessons/{id}/answer(id=${studentLesson.id})}"
-          th:object="${addAnswerDto}"
-          method="post"
-        >
+        <form th:object="${addAnswerDto}" method="post" id="addAnswerForm">
           <div class="form-group">
             <label for="answer">Ответ на задание</label>
-            <input
-              class="form-control"
-              th:field="*{answer}"
-              placeholder="Ответ на задание"
-              required
-            />
+            <textarea class="form-control" th:field="*{answer}" required hidden></textarea>
             <div
               class="text-danger"
               th:if="${#fields.hasErrors('answer')}"
@@ -49,7 +41,10 @@
         </form>
       </div>
     </main>
-
+    <th:block th:replace="partials/footer :: footer"></th:block>
     <th:block th:replace="partials/globalScripts :: globalScripts"></th:block>
+    <script th:src="@{/summernote-0.8.18-dist/summernote-bs4.min.js}"></script>
+    <script th:src="@{/summernote-0.8.18-dist/summernote-ru-RU.min.js}"></script>
+    <script th:src="@{/js/student/lesson.js}"></script>
   </body>
 </html>

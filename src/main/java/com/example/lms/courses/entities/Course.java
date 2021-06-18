@@ -25,11 +25,20 @@ public class Course {
   @Column(name = "id")
   private Long id;
 
+  @Column(name = "vendor_code")
+  private Integer vendorCode;
+
   @Column(name = "name")
   private String name;
 
+  @Column(name = "price")
+  private Integer price;
+
   @Column(name = "description")
   private String description;
+
+  @Column(name = "note")
+  private String note;
 
   @OneToMany(mappedBy = "course", fetch = FetchType.LAZY)
   private List<Teacher> teachers;

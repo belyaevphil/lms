@@ -9,13 +9,28 @@
   </head>
   <body>
     <th:block th:replace="partials/header :: header"></th:block>
-
     <main>
       <div class="container">
         <h1>Добро пожаловать!</h1>
-      </div>
+        <ul class="row mt-4 list-unstyled" th:if="${!courses.isEmpty()}">
+          <li class="col-12 col-md-6 col-xl-4 mb-4" th:each="course : ${courses}">
+            <div class="card">
+              <img class="card-img-top" th:src="@{/coursesImages/default.png}" alt="hey">
+              <div class="card-body">
+                <h5 class="card-title">[[${course.name}]]</h5>
+                <p class="card-text text-truncate">[[${course.description}]]</p>
+                <p class="card-text text-truncate">Цена: [[${course.price}]]</p>
+                <a
+                  class="btn btn-primary"
+                  th:href="@{/courses/{id}(id=${course.id})}"
+                  >Подробнее</a
+                >
+              </div>
+            </div>
+          </li>
+        </ul>
     </main>
-
+    <th:block th:replace="partials/footer :: footer"></th:block>
     <th:block th:replace="partials/globalScripts :: globalScripts"></th:block>
   </body>
 </html>

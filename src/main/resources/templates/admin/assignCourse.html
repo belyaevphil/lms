@@ -1,21 +1,21 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<html lang="ru">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <th:block th:replace="partials/globalCss :: globalCss"></th:block>
-    <title>Назначить преподавателя</title>
+    <title>Назначить курс</title>
   </head>
   <body>
     <th:block th:replace="partials/header :: header"></th:block>
 
     <main>
       <div class="container">
-        <h1>Назначить преподавателя</h1>
+        <h1>Назначить курс</h1>
         <div class="alert alert-success" role="alert" th:if="${success}" th:text="${success}"></div>
         <div class="alert alert-danger" role="alert" th:if="${error}" th:text="${error}"></div>
-        <form th:object="${assignTeacherDto}" method="post">
+        <form th:object="${assignCourseDto}" method="post">
           <div class="form-group">
             <label for="username">Имя пользователя</label>
             <input
@@ -51,6 +51,8 @@
         </form>
       </div>
     </main>
+
+    <th:block th:replace="partials/footer :: footer"></th:block>
 
     <th:block th:replace="partials/globalScripts :: globalScripts"></th:block>
   </body>

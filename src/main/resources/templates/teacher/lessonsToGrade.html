@@ -5,26 +5,26 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <th:block th:replace="partials/globalCss :: globalCss"></th:block>
-    <title>Управление курсами</title>
+    <title>Задания для проверки</title>
   </head>
   <body>
     <th:block th:replace="partials/header :: header"></th:block>
 
     <main>
       <div class="container">
-        <h1>Управление курсами</h1>
+        <h1>Задания для проверки</h1>
         <ul class="row mt-4 list-unstyled">
-          <li class="col-12 col-md-6 col-xl-4 mb-4" th:each="teacherCourse : ${teacherCourses}">
+          <li
+            class="col-12 col-md-6 col-xl-4 mb-4"
+            th:each="teacherLessonToGrade : ${teacherLessonsToGrade}"
+          >
             <div class="card">
               <div class="card-body">
-                <h5 class="card-title" th:text="${teacherCourse.name}"></h5>
-                <a class="btn btn-primary" th:href="@{/courses/teacher/{id}(id=${teacherCourse.id})}"
-                  >Перейти</a
-                >
+                <h5 class="card-title" th:text="${teacherLessonToGrade.lesson.name}"></h5>
                 <a
                   class="btn btn-primary"
-                  th:href="@{/courses/teacher/{id}/grade(id=${teacherCourse.id})}"
-                  >Проверка работ</a
+                  th:href="@{/lessons/teacher/{id}/grade(id=${teacherLessonToGrade.id})}"
+                  >Перейти</a
                 >
               </div>
             </div>
@@ -33,7 +33,7 @@
         <th:block th:replace="partials/paginator :: paginator"></th:block>
       </div>
     </main>
-
+    <th:block th:replace="partials/footer :: footer"></th:block>
     <th:block th:replace="partials/globalScripts :: globalScripts"></th:block>
   </body>
 </html>
