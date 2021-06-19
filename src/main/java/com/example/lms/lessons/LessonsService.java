@@ -122,11 +122,11 @@ public class LessonsService {
 
     // Spring automatically generates 1 file with empty name, if none was present
     MultipartFile[] files = createLessonDto.getFiles();
-    String firstFile = files[0].getOriginalFilename();
-    if (Objects.isNull(firstFile)) {
+    String firstFileName = files[0].getOriginalFilename();
+    if (Objects.isNull(firstFileName)) {
       return;
     }
-    if (!firstFile.isEmpty()) {
+    if (!firstFileName.isEmpty()) {
       saveLessonFiles(files, lesson);
     }
   }
@@ -140,11 +140,11 @@ public class LessonsService {
 
     // Spring automatically generates 1 file with empty name, if none was present
     MultipartFile[] files = editLessonDto.getFiles();
-    String firstFile = files[0].getOriginalFilename();
-    if (Objects.isNull(firstFile)) {
+    String firstFileName = files[0].getOriginalFilename();
+    if (Objects.isNull(firstFileName)) {
       return;
     }
-    if (!firstFile.isEmpty()) {
+    if (!firstFileName.isEmpty()) {
       saveLessonFiles(files, lesson);
     }
   }

@@ -18,8 +18,7 @@
               <img class="card-img-top" th:src="@{/coursesImages/default.png}" alt="hey">
               <div class="card-body">
                 <h5 class="card-title">[[${course.name}]]</h5>
-                <p class="card-text text-truncate">[[${course.description}]]</p>
-                <p class="card-text text-truncate">Цена: [[${course.price}]]</p>
+                <p class="card-text text-truncate">Стоимость: [[${course.price}]] рублей</p>
                 <a
                   class="btn btn-primary"
                   th:href="@{/courses/{id}(id=${course.id})}"

@@ -4,15 +4,20 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import com.example.lms.auth.AuthService;
 import com.example.lms.courses.entities.Course;
 import com.example.lms.courses.entities.StudentCourse;
 import com.example.lms.courses.repositories.StudentsCoursesRepository;
 import com.example.lms.lessons.entities.Lesson;
 import com.example.lms.users.dto.AdminOverviewDto;
+import com.example.lms.users.dto.ChangeProfileImageDto;
+import com.example.lms.users.dto.EditProfileDto;
 import com.example.lms.users.dto.StudentOverviewDto;
 import com.example.lms.users.dto.TeacherOverviewDto;
 import com.example.lms.users.entities.Teacher;
+import com.example.lms.users.entities.User;
 import com.example.lms.users.repositories.TeachersRepository;
+import com.example.lms.users.repositories.UsersRepository;
 
 import org.springframework.stereotype.Service;
 
@@ -21,8 +26,27 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class UsersService {
+  private final UsersRepository usersRepository;
   private final StudentsCoursesRepository studentsCoursesRepository;
   private final TeachersRepository teachersRepository;
+  private final AuthService authService;
+
+  public void editProfileData(User user, EditProfileDto editProfileDto) {
+    user.setFirstName(editProfileDto.getFirstName());
+    user.setLastName(editProfileDto.getLastName());
+    user.setEmail(editProfileDto.getEmail());
+    user.setPhone(editProfileDto.getPhone());
+    usersRepository.save(user);
+
+    authService.deleteSessionsByUsername(user.getUsername());
+  }
+
+  public void changeProfileImage(User user, ChangeProfileImageDto changeProfileImageDto) {
+    user.setImageUrl(changeProfileImageDto.getImageUrl());
+    usersRepository.save(user);
+
+    authService.deleteSessionsByUsername(user.getUsername());
+  }
 
   public StudentOverviewDto getStudentOverviewData(Long studentId) {
     List<StudentCourse> studentCourses = studentsCoursesRepository.fetchAllByStudentId(studentId);

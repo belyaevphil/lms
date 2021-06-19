@@ -21,10 +21,6 @@
                 <h5 class="card-title" th:text="${studentCourseDto.studentCourse.course.name}"></h5>
                 <p
                   class="card-text text-truncate"
-                  th:text="${studentCourseDto.studentCourse.course.note}"
-                ></p>
-                <p
-                  class="card-text text-truncate"
                   th:text="|Выполнено заданий: ${studentCourseDto.completedLessonsCount} / ${studentCourseDto.lessonsCount}|"
                 ></p>
                 <p

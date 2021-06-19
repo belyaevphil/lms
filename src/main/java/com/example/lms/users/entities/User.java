@@ -43,6 +43,9 @@ public class User implements Serializable {
   @Column(name = "phone")
   private String phone;
 
+  @Column(name = "image_url")
+  private String imageUrl;
+
   @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
   private List<UserRole> userRoles;
 
