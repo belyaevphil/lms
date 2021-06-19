@@ -18,7 +18,7 @@ public class AuthController {
   private final AuthService authService;
 
   @GetMapping("/signin")
-  public String getSignin(SignupDto signupDto) {
+  public String getSignin() {
     return "signin";
   }
 

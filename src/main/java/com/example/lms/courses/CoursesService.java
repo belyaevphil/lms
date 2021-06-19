@@ -9,6 +9,7 @@ import com.example.lms.auth.AuthService;
 import com.example.lms.courses.dto.AssignCourseDto;
 import com.example.lms.courses.dto.AssignTeacherDto;
 import com.example.lms.courses.dto.CreateCourseDto;
+import com.example.lms.courses.dto.EditCourseDto;
 import com.example.lms.courses.dto.StudentCourseDto;
 import com.example.lms.courses.dto.StudentCoursesDto;
 import com.example.lms.courses.entities.Course;
@@ -117,6 +118,13 @@ public class CoursesService {
     Course newCourse = new Course();
     newCourse.setName(createCourseDto.getName());
     coursesRepository.save(newCourse);
+  }
+
+  public void editCourse(Course course, EditCourseDto editCourseDto) {
+    course.setVendorCode(editCourseDto.getVendorCode());
+    course.setPrice(editCourseDto.getPrice());
+    course.setDescription(editCourseDto.getDescription());
+    coursesRepository.save(course);
   }
 
   @Transactional(rollbackFor = Throwable.class)

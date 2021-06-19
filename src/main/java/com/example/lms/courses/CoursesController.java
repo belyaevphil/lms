@@ -6,8 +6,10 @@ import javax.validation.Valid;
 
 import com.example.lms.courses.dto.AssignCourseDto;
 import com.example.lms.courses.dto.AssignTeacherDto;
+import com.example.lms.courses.dto.ChangeCourseImageDto;
 import com.example.lms.courses.dto.CreateCourseDto;
 import com.example.lms.courses.dto.CreateLessonDto;
+import com.example.lms.courses.dto.EditCourseDto;
 import com.example.lms.courses.dto.StudentCourseDto;
 import com.example.lms.courses.dto.StudentCoursesDto;
 import com.example.lms.courses.entities.Course;
@@ -186,7 +188,40 @@ public class CoursesController {
   public String getCourse(@PathVariable("id") Long id, Model model) {
     Course course = coursesService.getCourse(id);
 
+    EditCourseDto editCourseDto = new EditCourseDto();
+    editCourseDto.setVendorCode(course.getVendorCode());
+    editCourseDto.setPrice(course.getPrice());
+    editCourseDto.setDescription(course.getDescription());
+
+    ChangeCourseImageDto changeCourseImageDto = new ChangeCourseImageDto();
+    changeCourseImageDto.setImageUrl(course.getImageUrl());
+
     model.addAttribute("course", course);
+    model.addAttribute("editCourseDto", editCourseDto);
+    model.addAttribute("changeCourseImageDto", changeCourseImageDto);
+    return "course";
+  }
+
+  @PostMapping("/courses/{id}")
+  @PreAuthorize("hasAuthority('ADMIN')")
+  public String editCourse(@PathVariable("id") Long id, @Valid EditCourseDto editCourseDto, BindingResult bindingResult, Model model) {
+    Course course = coursesService.getCourse(id);
+
+    if (bindingResult.hasErrors()) {
+      model.addAttribute("course", course);
+      return "course";
+    }
+
+    try {
+      coursesService.editCourse(course, editCourseDto);
+    } catch (Exception e) {
+      model.addAttribute("course", course);
+      model.addAttribute("error", e.getMessage());
+      return "course";
+    }
+
+    model.addAttribute("course", course);
+    model.addAttribute("success", "Курс был редактирован успешно");
     return "course";
   }
 }

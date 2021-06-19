@@ -1,7 +1,7 @@
 $(document).ready(function () {
-  $('#answer').summernote({
+  $('#description').summernote({
     height: 300,
-    placeholder: 'Ответ на задание',
+    placeholder: 'Задание к уроку',
     lang: 'ru-RU',
     toolbar: [
       ['style', ['style']],
@@ -16,14 +16,8 @@ $(document).ready(function () {
     ]
   })
 
-  document.getElementById('addAnswerForm').onsubmit = function () {
-    var answerInput = document.getElementById('answer')
-    if (answerInput.value === answerInput.defaultValue) {
-      alert('Измените хотя бы одно поле')
-      return false
-    }
-
-    if ($('#answer').summernote('isEmpty')) {
+  document.getElementById('createLessonForm').onsubmit = function () {
+    if ($('#description').summernote('isEmpty')) {
       alert('Поле не должно быть пустым')
       return false
     }

@@ -1,7 +1,7 @@
 $(document).ready(function () {
-  $('#answer').summernote({
+  $('#description').summernote({
     height: 300,
-    placeholder: 'Ответ на задание',
+    placeholder: 'Описание курса',
     lang: 'ru-RU',
     toolbar: [
       ['style', ['style']],
@@ -16,18 +16,17 @@ $(document).ready(function () {
     ]
   })
 
-  document.getElementById('addAnswerForm').onsubmit = function () {
-    var answerInput = document.getElementById('answer')
-    if (answerInput.value === answerInput.defaultValue) {
+  document.getElementById('editCourseForm').onsubmit = function () {
+    var descriptionInput = document.getElementById('description')
+    var priceInput = document.getElementById('price')
+    var vendorCodeInput = document.getElementById('vendorCode')
+    if (descriptionInput.value === descriptionInput.defaultValue &&
+      priceInput.value === priceInput.defaultValue &&
+      vendorCodeInput.value === vendorCodeInput.defaultValue
+    ) {
       alert('Измените хотя бы одно поле')
       return false
     }
-
-    if ($('#answer').summernote('isEmpty')) {
-      alert('Поле не должно быть пустым')
-      return false
-    }
-
     return true
   }
 })

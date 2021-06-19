@@ -40,6 +40,9 @@ public class Course {
   @Column(name = "note")
   private String note;
 
+  @Column(name = "image_url")
+  private String imageUrl;
+
   @OneToMany(mappedBy = "course", fetch = FetchType.LAZY)
   private List<Teacher> teachers;
 

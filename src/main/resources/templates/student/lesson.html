@@ -5,8 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <th:block th:replace="partials/globalCss :: globalCss"></th:block>
-    <title th:text="${studentLesson.lesson.name}"></title>
-    <link rel="stylesheet" th:href="@{/summernote-0.8.18-dist/summernote-bs4.min.css}" />
+    <title>[[${studentLesson.lesson.name}]]</title>
+    <link rel="stylesheet" th:href="@{/static/summernote-0.8.18-dist/summernote-bs4.min.css}" />
   </head>
   <body>
     <th:block th:replace="partials/header :: header"></th:block>
@@ -15,6 +15,7 @@
       <div class="container">
         <h1>[[${studentLesson.lesson.name}]]</h1>
         <p><strong>Задание к уроку:</strong> [[${studentLesson.lesson.description}]]</p>
+        <p><strong>Текущая оценка:</strong> [[${studentLesson.grade?: '-'}]]</p>
         <div th:if="${!studentLesson.lesson.lessonFiles.isEmpty()}">
           <h2>Материалы к уроку</h2>
           <a
@@ -45,6 +46,6 @@
     <th:block th:replace="partials/globalScripts :: globalScripts"></th:block>
     <script th:src="@{/summernote-0.8.18-dist/summernote-bs4.min.js}"></script>
     <script th:src="@{/summernote-0.8.18-dist/summernote-ru-RU.min.js}"></script>
-    <script th:src="@{/js/student/lesson.js}"></script>
+    <script th:src="@{/static/js/student/lesson.js}"></script>
   </body>
 </html>

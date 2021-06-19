@@ -13,7 +13,16 @@
     <main>
       <div class="container">
         <h1>[[${teacherCourse.name}]]</h1>
-        <p th:if="${teacherCourse.note != null}">[[${teacherCourse.note}]]</p>
+        <form th:object="${teacherCourse}" method="post">
+          <div class="input-group mb-4">
+            <input class="form-control" th:field="*{note}" placeholder="Заметка" required />
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+            <div class="input-group-append">
+              <button type="submit" class="btn btn-primary">OK</button>
+            </div>
+            <div class="text-danger" th:if="${#fields.hasErrors('note')}" th:errors="*{note}"></div>
+          </div>
+        </form>
         <a
           class="btn btn-primary"
           th:href="@{/courses/teacher/{id}/create/lesson(id=${teacherCourse.id})}"

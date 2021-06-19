@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <th:block th:replace="partials/globalCss :: globalCss"></th:block>
     <title>Редактировать урок</title>
-    <link rel="stylesheet" th:href="@{/summernote-0.8.18-dist/summernote-bs4.min.css}" />
+    <link rel="stylesheet" th:href="@{/static/summernote-0.8.18-dist/summernote-bs4.min.css}" />
   </head>
   <body>
     <th:block th:replace="partials/header :: header"></th:block>
@@ -45,6 +45,6 @@
     <th:block th:replace="partials/globalScripts :: globalScripts"></th:block>
     <script th:src="@{/summernote-0.8.18-dist/summernote-bs4.min.js}"></script>
     <script th:src="@{/summernote-0.8.18-dist/summernote-ru-RU.min.js}"></script>
-    <script th:src="@{/js/teacher/lesson.js}"></script>
+    <script th:src="@{/static/js/teacher/lesson.js}"></script>
   </body>
 </html>

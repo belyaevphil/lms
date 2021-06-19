@@ -14,7 +14,10 @@
       <div class="container">
         <h1>[[${teacherLessonToGrade.lesson.name}]]</h1>
         <div><strong>Ответ:</strong> [(${teacherLessonToGrade.answer})]</div>
-        <div><strong>Текущая оценка:</strong> [[${teacherLessonToGrade.grade?: '-'}]]</div>
+        <p>
+          <strong>Текущая оценка:</strong>
+          <span id="currentGrade">[[${teacherLessonToGrade.grade?: '-'}]]</span>
+        </p>
         <div class="alert alert-success" role="alert" th:if="${success}" th:text="${success}"></div>
         <div class="alert alert-danger" role="alert" th:if="${error}" th:text="${error}"></div>
         <form
@@ -39,6 +42,6 @@
     </main>
     <th:block th:replace="partials/footer :: footer"></th:block>
     <th:block th:replace="partials/globalScripts :: globalScripts"></th:block>
-    <script th:src="@{/js/teacher/lessonToGrade.js}"></script>
+    <script th:src="@{/static/js/teacher/lessonToGrade.js}"></script>
   </body>
 </html>
