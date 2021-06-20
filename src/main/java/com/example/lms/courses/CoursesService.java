@@ -1,8 +1,13 @@
 package com.example.lms.courses;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import com.example.lms.auth.AuthService;
@@ -36,6 +41,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import lombok.RequiredArgsConstructor;
 
@@ -110,7 +116,7 @@ public class CoursesService {
     return coursesRepository.findAll(pageable);
   }
 
-  public void create(CreateCourseDto createCourseDto) {
+  public void create(CreateCourseDto createCourseDto) throws IOException {
     Optional<Course> course = coursesRepository.findByName(createCourseDto.getName());
     if (course.isPresent()) {
       throw new BadRequestException("Такой курс уже существует");
@@ -121,6 +127,19 @@ public class CoursesService {
     newCourse.setVendorCode(createCourseDto.getVendorCode());
     newCourse.setPrice(createCourseDto.getPrice());
     newCourse.setDescription(createCourseDto.getDescription());
+
+    MultipartFile image = createCourseDto.getImage();
+    String firstFileName = image.getOriginalFilename();
+    if (Objects.isNull(firstFileName)) {
+      return;
+    }
+    if (!firstFileName.isEmpty()) {
+      String imageUrl = UUID.randomUUID() + "-" + image.getOriginalFilename();
+      Files
+        .copy(image.getInputStream(), Path.of("D:/Desktop/Phil/projects/Java/uploads/images/course/" + imageUrl), StandardCopyOption.REPLACE_EXISTING);
+      newCourse.setImageUrl(imageUrl);
+    }
+
     coursesRepository.save(newCourse);
   }
 

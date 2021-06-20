@@ -12,9 +12,10 @@
     <th:block th:replace="partials/header :: header"></th:block>
     <main>
       <div class="container">
-        <img class="mb-2" th:src="@{|/uploads/images/course/${changeCourseImageDto.imageUrl?: 'default.png'}|}" th:alt="${course.name}">
+        <h1>[[${course.name}]]</h1>
+        <img class="img-thumbnail mb-2" th:src="@{|/uploads/images/course/${changeCourseImageDto.imageUrl?: 'default.png'}|}" th:alt="${course.name}">
         <form th:object="${changeCourseImageDto}" method="post">
-          <div class="input-group">
+          <div class="input-group mb-3">
             <div class="custom-file">
               <input class="custom-file-input" type="file" th:field="*{imageUrl}">
               <label class="custom-file-label" for="imageUrl">Выбрать изображение</label>
@@ -26,7 +27,6 @@
             <div class="text-danger" th:if="${#fields.hasErrors('imageUrl')}" th:errors="*{imageUrl}"></div>
           </div>
         </form>
-        <h1>[[${course.name}]]</h1>
         <div class="alert alert-success" role="alert" th:if="${success}" th:text="${success}"></div>
         <div class="alert alert-danger" role="alert" th:if="${error}" th:text="${error}"></div>
         <form th:object="${editCourseDto}" method="post" id="editCourseForm">

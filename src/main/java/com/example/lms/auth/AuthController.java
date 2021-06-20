@@ -26,7 +26,6 @@ public class AuthController {
   @GetMapping("/signup")
   public String getSignup(SignupDto signupDto, Model model) {
     model.addAttribute("org.springframework.validation.BindingResult.signupDto", model.asMap().get("signupDtoBindingResult"));
-
     return "signup";
   }
 

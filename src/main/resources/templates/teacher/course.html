@@ -13,7 +13,9 @@
     <main>
       <div class="container">
         <h1>[[${teacherCourse.name}]]</h1>
-        <form th:object="${teacherCourse}" method="post">
+        <div class="alert alert-success" role="alert" th:if="${success}" th:text="${success}"></div>
+        <div class="alert alert-danger" role="alert" th:if="${error}" th:text="${error}"></div>
+        <form th:object="${editCourseNoteDto}" method="post" id="editCourseNoteForm">
           <div class="input-group mb-4">
             <input class="form-control" th:field="*{note}" placeholder="Заметка" required />
             <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
@@ -24,7 +26,7 @@
           </div>
         </form>
         <a class="btn btn-primary" th:href="@{|/courses/teacher/${teacherCourse.id}/create/lesson|}"
-          >Новый урок</a
+          >Создать урок</a
         >
         <div class="row mt-4">
           <div
@@ -45,5 +47,6 @@
     </main>
     <th:block th:replace="partials/footer :: footer"></th:block>
     <th:block th:replace="partials/globalScripts :: globalScripts"></th:block>
+    <script th:src="@{/static/js/teacher/course.js}"></script>
   </body>
 </html>

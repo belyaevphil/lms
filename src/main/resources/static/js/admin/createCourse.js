@@ -15,4 +15,13 @@ $(document).ready(function () {
       ['view', ['fullscreen', 'codeview', 'help']]
     ]
   })
+
+  document.getElementById('createCourseForm').onsubmit = function () {
+    if ($('#description').summernote('isEmpty')) {
+      alert('Поле не должно быть пустым')
+      return false
+    }
+
+    return true
+  }
 })

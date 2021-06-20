@@ -76,6 +76,7 @@ public class CoursesController {
     editCourseNoteDto.setNote(teacherCourse.getNote());
 
     model.addAttribute("teacherCourse", teacherCourse);
+    model.addAttribute("editCourseNoteDto", editCourseNoteDto);
     model.addAttribute("org.springframework.validation.BindingResult.editCourseNoteDto", model.asMap().get("editCourseNoteDtoBindingResult"));
     return "teacher/course";
   }
@@ -141,15 +142,22 @@ public class CoursesController {
 
   @GetMapping("/courses/create")
   @PreAuthorize("hasAuthority('ADMIN')")
-  public String getCreateCoursePage(CreateCourseDto createCourseDto, Model model) {
-    model.addAttribute("org.springframework.validation.BindingResult.createCourseDto", model.asMap().get("createCourseDtoBindingResult"));
+  public String getCreateCoursePage(Model model) {
+    CreateCourseDto createCourseDto = new CreateCourseDto();
 
+    model.addAttribute("createCourseDto", createCourseDto);
+    model.addAttribute("org.springframework.validation.BindingResult.createCourseDto", model.asMap().get("createCourseDtoBindingResult"));
     return "admin/createCourse";
   }
 
   @PostMapping("/courses/create")
   @PreAuthorize("hasAuthority('ADMIN')")
-  public String create(@Valid CreateCourseDto createCourseDto, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+  public String create(
+    
+    @Valid CreateCourseDto createCourseDto,
+    BindingResult bindingResult,
+    RedirectAttributes redirectAttributes
+  ) {
     try {
       if (bindingResult.hasErrors()) {
         redirectAttributes.addFlashAttribute("createCourseDtoBindingResult", bindingResult);
