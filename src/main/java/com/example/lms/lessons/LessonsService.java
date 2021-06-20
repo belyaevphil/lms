@@ -52,8 +52,11 @@ public class LessonsService {
     return studentLessonRepository.findByIdWithLessonFiles(id).orElseThrow(() -> new NotFoundException("Такого урока не найдено"));
   }
 
-  public void addAnswer(StudentLesson studentLesson, AddAnswerDto addAnswerDto) {
+  public void addAnswer(Long studentLessonId, AddAnswerDto addAnswerDto) {
+    StudentLesson studentLesson = studentLessonRepository.findById(studentLessonId)
+      .orElseThrow(() -> new NotFoundException("Такого урока не найдено"));
     studentLesson.setAnswer(addAnswerDto.getAnswer());
+    studentLesson.setGrade(null);
     studentLesson.setStatus("ожидается проверка");
     studentLessonRepository.save(studentLesson);
   }

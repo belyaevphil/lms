@@ -2,7 +2,7 @@
   <ul
     class="pagination justify-content-center flex-wrap"
     th:if="${totalPages > 1}"
-    th:with="currentUrl=${#httpServletRequest.requestURI}, size=${5}"
+    th:with="currentUrl=${#httpServletRequest.requestURI}, size=${6}"
   >
     <li th:class="|page-item ${currentPage > 1 ? '' : 'disabled'}|">
       <a

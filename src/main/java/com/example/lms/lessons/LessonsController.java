@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import lombok.RequiredArgsConstructor;
 
@@ -61,30 +62,32 @@ public class LessonsController {
 
     model.addAttribute("lesson", lesson);
     model.addAttribute("editLessonDto", editLessonDto);
+    model.addAttribute("org.springframework.validation.BindingResult.editLessonDto", model.asMap().get("editLessonDtoBindingResult"));
     return "teacher/lesson";
   }
 
   @PostMapping("/lessons/teacher/{id}")
   @PreAuthorize("hasAuthority('TEACHER')")
-  public String edit(@PathVariable("id") Long id, @Valid EditLessonDto editLessonDto, BindingResult bindingResult, Model model) {
-    Lesson lesson = lessonsService.get(id);
-
-    if (bindingResult.hasErrors()) {
-      model.addAttribute("lesson", lesson);
-      return "teacher/lesson";
-    }
-
+  public String edit(
+    @PathVariable("id") Long id,
+    @Valid EditLessonDto editLessonDto,
+    BindingResult bindingResult,
+    RedirectAttributes redirectAttributes
+  ) {
     try {
-      lessonsService.edit(id, editLessonDto);
-    } catch (Exception e) {
-      model.addAttribute("lesson", lesson);
-      model.addAttribute("error", e.getMessage());
-      return "teacher/lesson";
-    }
+      if (bindingResult.hasErrors()) {
+        redirectAttributes.addFlashAttribute("editLessonDtoBindingResult", bindingResult);
+        return "redirect:/lessons/teacher/" + id;
+      }
 
-    model.addAttribute("lesson", lesson);
-    model.addAttribute("success", "Урок был отредактирован успешно");
-    return "teacher/lesson";
+      lessonsService.edit(id, editLessonDto);
+
+      redirectAttributes.addFlashAttribute("success", "Урок был отредактирован успешно");
+      return "redirect:/lessons/teacher/" + id;
+    } catch (Exception e) {
+      redirectAttributes.addFlashAttribute("error", e.getMessage());
+      return "redirect:/lessons/teacher/" + id;
+    }
   }
 
   @GetMapping("/lessons/teacher/{id}/grade")
@@ -98,6 +101,7 @@ public class LessonsController {
 
     model.addAttribute("teacherLessonToGrade", teacherLessonToGrade);
     model.addAttribute("gradeAnswerDto", gradeAnswerDto);
+    model.addAttribute("org.springframework.validation.BindingResult.gradeAnswerDto", model.asMap().get("gradeAnswerDtoBindingResult"));
     return "teacher/lessonToGrade";
   }
 
@@ -108,27 +112,25 @@ public class LessonsController {
     @PathVariable("id") Long id,
     @Valid GradeAnswerDto gradeAnswerDto,
     BindingResult bindingResult,
-    Model model
+    RedirectAttributes redirectAttributes
   ) {
-    Long teacherId = principal.getUserData().getId();
-    StudentLesson teacherLessonToGrade = lessonsService.getTeacherLessonToGrade(teacherId, id);
-
-    if (bindingResult.hasErrors()) {
-      model.addAttribute("teacherLessonToGrade", teacherLessonToGrade);
-      return "teacher/lessonToGrade";
-    }
-
     try {
-      lessonsService.grade(teacherLessonToGrade, gradeAnswerDto);
-    } catch (Exception e) {
-      model.addAttribute("teacherLessonToGrade", teacherLessonToGrade);
-      model.addAttribute("error", e.getMessage());
-      return "teacher/lessonToGrade";
-    }
+      Long teacherId = principal.getUserData().getId();
+      StudentLesson teacherLessonToGrade = lessonsService.getTeacherLessonToGrade(teacherId, id);
 
-    model.addAttribute("teacherLessonToGrade", teacherLessonToGrade);
-    model.addAttribute("success", "Оценка была выставлена успешно");
-    return "teacher/lessonToGrade";
+      if (bindingResult.hasErrors()) {
+        redirectAttributes.addFlashAttribute("gradeAnswerDtoBindingResult", bindingResult);
+        return "redirect:/lessons/teacher/" + id + "/grade";
+      }
+
+      lessonsService.grade(teacherLessonToGrade, gradeAnswerDto);
+
+      redirectAttributes.addFlashAttribute("success", "Оценка была выставлена успешно");
+      return "redirect:/lessons/teacher/" + id + "/grade";
+    } catch (Exception e) {
+      redirectAttributes.addFlashAttribute("error", e.getMessage());
+      return "redirect:/lessons/teacher/" + id + "/grade";
+    }
   }
 
   @GetMapping("/courses/teacher/{id}/grade")
@@ -158,6 +160,7 @@ public class LessonsController {
 
     model.addAttribute("studentLesson", studentLesson);
     model.addAttribute("addAnswerDto", addAnswerDto);
+    model.addAttribute("org.springframework.validation.BindingResult.addAnswerDto", model.asMap().get("addAnswerDtoBindingResult"));
     return "student/lesson";
   }
 
@@ -167,25 +170,21 @@ public class LessonsController {
     @PathVariable("id") Long id,
     @Valid AddAnswerDto addAnswerDto,
     BindingResult bindingResult,
-    Model model
+    RedirectAttributes redirectAttributes
   ) {
-    StudentLesson studentLesson = lessonsService.getStudentLesson(id);
-
-    if (bindingResult.hasErrors()) {
-      model.addAttribute("studentLesson", studentLesson);
-      return "student/lesson";
-    }
-
     try {
-      lessonsService.addAnswer(studentLesson, addAnswerDto);
-    } catch (Exception e) {
-      model.addAttribute("studentLesson", studentLesson);
-      model.addAttribute("error", e.getMessage());
-      return "student/lesson";
-    }
+      if (bindingResult.hasErrors()) {
+        redirectAttributes.addFlashAttribute("addAnswerDtoBindingResult", bindingResult);
+        return "redirect:/lessons/" + id;
+      }
 
-    model.addAttribute("studentLesson", studentLesson);
-    model.addAttribute("success", "Ответ был добавлен успешно");
-    return "student/lesson";
+      lessonsService.addAnswer(id, addAnswerDto);
+
+      redirectAttributes.addFlashAttribute("success", "Ответ был добавлен успешно");
+      return "redirect:/lessons/" + id;
+    } catch (Exception e) {
+      redirectAttributes.addFlashAttribute("error", e.getMessage());
+      return "redirect:/lessons/" + id;
+    }
   }
 }

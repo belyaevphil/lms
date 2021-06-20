@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <th:block th:replace="partials/globalCss :: globalCss"></th:block>
     <title>Создать курс</title>
+    <link rel="stylesheet" th:href="@{/static/summernote-0.8.18-dist/summernote-bs4.min.css}" />
   </head>
   <body>
     <th:block th:replace="partials/header :: header"></th:block>
@@ -26,6 +27,29 @@
             />
             <div class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
           </div>
+          <div class="form-group">
+            <label for="description">Описание курса</label>
+            <textarea class="form-control" th:field="*{description}" required hidden></textarea>
+            <div
+              class="text-danger"
+              th:if="${#fields.hasErrors('description')}"
+              th:errors="*{description}"
+            ></div>
+          </div>
+          <div class="form-group">
+            <label for="price">Стоимость (в рублях)</label>
+            <input class="form-control" th:field="*{price}" placeholder="Стоимость (в рублях)" required />
+            <div class="text-danger" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></div>
+          </div>
+          <div class="form-group">
+            <label for="vendorCode">Артикул</label>
+            <input class="form-control" th:field="*{vendorCode}" placeholder="Артикул" required />
+            <div
+              class="text-danger"
+              th:if="${#fields.hasErrors('vendorCode')}"
+              th:errors="*{vendorCode}"
+            ></div>
+          </div>
           <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
           <button type="submit" class="btn btn-primary">Создать</button>
         </form>
@@ -33,5 +57,8 @@
     </main>
     <th:block th:replace="partials/footer :: footer"></th:block>
     <th:block th:replace="partials/globalScripts :: globalScripts"></th:block>
+    <script th:src="@{/summernote-0.8.18-dist/summernote-bs4.min.js}"></script>
+    <script th:src="@{/summernote-0.8.18-dist/summernote-ru-RU.min.js}"></script>
+    <script th:src="@{/static/js/admin/createCourse.js}"></script>
   </body>
 </html>

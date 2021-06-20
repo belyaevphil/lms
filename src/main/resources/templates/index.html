@@ -11,23 +11,27 @@
     <th:block th:replace="partials/header :: header"></th:block>
     <main>
       <div class="container">
-        <h1>Добро пожаловать!</h1>
+        <h1>Добро пожаловать</h1>
+        <p>Здесь вы можете выбрать курс и продолжить дальнейшее обучение вместе с нами</p>
         <ul class="row mt-4 list-unstyled" th:if="${!courses.isEmpty()}">
           <li class="col-12 col-md-6 col-xl-4 mb-4" th:each="course : ${courses}">
             <div class="card">
-              <img class="card-img-top" th:src="@{/coursesImages/default.png}" alt="hey">
+              <img
+                class="card-img-top"
+                th:src="@{|/uploads/images/course/${course.imageUrl?: 'default.png'}|}"
+                th:alt="${course.name}"
+                height="154"
+              />
               <div class="card-body">
                 <h5 class="card-title">[[${course.name}]]</h5>
                 <p class="card-text text-truncate">Стоимость: [[${course.price}]] рублей</p>
-                <a
-                  class="btn btn-primary"
-                  th:href="@{/courses/{id}(id=${course.id})}"
-                  >Подробнее</a
-                >
+                <a class="btn btn-primary" th:href="@{|/courses/${course.id}|}">Подробнее</a>
               </div>
             </div>
           </li>
         </ul>
+        <th:block th:replace="partials/paginator :: paginator"></th:block>
+      </div>
     </main>
     <th:block th:replace="partials/footer :: footer"></th:block>
     <th:block th:replace="partials/globalScripts :: globalScripts"></th:block>

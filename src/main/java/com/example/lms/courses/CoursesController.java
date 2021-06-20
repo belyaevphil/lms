@@ -1,7 +1,5 @@
 package com.example.lms.courses;
 
-import java.util.List;
-
 import javax.validation.Valid;
 
 import com.example.lms.courses.dto.AssignCourseDto;
@@ -10,6 +8,7 @@ import com.example.lms.courses.dto.ChangeCourseImageDto;
 import com.example.lms.courses.dto.CreateCourseDto;
 import com.example.lms.courses.dto.CreateLessonDto;
 import com.example.lms.courses.dto.EditCourseDto;
+import com.example.lms.courses.dto.EditCourseNoteDto;
 import com.example.lms.courses.dto.StudentCourseDto;
 import com.example.lms.courses.dto.StudentCoursesDto;
 import com.example.lms.courses.entities.Course;
@@ -26,6 +25,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import lombok.RequiredArgsConstructor;
 
@@ -37,26 +37,34 @@ public class CoursesController {
 
   @GetMapping("/courses/teacher/{id}/create/lesson")
   @PreAuthorize("hasAuthority('TEACHER')")
-  public String getCreateLessonPage(CreateLessonDto createLessonDto) {
+  public String getCreateLessonPage(CreateLessonDto createLessonDto, Model model) {
+    model.addAttribute("org.springframework.validation.BindingResult.createLessonDto", model.asMap().get("createLessonDtoBindingResult"));
+
     return "teacher/createLesson";
   }
 
   @PostMapping("/courses/teacher/{id}/create/lesson")
   @PreAuthorize("hasAuthority('TEACHER')")
-  public String createLesson(@PathVariable("id") Long id, @Valid CreateLessonDto createLessonDto, BindingResult bindingResult, Model model) {
-    if (bindingResult.hasErrors()) {
-      return "teacher/createLesson";
-    }
-
+  public String createLesson(
+    @PathVariable("id") Long id,
+    @Valid CreateLessonDto createLessonDto,
+    BindingResult bindingResult,
+    RedirectAttributes redirectAttributes
+  ) {
     try {
-      lessonsService.create(createLessonDto, id);
-    } catch (Exception e) {
-      model.addAttribute("error", e.getMessage());
-      return "teacher/createLesson";
-    }
+      if (bindingResult.hasErrors()) {
+        redirectAttributes.addFlashAttribute("createLessonDtoBindingResult", bindingResult);
+        return "redirect:/courses/teacher/" + id + "/create/lesson";
+      }
 
-    model.addAttribute("success", "Урок был создан успешно");
-    return "teacher/createLesson";
+      lessonsService.create(createLessonDto, id);
+
+      redirectAttributes.addFlashAttribute("success", "Урок был создан успешно");
+      return "redirect:/courses/teacher/" + id + "/create/lesson";
+    } catch (Exception e) {
+      redirectAttributes.addFlashAttribute("error", e.getMessage());
+      return "redirect:/courses/teacher/" + id + "/create/lesson";
+    }
   }
 
   @GetMapping("/courses/teacher/{id}")
@@ -64,8 +72,36 @@ public class CoursesController {
   public String getTeacherCourse(@PathVariable("id") Long id, Model model) {
     Course teacherCourse = coursesService.getTeacherCourse(id);
 
+    EditCourseNoteDto editCourseNoteDto = new EditCourseNoteDto();
+    editCourseNoteDto.setNote(teacherCourse.getNote());
+
     model.addAttribute("teacherCourse", teacherCourse);
+    model.addAttribute("org.springframework.validation.BindingResult.editCourseNoteDto", model.asMap().get("editCourseNoteDtoBindingResult"));
     return "teacher/course";
+  }
+
+  @PostMapping("/courses/teacher/{id}")
+  @PreAuthorize("hasAuthority('TEACHER')")
+  public String editCourseNote(
+    @PathVariable("id") Long id,
+    @Valid EditCourseNoteDto editCourseNoteDto,
+    BindingResult bindingResult,
+    RedirectAttributes redirectAttributes
+  ) {
+    try {
+      if (bindingResult.hasErrors()) {
+        redirectAttributes.addFlashAttribute("editCourseNoteDtoBindingResult", bindingResult);
+        return "redirect:/courses/teacher/" + id;
+      }
+
+      coursesService.editCourseNote(id, editCourseNoteDto);
+
+      redirectAttributes.addFlashAttribute("success", "Описание было редактировано успешно");
+      return "redirect:/courses/teacher/" + id;
+    } catch (Exception e) {
+      redirectAttributes.addFlashAttribute("error", e.getMessage());
+      return "redirect:/courses/teacher/" + id;
+    }
   }
 
   @GetMapping("/courses/teacher")
@@ -105,81 +141,93 @@ public class CoursesController {
 
   @GetMapping("/courses/create")
   @PreAuthorize("hasAuthority('ADMIN')")
-  public String getCreatePage(CreateCourseDto createCourseDto) {
+  public String getCreateCoursePage(CreateCourseDto createCourseDto, Model model) {
+    model.addAttribute("org.springframework.validation.BindingResult.createCourseDto", model.asMap().get("createCourseDtoBindingResult"));
+
     return "admin/createCourse";
   }
 
   @PostMapping("/courses/create")
   @PreAuthorize("hasAuthority('ADMIN')")
-  public String create(@Valid CreateCourseDto createCourseDto, BindingResult bindingResult, Model model) {
-    if (bindingResult.hasErrors()) {
-      return "admin/createCourse";
-    }
-
+  public String create(@Valid CreateCourseDto createCourseDto, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
     try {
-      coursesService.create(createCourseDto);
-    } catch (Exception e) {
-      model.addAttribute("error", e.getMessage());
-      return "admin/createCourse";
-    }
+      if (bindingResult.hasErrors()) {
+        redirectAttributes.addFlashAttribute("createCourseDtoBindingResult", bindingResult);
+        return "redirect:/courses/create";
+      }
 
-    model.addAttribute("success", "Курс был создан успешно");
-    return "admin/createCourse";
+      coursesService.create(createCourseDto);
+
+      redirectAttributes.addFlashAttribute("success", "Курс был создан успешно");
+      return "redirect:/courses/create";
+    } catch (Exception e) {
+      redirectAttributes.addFlashAttribute("error", e.getMessage());
+      return "redirect:/courses/create";
+    }
   }
 
   @GetMapping("/courses/assign")
   @PreAuthorize("hasAuthority('ADMIN')")
-  public String getAssignPage(AssignCourseDto assignCourseDto) {
+  public String getAssignCoursePage(AssignCourseDto assignCourseDto, Model model) {
+    model.addAttribute("org.springframework.validation.BindingResult.assignCourseDto", model.asMap().get("assignCourseDtoBindingResult"));
+
     return "admin/assignCourse";
   }
 
   @PostMapping("/courses/assign")
   @PreAuthorize("hasAuthority('ADMIN')")
-  public String assign(@Valid AssignCourseDto assignCourseDto, BindingResult bindingResult, Model model) {
-    if (bindingResult.hasErrors()) {
-      return "admin/assignCourse";
-    }
-
+  public String assign(@Valid AssignCourseDto assignCourseDto, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
     try {
-      coursesService.assign(assignCourseDto);
-    } catch (Exception e) {
-      model.addAttribute("error", e.getMessage());
-      return "admin/assignCourse";
-    }
+      if (bindingResult.hasErrors()) {
+        redirectAttributes.addFlashAttribute("assignCourseDtoBindingResult", bindingResult);
+        return "redirect:/courses/assign";
+      }
 
-    model.addAttribute("success", "Курс был назначен успешно");
-    return "admin/assignCourse";
+      coursesService.assign(assignCourseDto);
+
+      redirectAttributes.addFlashAttribute("success", "Курс был назначен успешно");
+      return "redirect:/courses/assign";
+    } catch (Exception e) {
+      redirectAttributes.addFlashAttribute("error", e.getMessage());
+      return "redirect:/courses/assign";
+    }
   }
 
   @GetMapping("/courses/assign/teacher")
   @PreAuthorize("hasAuthority('ADMIN')")
-  public String getAssignTeacherPage(AssignTeacherDto assignTeacherDto) {
+  public String getAssignTeacherPage(AssignTeacherDto assignTeacherDto, Model model) {
+    model.addAttribute("org.springframework.validation.BindingResult.assignTeacherDto", model.asMap().get("assignTeacherDtoBindingResult"));
+
     return "admin/assignTeacher";
   }
 
   @PostMapping("/courses/assign/teacher")
   @PreAuthorize("hasAuthority('ADMIN')")
-  public String assignTeacher(@Valid AssignTeacherDto assignTeacherDto, BindingResult bindingResult, Model model) {
-    if (bindingResult.hasErrors()) {
-      return "admin/assignTeacher";
-    }
-
+  public String assignTeacher(@Valid AssignTeacherDto assignTeacherDto, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
     try {
-      coursesService.assignTeacher(assignTeacherDto);
-    } catch (Exception e) {
-      model.addAttribute("error", e.getMessage());
-      return "admin/assignTeacher";
-    }
+      if (bindingResult.hasErrors()) {
+        redirectAttributes.addFlashAttribute("assignTeacherDtoBindingResult", bindingResult);
+        return "redirect:/courses/assign/teacher";
+      }
 
-    model.addAttribute("success", "Преподаватель был назначен успешно");
-    return "admin/assignTeacher";
+      coursesService.assignTeacher(assignTeacherDto);
+
+      redirectAttributes.addFlashAttribute("success", "Преподаватель был назначен успешно");
+      return "redirect:/courses/assign/teacher";
+    } catch (Exception e) {
+      redirectAttributes.addFlashAttribute("error", e.getMessage());
+      return "redirect:/courses/assign/teacher";
+    }
   }
 
   @GetMapping("/")
-  public String getIndexPage(Model model) {
-    List<Course> courses = coursesService.getCourses();
+  public String getIndexPage(Pageable pageable, Model model) {
+    Page<Course> coursesPage = coursesService.getCourses(pageable);
 
-    model.addAttribute("courses", courses);
+    model.addAttribute("currentPage", pageable.getPageNumber() + 1);
+    model.addAttribute("totalPages", coursesPage.getTotalPages());
+    model.addAttribute("totalElements", coursesPage.getTotalElements());
+    model.addAttribute("courses", coursesPage.getContent());
     return "index";
   }
 
@@ -199,29 +247,31 @@ public class CoursesController {
     model.addAttribute("course", course);
     model.addAttribute("editCourseDto", editCourseDto);
     model.addAttribute("changeCourseImageDto", changeCourseImageDto);
+    model.addAttribute("org.springframework.validation.BindingResult.editCourseDto", model.asMap().get("editCourseDtoBindingResult"));
     return "course";
   }
 
   @PostMapping("/courses/{id}")
   @PreAuthorize("hasAuthority('ADMIN')")
-  public String editCourse(@PathVariable("id") Long id, @Valid EditCourseDto editCourseDto, BindingResult bindingResult, Model model) {
-    Course course = coursesService.getCourse(id);
-
-    if (bindingResult.hasErrors()) {
-      model.addAttribute("course", course);
-      return "course";
-    }
-
+  public String editCourse(
+    @PathVariable("id") Long id,
+    @Valid EditCourseDto editCourseDto,
+    BindingResult bindingResult,
+    RedirectAttributes redirectAttributes
+  ) {
     try {
-      coursesService.editCourse(course, editCourseDto);
-    } catch (Exception e) {
-      model.addAttribute("course", course);
-      model.addAttribute("error", e.getMessage());
-      return "course";
-    }
+      if (bindingResult.hasErrors()) {
+        redirectAttributes.addFlashAttribute("editCourseDtoBindingResult", bindingResult);
+        return "redirect:/courses/" + id;
+      }
 
-    model.addAttribute("course", course);
-    model.addAttribute("success", "Курс был редактирован успешно");
-    return "course";
+      coursesService.editCourse(id, editCourseDto);
+
+      redirectAttributes.addFlashAttribute("success", "Курс был редактирован успешно");
+      return "redirect:/courses/" + id;
+    } catch (Exception e) {
+      redirectAttributes.addFlashAttribute("error", e.getMessage());
+      return "redirect:/courses/" + id;
+    }
   }
 }

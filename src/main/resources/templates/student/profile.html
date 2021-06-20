@@ -14,8 +14,8 @@
         <h1>Мой профиль</h1>
         <img
           class="mb-2"
-          th:src="@{/static/profilesImages/default.png}"
-          th:alt="${changeProfileImageDto.imageUrl}"
+          th:src="@{|/uploads/images/profile/${changeProfileImageDto.imageUrl?: 'default.png'}|}"
+          th:alt="|${editProfileDto.firstName} ${editProfileDto.lastName}|"
           width="300"
           height="300"
         />

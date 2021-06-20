@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import lombok.RequiredArgsConstructor;
 
@@ -23,24 +24,27 @@ public class AuthController {
   }
 
   @GetMapping("/signup")
-  public String getSignup(SignupDto signupDto) {
+  public String getSignup(SignupDto signupDto, Model model) {
+    model.addAttribute("org.springframework.validation.BindingResult.signupDto", model.asMap().get("signupDtoBindingResult"));
+
     return "signup";
   }
 
   @PostMapping("/signup")
-  public String postSignup(@Valid SignupDto signupDto, BindingResult bindingResult, Model model) {
-    if (bindingResult.hasErrors()) {
-      return "signup";
-    }
-  
+  public String postSignup(@Valid SignupDto signupDto, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
     try {
-      authService.signup(signupDto);
-    } catch (Exception e) {
-      model.addAttribute("error", e.getMessage());
-      return "signup";
-    }
+      if (bindingResult.hasErrors()) {
+        redirectAttributes.addFlashAttribute("signupDtoBindingResult", bindingResult);
+        return "redirect:/signup";
+      }
 
-    model.addAttribute("success", "Аккаунт был создан успешно");
-    return "signup";
+      authService.signup(signupDto);
+
+      redirectAttributes.addFlashAttribute("success", "Аккаунт был создан успешно");
+      return "redirect:/signup";
+    } catch (Exception e) {
+      redirectAttributes.addFlashAttribute("error", e.getMessage());
+      return "redirect:/signup";
+    }
   }
 }

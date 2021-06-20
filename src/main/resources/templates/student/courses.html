@@ -33,7 +33,7 @@
                 ></p>
                 <a
                   class="btn btn-primary"
-                  th:href="@{/courses/student/{id}(id=${studentCourseDto.studentCourse.id})}"
+                  th:href="@{|/courses/student/${studentCourseDto.studentCourse.id}|}"
                   >Перейти</a
                 >
               </div>

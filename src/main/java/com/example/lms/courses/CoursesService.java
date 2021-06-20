@@ -10,6 +10,7 @@ import com.example.lms.courses.dto.AssignCourseDto;
 import com.example.lms.courses.dto.AssignTeacherDto;
 import com.example.lms.courses.dto.CreateCourseDto;
 import com.example.lms.courses.dto.EditCourseDto;
+import com.example.lms.courses.dto.EditCourseNoteDto;
 import com.example.lms.courses.dto.StudentCourseDto;
 import com.example.lms.courses.dto.StudentCoursesDto;
 import com.example.lms.courses.entities.Course;
@@ -105,8 +106,8 @@ public class CoursesService {
     return coursesRepository.findById(id).orElseThrow(() -> new NotFoundException("Такого курса не найдено"));
   }
 
-  public List<Course> getCourses() {
-    return coursesRepository.findAll();
+  public Page<Course> getCourses(Pageable pageable) {
+    return coursesRepository.findAll(pageable);
   }
 
   public void create(CreateCourseDto createCourseDto) {
@@ -117,13 +118,23 @@ public class CoursesService {
 
     Course newCourse = new Course();
     newCourse.setName(createCourseDto.getName());
+    newCourse.setVendorCode(createCourseDto.getVendorCode());
+    newCourse.setPrice(createCourseDto.getPrice());
+    newCourse.setDescription(createCourseDto.getDescription());
     coursesRepository.save(newCourse);
   }
 
-  public void editCourse(Course course, EditCourseDto editCourseDto) {
+  public void editCourse(Long id, EditCourseDto editCourseDto) {
+    Course course = coursesRepository.findById(id).orElseThrow(() -> new NotFoundException("Курс не найден"));
     course.setVendorCode(editCourseDto.getVendorCode());
     course.setPrice(editCourseDto.getPrice());
     course.setDescription(editCourseDto.getDescription());
+    coursesRepository.save(course);
+  }
+
+  public void editCourseNote(Long id, EditCourseNoteDto editCourseNoteDto) {
+    Course course = coursesRepository.findById(id).orElseThrow(() -> new NotFoundException("Курс не найден"));
+    course.setNote(editCourseNoteDto.getNote());
     coursesRepository.save(course);
   }
 

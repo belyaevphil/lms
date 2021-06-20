@@ -17,6 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import lombok.RequiredArgsConstructor;
 
@@ -41,6 +42,8 @@ public class UsersController {
 
     model.addAttribute("editProfileDto", editProfileDto);
     model.addAttribute("changeProfileImageDto", changeProfileImageDto);
+    model.addAttribute("org.springframework.validation.BindingResult.editProfileDto", model.asMap().get("editProfileDtoBindingResult"));
+    model.addAttribute("org.springframework.validation.BindingResult.changeProfileImageDto", model.asMap().get("changeProfileImageDtoBindingResult"));
     return "student/profile";
   }
 
@@ -51,27 +54,23 @@ public class UsersController {
     ChangeProfileImageDto changeProfileImageDto,
     @Valid EditProfileDto editProfileDto,
     BindingResult bindingResult,
-    Model model
+    RedirectAttributes redirectAttributes
   ) {
     try {
       User user = principal.getUserData();
 
       if (bindingResult.hasErrors()) {
-        model.addAttribute("editProfileDto", editProfileDto);
-        model.addAttribute("changeProfileImageDto", changeProfileImageDto);
-        return "student/profile";
+        redirectAttributes.addFlashAttribute("editProfileDtoBindingResult", bindingResult);
+        return "redirect:/profile";
       }
 
       usersService.editProfileData(user, editProfileDto);
 
-      model.addAttribute("editProfileDto", editProfileDto);
-      model.addAttribute("changeProfileImageDto", changeProfileImageDto);
-      return "student/profile";
+      redirectAttributes.addFlashAttribute("success", "Профиль был обновлен успешно");
+      return "redirect:/profile";
     } catch (Exception e) {
-      model.addAttribute("editProfileDto", editProfileDto);
-      model.addAttribute("changeProfileImageDto", changeProfileImageDto);
-      model.addAttribute("error", e.getMessage());
-      return "student/profile";
+      redirectAttributes.addFlashAttribute("error", e.getMessage());
+      return "redirect:/profile";
     }
   }
 
@@ -82,27 +81,23 @@ public class UsersController {
     EditProfileDto editProfileDto,
     @Valid ChangeProfileImageDto changeProfileImageDto,
     BindingResult bindingResult,
-    Model model
+    RedirectAttributes redirectAttributes
   ) {
     try {
       User user = principal.getUserData();
 
       if (bindingResult.hasErrors()) {
-        model.addAttribute("editProfileDto", editProfileDto);
-        model.addAttribute("changeProfileImageDto", changeProfileImageDto);
-        return "student/profile";
+        redirectAttributes.addFlashAttribute("changeProfileImageDtoBindingResult", bindingResult);
+        return "redirect:/profile";
       }
 
       usersService.changeProfileImage(user, changeProfileImageDto);
 
-      model.addAttribute("editProfileDto", editProfileDto);
-      model.addAttribute("changeProfileImageDto", changeProfileImageDto);
-      return "student/profile";
+      redirectAttributes.addFlashAttribute("success", "Профиль был обновлен успешно");
+      return "redirect:/profile";
     } catch (Exception e) {
-      model.addAttribute("editProfileDto", editProfileDto);
-      model.addAttribute("changeProfileImageDto", changeProfileImageDto);
-      model.addAttribute("error", e.getMessage());
-      return "student/profile";
+      redirectAttributes.addFlashAttribute("error", e.getMessage());
+      return "redirect:/profile";
     }
   }
 
