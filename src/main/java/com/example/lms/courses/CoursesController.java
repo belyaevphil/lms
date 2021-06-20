@@ -250,12 +250,12 @@ public class CoursesController {
     editCourseDto.setDescription(course.getDescription());
 
     ChangeCourseImageDto changeCourseImageDto = new ChangeCourseImageDto();
-    changeCourseImageDto.setImageUrl(course.getImageUrl());
 
     model.addAttribute("course", course);
     model.addAttribute("editCourseDto", editCourseDto);
     model.addAttribute("changeCourseImageDto", changeCourseImageDto);
     model.addAttribute("org.springframework.validation.BindingResult.editCourseDto", model.asMap().get("editCourseDtoBindingResult"));
+    model.addAttribute("org.springframework.validation.BindingResult.changeCourseImageDto", model.asMap().get("changeCourseImageDtoBindingResult"));
     return "course";
   }
 
@@ -276,6 +276,23 @@ public class CoursesController {
       coursesService.editCourse(id, editCourseDto);
 
       redirectAttributes.addFlashAttribute("success", "Курс был редактирован успешно");
+      return "redirect:/courses/" + id;
+    } catch (Exception e) {
+      redirectAttributes.addFlashAttribute("error", e.getMessage());
+      return "redirect:/courses/" + id;
+    }
+  }
+
+  @PostMapping("/courses/{id}/delete/image")
+  @PreAuthorize("hasAuthority('ADMIN')")
+  public String deleteCourseImage(
+    @PathVariable("id") Long id,
+    RedirectAttributes redirectAttributes
+  ) {
+    try {
+      coursesService.deleteCourseImage(id);
+
+      redirectAttributes.addFlashAttribute("success", "Изображение было удалено успешно");
       return "redirect:/courses/" + id;
     } catch (Exception e) {
       redirectAttributes.addFlashAttribute("error", e.getMessage());

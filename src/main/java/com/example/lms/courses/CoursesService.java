@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 import com.example.lms.auth.AuthService;
 import com.example.lms.courses.dto.AssignCourseDto;
 import com.example.lms.courses.dto.AssignTeacherDto;
+import com.example.lms.courses.dto.ChangeCourseImageDto;
 import com.example.lms.courses.dto.CreateCourseDto;
 import com.example.lms.courses.dto.EditCourseDto;
 import com.example.lms.courses.dto.EditCourseNoteDto;
@@ -116,6 +117,14 @@ public class CoursesService {
     return coursesRepository.findAll(pageable);
   }
 
+  @Transactional(rollbackFor = Exception.class)
+  public void deleteCourseImage(Long id) throws IOException {
+    Course course = coursesRepository.findById(id).orElseThrow(() -> new NotFoundException("Курс не найден"));
+    Files.delete(Path.of("D:/Desktop/Phil/projects/Java/uploads/images/course/" + course.getImageUrl()));
+    course.setImageUrl(null);
+    coursesRepository.save(course);
+  }
+
   public void create(CreateCourseDto createCourseDto) throws IOException {
     Optional<Course> course = coursesRepository.findByName(createCourseDto.getName());
     if (course.isPresent()) {
@@ -157,7 +166,7 @@ public class CoursesService {
     coursesRepository.save(course);
   }
 
-  @Transactional(rollbackFor = Throwable.class)
+  @Transactional(rollbackFor = Exception.class)
   public void assign(AssignCourseDto assignCourseDto) {
     User user = usersRepository.findByUsername(assignCourseDto.getUsername())
       .orElseThrow(() -> new NotFoundException("Пользователь не найден"));
@@ -185,7 +194,7 @@ public class CoursesService {
     }
   }
 
-  @Transactional(rollbackFor = Throwable.class)
+  @Transactional(rollbackFor = Exception.class)
   public void assignTeacher(AssignTeacherDto assignTeacherDto) {
     User user = usersRepository.findByUsernameWithRoles(assignTeacherDto.getUsername())
       .orElseThrow(() -> new NotFoundException("Пользователь не найден"));

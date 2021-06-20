@@ -13,19 +13,23 @@
     <main>
       <div class="container">
         <h1>[[${course.name}]]</h1>
-        <img class="img-thumbnail mb-2" th:src="@{|/uploads/images/course/${changeCourseImageDto.imageUrl?: 'default.png'}|}" th:alt="${course.name}">
-        <form th:object="${changeCourseImageDto}" method="post">
+        <img class="img-thumbnail mb-2" th:src="@{|/uploads/images/course/${course.imageUrl?: 'default.png'}|}" th:alt="${course.name}">
+        <form th:object="${changeCourseImageDto}" method="post" enctype="multipart/form-data">
           <div class="input-group mb-3">
             <div class="custom-file">
-              <input class="custom-file-input" type="file" th:field="*{imageUrl}">
-              <label class="custom-file-label" for="imageUrl">Выбрать изображение</label>
+              <input class="custom-file-input" type="file" th:field="*{image}">
+              <label class="custom-file-label" for="image">Выбрать изображение</label>
             </div>
             <div class="input-group-append">
               <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
               <button type="submit" class="btn btn-primary">Изменить изображение</button>
             </div>
-            <div class="text-danger" th:if="${#fields.hasErrors('imageUrl')}" th:errors="*{imageUrl}"></div>
+            <div class="text-danger" th:if="${#fields.hasErrors('image')}" th:errors="*{image}"></div>
           </div>
+        </form>
+        <form class="mb-3" th:if="${course.imageUrl}" method="post" th:action="@{|/courses/${course.id}/delete/image|}">
+          <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+          <button type="submit" class="btn btn-primary">Удалить изображение</button>
         </form>
         <div class="alert alert-success" role="alert" th:if="${success}" th:text="${success}"></div>
         <div class="alert alert-danger" role="alert" th:if="${error}" th:text="${error}"></div>
