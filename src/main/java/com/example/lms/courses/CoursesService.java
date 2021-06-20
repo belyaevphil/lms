@@ -117,12 +117,34 @@ public class CoursesService {
     return coursesRepository.findAll(pageable);
   }
 
+  public void changeCourseImage(Long id, ChangeCourseImageDto changeCourseImageDto) throws IOException {
+    Course course = coursesRepository.findById(id).orElseThrow(() -> new NotFoundException("Курс не найден"));
+
+    MultipartFile image = changeCourseImageDto.getImage();
+    String firstFileName = image.getOriginalFilename();
+    if (Objects.isNull(firstFileName)) {
+      return;
+    }
+    if (!firstFileName.isEmpty()) {
+      String imageUrl = UUID.randomUUID() + "-" + image.getOriginalFilename();
+      if (!Objects.isNull(course.getImageUrl())) {
+        Files.delete(Path.of("D:/Desktop/Phil/projects/Java/uploads/images/course/" + course.getImageUrl()));
+      }
+      Files
+        .copy(image.getInputStream(), Path.of("D:/Desktop/Phil/projects/Java/uploads/images/course/" + imageUrl), StandardCopyOption.REPLACE_EXISTING);
+      course.setImageUrl(imageUrl);
+    }
+
+    coursesRepository.save(course);
+  }
+
   @Transactional(rollbackFor = Exception.class)
   public void deleteCourseImage(Long id) throws IOException {
     Course course = coursesRepository.findById(id).orElseThrow(() -> new NotFoundException("Курс не найден"));
-    Files.delete(Path.of("D:/Desktop/Phil/projects/Java/uploads/images/course/" + course.getImageUrl()));
     course.setImageUrl(null);
     coursesRepository.save(course);
+
+    Files.delete(Path.of("D:/Desktop/Phil/projects/Java/uploads/images/course/" + course.getImageUrl()));
   }
 
   public void create(CreateCourseDto createCourseDto) throws IOException {

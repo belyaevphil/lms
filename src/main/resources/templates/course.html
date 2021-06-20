@@ -14,18 +14,14 @@
       <div class="container">
         <h1>[[${course.name}]]</h1>
         <img class="img-thumbnail mb-2" th:src="@{|/uploads/images/course/${course.imageUrl?: 'default.png'}|}" th:alt="${course.name}">
-        <form th:object="${changeCourseImageDto}" method="post" enctype="multipart/form-data">
-          <div class="input-group mb-3">
-            <div class="custom-file">
-              <input class="custom-file-input" type="file" th:field="*{image}">
-              <label class="custom-file-label" for="image">Выбрать изображение</label>
-            </div>
-            <div class="input-group-append">
-              <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-              <button type="submit" class="btn btn-primary">Изменить изображение</button>
-            </div>
+        <form class="mb-3" th:object="${changeCourseImageDto}" method="post" th:action="@{|/courses/${course.id}/change/image|}" enctype="multipart/form-data">
+          <div class="form-group">
+            <label for="image">Выбрать изображение</label>
+            <input class="d-block" type="file" th:field="*{image}" required>
             <div class="text-danger" th:if="${#fields.hasErrors('image')}" th:errors="*{image}"></div>
           </div>
+          <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+          <button type="submit" class="btn btn-primary">Изменить изображение</button>
         </form>
         <form class="mb-3" th:if="${course.imageUrl}" method="post" th:action="@{|/courses/${course.id}/delete/image|}">
           <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />

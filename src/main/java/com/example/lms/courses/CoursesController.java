@@ -283,6 +283,30 @@ public class CoursesController {
     }
   }
 
+  @PostMapping("/courses/{id}/change/image")
+  @PreAuthorize("hasAuthority('ADMIN')")
+  public String changeCourseImage(
+    @PathVariable("id") Long id,
+    @Valid ChangeCourseImageDto changeCourseImageDto,
+    BindingResult bindingResult,
+    RedirectAttributes redirectAttributes
+  ) {
+    try {
+      if (bindingResult.hasErrors()) {
+        redirectAttributes.addFlashAttribute("changeCourseImageDtoBindingResult", bindingResult);
+        return "redirect:/courses/" + id;
+      }
+
+      coursesService.changeCourseImage(id, changeCourseImageDto);
+
+      redirectAttributes.addFlashAttribute("success", "Изображение было изменено успешно");
+      return "redirect:/courses/" + id;
+    } catch (Exception e) {
+      redirectAttributes.addFlashAttribute("error", e.getMessage());
+      return "redirect:/courses/" + id;
+    }
+  }
+
   @PostMapping("/courses/{id}/delete/image")
   @PreAuthorize("hasAuthority('ADMIN')")
   public String deleteCourseImage(
