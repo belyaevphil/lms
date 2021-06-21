@@ -1,5 +1,8 @@
 package com.example.lms.users;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -41,8 +44,9 @@ public class UsersService {
     authService.deleteSessionsByUsername(user.getUsername());
   }
 
-  public void changeProfileImage(User user, ChangeProfileImageDto changeProfileImageDto) {
-    user.setImageUrl(changeProfileImageDto.getImageUrl());
+  public void deleteProfileImage(User user) throws IOException {
+    Files.delete(Path.of("D:/Desktop/Phil/projects/Java/uploads/images/profile/" + user.getImageUrl()));
+    user.setImageUrl(null);
     usersRepository.save(user);
 
     authService.deleteSessionsByUsername(user.getUsername());

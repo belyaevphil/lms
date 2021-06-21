@@ -38,10 +38,10 @@ public class UsersController {
     editProfileDto.setPhone(user.getPhone());
 
     ChangeProfileImageDto changeProfileImageDto = new ChangeProfileImageDto();
-    changeProfileImageDto.setImageUrl(user.getImageUrl());
 
     model.addAttribute("editProfileDto", editProfileDto);
     model.addAttribute("changeProfileImageDto", changeProfileImageDto);
+    model.addAttribute("imageUrl", user.getImageUrl());
     model.addAttribute("org.springframework.validation.BindingResult.editProfileDto", model.asMap().get("editProfileDtoBindingResult"));
     model.addAttribute("org.springframework.validation.BindingResult.changeProfileImageDto", model.asMap().get("changeProfileImageDtoBindingResult"));
     return "student/profile";
@@ -74,26 +74,18 @@ public class UsersController {
     }
   }
 
-  @PostMapping("/profile/image")
+  @PostMapping("/profile/delete/image")
   @PreAuthorize("hasAuthority('STUDENT')")
-  public String changeProfileImage(
+  public String deleteProfileImage(
     @AuthenticationPrincipal UserDetailsImpl principal,
-    EditProfileDto editProfileDto,
-    @Valid ChangeProfileImageDto changeProfileImageDto,
-    BindingResult bindingResult,
     RedirectAttributes redirectAttributes
   ) {
     try {
       User user = principal.getUserData();
 
-      if (bindingResult.hasErrors()) {
-        redirectAttributes.addFlashAttribute("changeProfileImageDtoBindingResult", bindingResult);
-        return "redirect:/profile";
-      }
+      usersService.deleteProfileImage(user);
 
-      usersService.changeProfileImage(user, changeProfileImageDto);
-
-      redirectAttributes.addFlashAttribute("success", "Профиль был обновлен успешно");
+      redirectAttributes.addFlashAttribute("success", "Изображение было удалено успешно");
       return "redirect:/profile";
     } catch (Exception e) {
       redirectAttributes.addFlashAttribute("error", e.getMessage());

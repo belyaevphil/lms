@@ -138,13 +138,11 @@ public class CoursesService {
     coursesRepository.save(course);
   }
 
-  @Transactional(rollbackFor = Exception.class)
   public void deleteCourseImage(Long id) throws IOException {
     Course course = coursesRepository.findById(id).orElseThrow(() -> new NotFoundException("Курс не найден"));
+    Files.delete(Path.of("D:/Desktop/Phil/projects/Java/uploads/images/course/" + course.getImageUrl()));
     course.setImageUrl(null);
     coursesRepository.save(course);
-
-    Files.delete(Path.of("D:/Desktop/Phil/projects/Java/uploads/images/course/" + course.getImageUrl()));
   }
 
   public void create(CreateCourseDto createCourseDto) throws IOException {
