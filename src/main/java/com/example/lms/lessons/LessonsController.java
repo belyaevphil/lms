@@ -115,13 +115,13 @@ public class LessonsController {
     RedirectAttributes redirectAttributes
   ) {
     try {
-      Long teacherId = principal.getUserData().getId();
-      StudentLesson teacherLessonToGrade = lessonsService.getTeacherLessonToGrade(teacherId, id);
-
       if (bindingResult.hasErrors()) {
         redirectAttributes.addFlashAttribute("gradeAnswerDtoBindingResult", bindingResult);
         return "redirect:/lessons/teacher/" + id + "/grade";
       }
+
+      Long teacherId = principal.getUserData().getId();
+      StudentLesson teacherLessonToGrade = lessonsService.getTeacherLessonToGrade(teacherId, id);
 
       lessonsService.grade(teacherLessonToGrade, gradeAnswerDto);
 

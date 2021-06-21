@@ -153,7 +153,6 @@ public class CoursesController {
   @PostMapping("/courses/create")
   @PreAuthorize("hasAuthority('ADMIN')")
   public String create(
-    
     @Valid CreateCourseDto createCourseDto,
     BindingResult bindingResult,
     RedirectAttributes redirectAttributes
@@ -178,7 +177,6 @@ public class CoursesController {
   @PreAuthorize("hasAuthority('ADMIN')")
   public String getAssignCoursePage(AssignCourseDto assignCourseDto, Model model) {
     model.addAttribute("org.springframework.validation.BindingResult.assignCourseDto", model.asMap().get("assignCourseDtoBindingResult"));
-
     return "admin/assignCourse";
   }
 
@@ -205,7 +203,6 @@ public class CoursesController {
   @PreAuthorize("hasAuthority('ADMIN')")
   public String getAssignTeacherPage(AssignTeacherDto assignTeacherDto, Model model) {
     model.addAttribute("org.springframework.validation.BindingResult.assignTeacherDto", model.asMap().get("assignTeacherDtoBindingResult"));
-
     return "admin/assignTeacher";
   }
 

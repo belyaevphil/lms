@@ -57,16 +57,42 @@ public class UsersController {
     RedirectAttributes redirectAttributes
   ) {
     try {
-      User user = principal.getUserData();
-
       if (bindingResult.hasErrors()) {
         redirectAttributes.addFlashAttribute("editProfileDtoBindingResult", bindingResult);
         return "redirect:/profile";
       }
 
+      User user = principal.getUserData();
+
       usersService.editProfileData(user, editProfileDto);
 
       redirectAttributes.addFlashAttribute("success", "Профиль был обновлен успешно");
+      return "redirect:/profile";
+    } catch (Exception e) {
+      redirectAttributes.addFlashAttribute("error", e.getMessage());
+      return "redirect:/profile";
+    }
+  }
+
+  @PostMapping("/profile/change/image")
+  @PreAuthorize("hasAuthority('STUDENT')")
+  public String changeProfileImage(
+    @AuthenticationPrincipal UserDetailsImpl principal,
+    @Valid ChangeProfileImageDto changeProfileImageDto,
+    BindingResult bindingResult,
+    RedirectAttributes redirectAttributes
+  ) {
+    try {
+      if (bindingResult.hasErrors()) {
+        redirectAttributes.addFlashAttribute("changeProfileImageDtoBindingResult", bindingResult);
+        return "redirect:/profile";
+      }
+
+      User user = principal.getUserData();
+
+      usersService.changeProfileImage(user, changeProfileImageDto);
+
+      redirectAttributes.addFlashAttribute("success", "Изображение было изменено успешно");
       return "redirect:/profile";
     } catch (Exception e) {
       redirectAttributes.addFlashAttribute("error", e.getMessage());
