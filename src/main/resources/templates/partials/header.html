@@ -19,8 +19,22 @@
             <li class="nav-item" sec:authorize="hasAuthority('STUDENT')">
               <a class="nav-link" th:href="@{/profile}">Профиль</a>
             </li>
-            <li class="nav-item" sec:authorize="hasAuthority('STUDENT')">
-              <a class="nav-link" th:href="@{/courses/student}">Мои курсы</a>
+            <li class="nav-item dropdown" sec:authorize="hasAuthority('TEACHER')">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                id="studentDropdown"
+                role="button"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
+                Студенту
+              </a>
+              <div class="dropdown-menu" aria-labelledby="studentDropdown">
+                <a class="dropdown-item" th:href="@{/overview/student}">Обзор</a>
+                <a class="dropdown-item" th:href="@{/courses/student}">Мои курсы</a>
+              </div>
             </li>
             <li class="nav-item dropdown" sec:authorize="hasAuthority('TEACHER')">
               <a

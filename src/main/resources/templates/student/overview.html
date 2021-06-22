@@ -12,7 +12,46 @@
     <main>
       <div class="container">
         <h1>Обзор</h1>
-        <div>Всего курсов: [[${studentOverviewResponseDto.completeness}]]</div>
+        <div class="mb-3">Всего курсов: [[${studentOverviewDto.coursesCount}]]</div>
+        <div class="mb-3">Завершенных курсов: [[${studentOverviewDto.completedCoursesCount}]]</div>
+        <div class="mb-3">Выполняемых курсов: [[${studentOverviewDto.inProgressCoursesCount}]]</div>
+        <div class="mb-3">
+          <div class="d-flex justify-content-between">
+            <div>Общая завершенность курсов</div>
+            <div>
+              [[${studentOverviewDto.completedCoursesCount / studentOverviewDto.coursesCount * 100}]]%
+            </div>
+          </div>
+          <div class="progress">
+            <div
+              class="progress-bar"
+              role="progressbar"
+              th:style="|width: ${studentOverviewDto.completedCoursesCount / studentOverviewDto.coursesCount * 100}%|"
+              th:aria-valuenow="${studentOverviewDto.completedCoursesCount / studentOverviewDto.coursesCount * 100}"
+              aria-valuemin="0"
+              aria-valuemax="100"
+            ></div>
+          </div>
+        </div>
+        <div class="mb-3">Всего уроков: [[${studentOverviewDto.lessonsCount}]]</div>
+        <div class="mb-3">Выполненных уроков: [[${studentOverviewDto.completedLessonsCount}]]</div>
+        <div class="mb-3">Уроков на проверке: [[${studentOverviewDto.idlingLessonsCount}]]</div>
+        <div class="mb-3">
+          <div class="d-flex justify-content-between">
+            <div>Средний балл</div>
+            <div>[[${studentOverviewDto.averageGrade}]]</div>
+          </div>
+          <div class="progress">
+            <div
+              class="progress-bar"
+              role="progressbar"
+              th:style="|width: ${studentOverviewDto.averageGrade / 5 * 100}%|"
+              th:aria-valuenow="${studentOverviewDto.averageGrade / 5 * 100}"
+              aria-valuemin="0"
+              aria-valuemax="100"
+            ></div>
+          </div>
+        </div>
       </div>
     </main>
     <th:block th:replace="partials/footer :: footer"></th:block>

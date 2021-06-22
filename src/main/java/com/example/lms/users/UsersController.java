@@ -3,11 +3,9 @@ package com.example.lms.users;
 import javax.validation.Valid;
 
 import com.example.lms.security.UserDetailsImpl;
-import com.example.lms.users.dto.AdminOverviewDto;
 import com.example.lms.users.dto.ChangeProfileImageDto;
 import com.example.lms.users.dto.EditProfileDto;
 import com.example.lms.users.dto.StudentOverviewDto;
-import com.example.lms.users.dto.TeacherOverviewDto;
 import com.example.lms.users.entities.User;
 
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -127,25 +125,5 @@ public class UsersController {
 
     model.addAttribute("studentOverviewDto", studentOverviewDto);
     return "student/overview";
-  }
-
-  // @GetMapping("/overview/teacher")
-  // @PreAuthorize("hasAuthority('TEACHER')")
-  // public String getTeacherOverviewPage(@AuthenticationPrincipal UserDetailsImpl principal, Model model) {
-  //   Long userId = principal.getUserData().getId();
-  //   TeacherOverviewDto teacherOverviewDto = usersService.getTeacherOverviewData(userId);
-
-  //   model.addAttribute("teacherOverviewDto", teacherOverviewDto);
-  //   return "teacher/overview";
-  // }
-
-  @GetMapping("/overview/admin")
-  @PreAuthorize("hasAuthority('ADMIN')")
-  public String getAdminOverviewPage(@AuthenticationPrincipal UserDetailsImpl principal, Model model) {
-    Long userId = principal.getUserData().getId();
-    AdminOverviewDto adminOverviewDto = usersService.getAdminOverviewData(userId);
-
-    model.addAttribute("adminOverviewDto", adminOverviewDto);
-    return "admin/overview";
   }
 }

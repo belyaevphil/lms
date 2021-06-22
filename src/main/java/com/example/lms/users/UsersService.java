@@ -10,18 +10,12 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import com.example.lms.auth.AuthService;
-import com.example.lms.courses.entities.Course;
 import com.example.lms.courses.entities.StudentCourse;
 import com.example.lms.courses.repositories.StudentsCoursesRepository;
-import com.example.lms.lessons.entities.Lesson;
-import com.example.lms.users.dto.AdminOverviewDto;
 import com.example.lms.users.dto.ChangeProfileImageDto;
 import com.example.lms.users.dto.EditProfileDto;
 import com.example.lms.users.dto.StudentOverviewDto;
-import com.example.lms.users.dto.TeacherOverviewDto;
-import com.example.lms.users.entities.Teacher;
 import com.example.lms.users.entities.User;
-import com.example.lms.users.repositories.TeachersRepository;
 import com.example.lms.users.repositories.UsersRepository;
 
 import org.springframework.stereotype.Service;
@@ -34,7 +28,6 @@ import lombok.RequiredArgsConstructor;
 public class UsersService {
   private final UsersRepository usersRepository;
   private final StudentsCoursesRepository studentsCoursesRepository;
-  private final TeachersRepository teachersRepository;
   private final AuthService authService;
 
   public void editProfileData(User user, EditProfileDto editProfileDto) {
@@ -121,34 +114,5 @@ public class UsersService {
     studentOverviewDto.setIdlingLessonsCount(idlingLessonsCount);
     studentOverviewDto.setAverageGrade(averageGrade);
     return studentOverviewDto;
-  }
-
-  // public TeacherOverviewDto getTeacherOverviewData(Long userId) {
-  //   // всего проводимых курсов
-  //   // заданий для проверки
-  //   // всего студентов
-
-  //   List<Teacher> teachers = teachersRepository.fetchAllByTeacherId(userId);
-
-  //   int coursesCount = teachers.size();
-
-  //   // teachers.stream().map(teacher -> teacher.getCourse().getLessons().stream().map(lesson -> lesson.getStudentLessons().stream()
-  //   //   .filter(studentLesson -> studentLesson.getStatus().equals("ожидается проверка")).collect(Collectors.toList()).size()))
-  //   // List<Course> teacherCourses = teachers.stream().map(teacher -> teacher.getCourse()).collect(Collectors.toList());
-  //   // int lessonsToGrade = teacherCourses.stream().map(teacherCourse -> teacherCourse.getLessons().stream()
-  //   //   .filter(studentLesson -> studentLesson.getStatus().equals("ожидается проверка")))
-
-  //   teachers.stream().map(teacher -> teacher.getCourse().getLessons())
-
-  //   int studentsCount = 5;
-
-  //   TeacherOverviewDto teacherOverviewDto = new TeacherOverviewDto();
-  //   teacherOverviewDto.setCoursesCount(coursesCount);
-  //   return teacherOverviewDto;
-  // }
-
-  public AdminOverviewDto getAdminOverviewData(Long userId) {
-    AdminOverviewDto adminOverviewDto = new AdminOverviewDto();
-    return adminOverviewDto;
   }
 }
