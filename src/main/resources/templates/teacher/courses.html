@@ -15,13 +15,11 @@
         <h1>Управление курсами</h1>
         <ul class="row mt-4 list-unstyled">
           <li class="col-12 col-md-6 col-xl-4 mb-4" th:each="teacherCourse : ${teacherCourses}">
-            <div class="card">
+            <div class="card border-0 shadow-sm">
               <div class="card-body">
                 <h5 class="card-title" th:text="${teacherCourse.name}"></h5>
-                <a class="btn btn-primary" th:href="@{|/courses/teacher/${teacherCourse.id}|}"
-                  >Перейти</a
-                >
-                <a class="btn btn-primary" th:href="@{|/courses/teacher/${teacherCourse.id}/grade|}"
+                <a th:href="@{|/courses/teacher/${teacherCourse.id}|}">Перейти</a>
+                <a class="ml-2" th:href="@{|/courses/teacher/${teacherCourse.id}/grade|}"
                   >Проверка работ</a
                 >
               </div>

@@ -15,7 +15,7 @@
         <p>Здесь вы можете выбрать курс и продолжить дальнейшее обучение вместе с нами</p>
         <ul class="row mt-4 list-unstyled" th:if="${!courses.isEmpty()}">
           <li class="col-12 col-md-6 col-xl-4 mb-4" th:each="course : ${courses}">
-            <div class="card">
+            <div class="card border-0 shadow-sm">
               <img
                 class="card-img-top"
                 th:src="@{|/uploads/images/course/${course.imageUrl?: 'default.png'}|}"
@@ -25,7 +25,7 @@
               <div class="card-body">
                 <h5 class="card-title">[[${course.name}]]</h5>
                 <p class="card-text text-truncate">Стоимость: [[${course.price}]] рублей</p>
-                <a class="btn btn-primary" th:href="@{|/courses/${course.id}|}">Подробнее</a>
+                <a th:href="@{|/courses/${course.id}|}">Подробнее</a>
               </div>
             </div>
           </li>

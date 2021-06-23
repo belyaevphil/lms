@@ -27,7 +27,7 @@
         </form>
         <form class="mb-3" th:if="${course.imageUrl}" method="post" th:action="@{|/courses/${course.id}/delete/image|}">
           <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-          <button type="submit" class="btn btn-primary">Удалить изображение</button>
+          <button type="submit" class="btn btn-danger">Удалить изображение</button>
         </form>
         <form th:object="${editCourseDto}" method="post" id="editCourseForm">
           <div class="form-group">

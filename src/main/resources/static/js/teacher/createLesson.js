@@ -1,6 +1,6 @@
 $(document).ready(function () {
   $('#description').summernote({
-    height: 300,
+    height: 500,
     placeholder: 'Задание к уроку',
     lang: 'ru-RU',
     toolbar: [
