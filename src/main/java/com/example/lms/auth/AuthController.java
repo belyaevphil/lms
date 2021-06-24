@@ -19,12 +19,12 @@ public class AuthController {
   private final AuthService authService;
 
   @GetMapping("/signin")
-  public String getSignin() {
+  public String getSigninPage() {
     return "signin";
   }
 
   @GetMapping("/signup")
-  public String getSignup(SignupDto signupDto, Model model) {
+  public String getSignupPage(SignupDto signupDto, Model model) {
     model.addAttribute("org.springframework.validation.BindingResult.signupDto", model.asMap().get("signupDtoBindingResult"));
     return "signup";
   }
