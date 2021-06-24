@@ -82,20 +82,20 @@ public class LessonsService {
     return teacherLessonsToGradeDto;
   }
 
-  private void saveLessonFiles(MultipartFile[] files, Lesson lesson) throws IOException {
-    List<LessonFile> lessonFiles = new ArrayList<>();
-    for (MultipartFile file : files) {
-      String path = "./uploads/lessons/" + UUID.randomUUID() + "-" + file.getOriginalFilename();
-      Files.copy(file.getInputStream(), Path.of(path), StandardCopyOption.REPLACE_EXISTING);
+  // private void saveLessonFiles(MultipartFile[] files, Lesson lesson) throws IOException {
+  //   List<LessonFile> lessonFiles = new ArrayList<>();
+  //   for (MultipartFile file : files) {
+  //     String path = "./uploads/lessons/" + UUID.randomUUID() + "-" + file.getOriginalFilename();
+  //     Files.copy(file.getInputStream(), Path.of(path), StandardCopyOption.REPLACE_EXISTING);
 
-      LessonFile lessonFile = new LessonFile();
-      lessonFile.setLesson(lesson);
-      lessonFile.setOriginalName(file.getOriginalFilename());
-      lessonFile.setPath(path);
-      lessonFiles.add(lessonFile);
-    }
-    lessonFileRepository.saveAll(lessonFiles);
-  }
+  //     LessonFile lessonFile = new LessonFile();
+  //     lessonFile.setLesson(lesson);
+  //     lessonFile.setOriginalName(file.getOriginalFilename());
+  //     lessonFile.setPath(path);
+  //     lessonFiles.add(lessonFile);
+  //   }
+  //   lessonFileRepository.saveAll(lessonFiles);
+  // }
 
   private void saveLessonForEachCourseOwner(List<StudentCourse> studentsCourses, Lesson lesson) {
     List<StudentLesson> studentsLessons = studentsCourses.stream().map(studentCourse -> {
@@ -124,14 +124,14 @@ public class LessonsService {
     }
 
     // Spring automatically generates 1 file with empty name, if none was present
-    MultipartFile[] files = createLessonDto.getFiles();
-    String firstFileName = files[0].getOriginalFilename();
-    if (Objects.isNull(firstFileName)) {
-      return;
-    }
-    if (!firstFileName.isEmpty()) {
-      saveLessonFiles(files, lesson);
-    }
+    // MultipartFile[] files = createLessonDto.getFiles();
+    // String firstFileName = files[0].getOriginalFilename();
+    // if (Objects.isNull(firstFileName)) {
+    //   return;
+    // }
+    // if (!firstFileName.isEmpty()) {
+    //   saveLessonFiles(files, lesson);
+    // }
   }
 
   @Transactional(rollbackFor = Throwable.class)
@@ -142,13 +142,13 @@ public class LessonsService {
     lessonRepository.save(lesson);
 
     // Spring automatically generates 1 file with empty name, if none was present
-    MultipartFile[] files = editLessonDto.getFiles();
-    String firstFileName = files[0].getOriginalFilename();
-    if (Objects.isNull(firstFileName)) {
-      return;
-    }
-    if (!firstFileName.isEmpty()) {
-      saveLessonFiles(files, lesson);
-    }
+    // MultipartFile[] files = editLessonDto.getFiles();
+    // String firstFileName = files[0].getOriginalFilename();
+    // if (Objects.isNull(firstFileName)) {
+    //   return;
+    // }
+    // if (!firstFileName.isEmpty()) {
+    //   saveLessonFiles(files, lesson);
+    // }
   }
 }

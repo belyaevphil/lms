@@ -14,7 +14,7 @@
         <h1>Обзор</h1>
         <ul class="row mt-4 list-unstyled">
           <li class="col-12 col-md-6 col-xl-4 mb-4">
-            <div class="card border-0 shadow-sm">
+            <div class="card border-0 shadow">
               <div class="card-body">
                 <h3 class="card-title">[[${studentOverviewDto.coursesCount}]]</h3>
                 <p class="card-text">Всего курсов</p>
@@ -22,7 +22,7 @@
             </div>
           </li>
           <li class="col-12 col-md-6 col-xl-4 mb-4">
-            <div class="card border-0 shadow-sm">
+            <div class="card border-0 shadow">
               <div class="card-body">
                 <h3 class="card-title">[[${studentOverviewDto.completedCoursesCount}]]</h3>
                 <p class="card-text">Завершенных курсов</p>
@@ -30,7 +30,7 @@
             </div>
           </li>
           <li class="col-12 col-md-6 col-xl-4 mb-4">
-            <div class="card border-0 shadow-sm">
+            <div class="card border-0 shadow">
               <div class="card-body">
                 <h3 class="card-title">[[${studentOverviewDto.inProgressCoursesCount}]]</h3>
                 <p class="card-text">Выполняемых курсов</p>
@@ -38,15 +38,18 @@
             </div>
           </li>
           <li class="col-12 col-md-6 col-xl-4 mb-4">
-            <div class="card border-0 shadow-sm">
+            <div class="card border-0 shadow">
               <div class="card-body">
-                <h3 class="card-title">[[${studentOverviewDto.completedCoursesCount / studentOverviewDto.coursesCount * 100}]]%</h3>
+                <h3 class="card-title">
+                  [[${studentOverviewDto.completedCoursesCount / studentOverviewDto.coursesCount *
+                  100}]]%
+                </h3>
                 <p class="card-text">Общая завершенность курсов</p>
               </div>
             </div>
           </li>
           <li class="col-12 col-md-6 col-xl-4 mb-4">
-            <div class="card border-0 shadow-sm">
+            <div class="card border-0 shadow">
               <div class="card-body">
                 <h3 class="card-title">[[${studentOverviewDto.lessonsCount}]]</h3>
                 <p class="card-text">Всего уроков</p>
@@ -54,7 +57,7 @@
             </div>
           </li>
           <li class="col-12 col-md-6 col-xl-4 mb-4">
-            <div class="card border-0 shadow-sm">
+            <div class="card border-0 shadow">
               <div class="card-body">
                 <h3 class="card-title">[[${studentOverviewDto.completedLessonsCount}]]</h3>
                 <p class="card-text">Выполненных уроков</p>
@@ -62,7 +65,7 @@
             </div>
           </li>
           <li class="col-12 col-md-6 col-xl-4 mb-4">
-            <div class="card border-0 shadow-sm">
+            <div class="card border-0 shadow">
               <div class="card-body">
                 <h3 class="card-title">[[${studentOverviewDto.idlingLessonsCount}]]</h3>
                 <p class="card-text">Уроков на проверке</p>
@@ -70,7 +73,7 @@
             </div>
           </li>
           <li class="col-12 col-md-6 col-xl-4 mb-4">
-            <div class="card border-0 shadow-sm">
+            <div class="card border-0 shadow">
               <div class="card-body">
                 <h3 class="card-title">[[${studentOverviewDto.averageGrade}]]</h3>
                 <p class="card-text">Средний балл</p>
@@ -80,7 +83,7 @@
         </ul>
         <!-- <ul class="row mt-4 list-unstyled">
           <li class="col-12 col-md-6 col-xl-4 mb-4">
-              <div class="card border-0 shadow-sm">
+              <div class="card border-0 shadow">
                 <div class="card-body">
                   <div class="card-title d-flex justify-content-between">
                     <div>Общая завершенность курсов</div>
@@ -102,7 +105,7 @@
               </div>
           </li>
           <li class="col-12 col-md-6 col-xl-4 mb-4">
-            <div class="card border-0 shadow-sm">
+            <div class="card border-0 shadow">
               <div class="card-body">
                 <div class="card-title d-flex justify-content-between">
                   <div>Средний балл</div>

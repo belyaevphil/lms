@@ -5,27 +5,27 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <th:block th:replace="partials/globalCss :: globalCss"></th:block>
-    <title th:text="${studentCourseDto.studentCourse.course.name}"></title>
+    <title>[[${studentCourseDto.studentCourse.course.name}]]</title>
   </head>
   <body>
     <th:block th:replace="partials/header :: header"></th:block>
 
     <main>
       <div class="container">
-        <h1 th:text="${studentCourseDto.studentCourse.course.name}"></h1>
-        <div th:text="|Завершенность: ${studentCourseDto.completeness} &#37;|"></div>
-        <div th:text="|Средний балл: ${studentCourseDto.averageGrade?: '0'}|"></div>
+        <h1>[[${studentCourseDto.studentCourse.course.name}]]</h1>
+        <p><strong>Завершенность:</strong> [[${studentCourseDto.completeness}]] &#37;</p>
+        <p><strong>Средний балл:</strong> [[${studentCourseDto.averageGrade?: '0'}]]</p>
         <ul class="row mt-4 list-unstyled">
           <li
             class="col-12 col-md-6 col-xl-4 mb-4"
             th:each="studentLesson : ${studentCourseDto.studentCourse.studentLessons}"
           >
-            <div class="card">
+            <div class="card border-0 shadow">
               <div class="card-body">
-                <h5 class="card-title" th:text="${studentLesson.lesson.name}"></h5>
-                <p class="card-text" th:text="|Оценка: ${studentLesson.grade?: '-'}|"></p>
-                <p class="card-text" th:text="|Статус: ${studentLesson.status}|"></p>
-                <a class="btn btn-primary" th:href="@{|/lessons/${studentLesson.id}|}">Перейти</a>
+                <h5 class="card-title">[[${studentLesson.lesson.name}]]</h5>
+                <p class="card-text">Статус: [[${studentLesson.status}]]</p>
+                <p class="card-text">Оценка: [[${studentLesson.grade?: '-'}]]</p>
+                <a th:href="@{|/lessons/${studentLesson.id}|}">Перейти</a>
               </div>
             </div>
           </li>

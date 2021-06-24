@@ -11,8 +11,8 @@
     <th:block th:replace="partials/header :: header"></th:block>
     <main>
       <div class="container">
-        <div class="alert alert-success" role="alert" th:if="${success}" th:text="${success}"></div>
-        <div class="alert alert-danger" role="alert" th:if="${error}" th:text="${error}"></div>
+        <div class="alert alert-success" role="alert" th:if="${success}">[[${success}]]</div>
+        <div class="alert alert-danger" role="alert" th:if="${error}">[[${error}]]</div>
         <h1>Мой профиль</h1>
         <div class="row">
           <div class="col-12 col-sm-6 col-md-5 col-xl-3">

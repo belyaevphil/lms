@@ -15,6 +15,6 @@ public class CreateLessonDto {
   @NotEmpty
   private String description;
 
-  @Size(max = 3)
-  private MultipartFile[] files;
+  // @Size(max = 3)
+  // private MultipartFile[] files;
 }

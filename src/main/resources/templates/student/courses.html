@@ -16,7 +16,7 @@
         <p th:if="${studentCoursesDto.isEmpty()}">У вас пока нет курсов</p>
         <ul class="row mt-4 list-unstyled" th:if="${!studentCoursesDto.isEmpty()}">
           <li class="col-12 col-md-6 col-xl-4 mb-4" th:each="studentCourseDto : ${studentCoursesDto}">
-            <div class="card border-0 shadow-sm">
+            <div class="card border-0 shadow">
               <div class="card-body">
                 <h5 class="card-title" th:text="${studentCourseDto.studentCourse.course.name}"></h5>
                 <p
@@ -25,11 +25,11 @@
                 ></p>
                 <p
                   class="card-text text-truncate"
-                  th:text="|Средний балл: ${studentCourseDto.averageGrade?: '0'}|"
+                  th:text="|Завершенность: ${studentCourseDto.completeness} &#37;|"
                 ></p>
                 <p
                   class="card-text text-truncate"
-                  th:text="|${studentCourseDto.completeness} &#37;|"
+                  th:text="|Средний балл: ${studentCourseDto.averageGrade?: '0'}|"
                 ></p>
                 <a th:href="@{|/courses/student/${studentCourseDto.studentCourse.id}|}">Перейти</a>
               </div>

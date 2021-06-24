@@ -13,9 +13,8 @@
 
     <main>
       <div class="container">
-        <h1 th:text="${lesson.name}"></h1>
-        <div class="alert alert-success" role="alert" th:if="${success}" th:text="${success}"></div>
-        <div class="alert alert-danger" role="alert" th:if="${error}" th:text="${error}"></div>
+        <div class="alert alert-success" role="alert" th:if="${success}">[[${success}]]</div>
+        <div class="alert alert-danger" role="alert" th:if="${error}">[[${error}]]</div>
         <form th:object="${editLessonDto}" method="post" id="editLessonForm">
           <div class="form-group">
             <label for="name">Название урока</label>

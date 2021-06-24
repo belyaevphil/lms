@@ -49,7 +49,6 @@ public class UsersController {
   @PreAuthorize("hasAuthority('STUDENT')")
   public String editProfileData(
     @AuthenticationPrincipal UserDetailsImpl principal,
-    ChangeProfileImageDto changeProfileImageDto,
     @Valid EditProfileDto editProfileDto,
     BindingResult bindingResult,
     RedirectAttributes redirectAttributes

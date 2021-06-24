@@ -33,7 +33,7 @@
             class="col-12 col-md-6 col-xl-4 mb-4"
             th:each="teacherLesson : ${teacherCourse.lessons}"
           >
-            <div class="card border-0 shadow-sm">
+            <div class="card border-0 shadow">
               <div class="card-body">
                 <h5 class="card-title" th:text="${teacherLesson.name}"></h5>
                 <a th:href="@{|/lessons/teacher/${teacherLesson.id}|}">Перейти</a>

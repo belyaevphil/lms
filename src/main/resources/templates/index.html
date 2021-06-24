@@ -13,12 +13,21 @@
       <div class="container">
         <h1>Добро пожаловать</h1>
         <p>Здесь вы можете выбрать курс и продолжить дальнейшее обучение вместе с нами</p>
+        <!-- <form method="post" th:action="@{/find-course}">
+          <div class="input-group">
+            <input class="form-control" placeholder="Название курса" />
+            <div class="input-group-append">
+              <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+              <button type="submit" class="btn btn-primary">Найти</button>
+            </div>
+          </div>
+        </form> -->
         <ul class="row mt-4 list-unstyled" th:if="${!courses.isEmpty()}">
           <li class="col-12 col-md-6 col-xl-4 mb-4" th:each="course : ${courses}">
-            <div class="card border-0 shadow-sm">
+            <div class="card border-0 shadow">
               <img
                 class="card-img-top"
-                th:src="@{|/uploads/images/course/${course.imageUrl?: 'default.png'}|}"
+                th:src="@{|/uploads/images/course/${course.imageUrl?: 'default.jpg'}|}"
                 th:alt="${course.name}"
                 height="154"
               />

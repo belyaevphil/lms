@@ -1,6 +1,5 @@
 package com.example.lms.users.repositories;
 
-import java.util.List;
 import java.util.Optional;
 
 import com.example.lms.courses.entities.Course;

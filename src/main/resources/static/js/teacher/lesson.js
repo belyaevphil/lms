@@ -19,7 +19,7 @@ $(document).ready(function () {
   document.getElementById('editLessonForm').onsubmit = function () {
     var nameInput = document.getElementById('name')
     var descriptionInput = document.getElementById('description')
-    if (nameInput.value === nameInput.defaultValue || descriptionInput.value === descriptionInput.defaultValue) {
+    if (nameInput.value === nameInput.defaultValue && descriptionInput.value === descriptionInput.defaultValue) {
       alert('Измените хотя бы одно поле')
       return false
     }
