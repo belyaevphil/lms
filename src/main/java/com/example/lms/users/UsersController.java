@@ -29,6 +29,11 @@ public class UsersController {
     return "howToLearn";
   }
 
+  @GetMapping("/how-to-teach")
+  public String getHowToTeachPage() {
+    return "howToTeach";
+  }
+
   @GetMapping("/profile")
   @PreAuthorize("hasAuthority('STUDENT')")
   public String getProfilePage(@AuthenticationPrincipal UserDetailsImpl principal, Model model) {
