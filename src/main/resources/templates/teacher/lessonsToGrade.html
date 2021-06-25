@@ -13,6 +13,20 @@
     <main>
       <div class="container">
         <h1>Задания для проверки</h1>
+        <form method="post">
+          <div class="input-group">
+            <input
+              class="form-control"
+              name="queryFilter"
+              th:value="${query}"
+              placeholder="Название урока"
+            />
+            <div class="input-group-append">
+              <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+              <button type="submit" class="btn btn-primary">Найти</button>
+            </div>
+          </div>
+        </form>
         <ul class="row mt-4 list-unstyled">
           <li
             class="col-12 col-md-6 col-xl-4 mb-4"

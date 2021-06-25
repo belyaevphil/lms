@@ -22,9 +22,9 @@ public interface StudentLessonRepository extends JpaRepository<StudentLesson, Lo
 
   public Page<StudentLesson> findAllByStudentCourseCourseTeachersUserIdAndStatus(Long id, Long courseId, String status, Pageable pageable);
 
-  @Query("SELECT sl.id FROM StudentLesson sl LEFT JOIN sl.studentCourse sc LEFT JOIN sc.course c" + " " +
-    "LEFT JOIN c.teachers t LEFT JOIN t.user u WHERE u.id = :teacherId AND sl.status = :status")
-  public Page<Long> findAllIdsByTeacherIdAndStatus(Long teacherId, String status, Pageable pageable);
+  @Query("SELECT sl.id FROM StudentLesson sl LEFT JOIN sl.lesson l LEFT JOIN sl.studentCourse sc LEFT JOIN sc.course c" + " " +
+    "LEFT JOIN c.teachers t LEFT JOIN t.user u WHERE l.name LIKE %:name% AND u.id = :teacherId AND sl.status = :status")
+  public Page<Long> findAllIdsByLessonNameContainingAndTeacherIdAndStatus(String name, Long teacherId, String status, Pageable pageable);
 
   @Query("SELECT DISTINCT sl FROM StudentLesson sl LEFT JOIN FETCH sl.lesson l WHERE sl.id IN :ids")
   public List<StudentLesson> fetchAllByIds(List<Long> ids);

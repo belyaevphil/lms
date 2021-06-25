@@ -71,8 +71,9 @@ public class LessonsService {
     return studentLessonRepository.findByUserIdAndId(teacherId, lessonId).orElseThrow(() -> new NotFoundException("Такого урока не найдено"));
   }
 
-  public TeacherLessonsToGradeDto getTeacherLessonsToGrade(Long teacherId, Pageable pageable) {
-    Page<Long> idsPage = studentLessonRepository.findAllIdsByTeacherIdAndStatus(teacherId, "ожидается проверка", pageable);
+  public TeacherLessonsToGradeDto getTeacherLessonsToGrade(String queryParam, Long teacherId, Pageable pageable) {
+    Page<Long> idsPage = studentLessonRepository
+      .findAllIdsByLessonNameContainingAndTeacherIdAndStatus(queryParam, teacherId, "ожидается проверка", pageable);
     List<StudentLesson> studentLessons = studentLessonRepository.fetchAllByIds(idsPage.getContent());
     TeacherLessonsToGradeDto teacherLessonsToGradeDto = new TeacherLessonsToGradeDto();
     teacherLessonsToGradeDto.setCurrentPage(pageable.getPageNumber() + 1);
@@ -109,7 +110,7 @@ public class LessonsService {
   }
 
   @Transactional(rollbackFor = Throwable.class)
-  public void create(CreateLessonDto createLessonDto, Long courseId) throws IOException {
+  public void create(CreateLessonDto createLessonDto, Long courseId) {
     Course course = coursesRepository.findById(courseId).orElseThrow(() -> new NotFoundException("Такого курса не найдено"));
 
     Lesson lesson = new Lesson();
@@ -135,7 +136,7 @@ public class LessonsService {
   }
 
   @Transactional(rollbackFor = Throwable.class)
-  public void edit(Long id, EditLessonDto editLessonDto) throws IOException {
+  public void edit(Long id, EditLessonDto editLessonDto) {
     Lesson lesson = lessonRepository.findById(id).orElseThrow(() -> new NotFoundException("Такого урока не найдено"));
     lesson.setName(editLessonDto.getName());
     lesson.setDescription(editLessonDto.getDescription());

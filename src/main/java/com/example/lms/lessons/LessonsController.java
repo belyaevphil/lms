@@ -138,16 +138,25 @@ public class LessonsController {
   public String getTeacherLessonsToGrade(
     @AuthenticationPrincipal UserDetailsImpl principal,
     Pageable pageable,
+    @RequestParam(required = false) String query,
     Model model
   ) {
+    String queryParam = query != null ? query : "";
     Long teacherId = principal.getUserData().getId();
-    TeacherLessonsToGradeDto teacherLessonsToGradeDto = lessonsService.getTeacherLessonsToGrade(teacherId, pageable);
+    TeacherLessonsToGradeDto teacherLessonsToGradeDto = lessonsService.getTeacherLessonsToGrade(queryParam, teacherId, pageable);
 
     model.addAttribute("currentPage", teacherLessonsToGradeDto.getCurrentPage());
     model.addAttribute("totalPages", teacherLessonsToGradeDto.getTotalPages());
     model.addAttribute("totalElements", teacherLessonsToGradeDto.getTotalElements());
     model.addAttribute("teacherLessonsToGrade", teacherLessonsToGradeDto.getStudentLessons());
+    model.addAttribute("query", query);
     return "teacher/lessonsToGrade";
+  }
+
+  @PostMapping("/teacher/lessons-to-grade")
+  public String setTeacherLessonsToGradeFilter(@RequestParam(required = false) String queryFilter) throws UnsupportedEncodingException {
+    String queryParam = queryFilter.equals("") ? "" : "?query=" + URLEncoder.encode(queryFilter, "UTF-8");
+    return "redirect:/teacher/lessons-to-grade" + queryParam;
   }
 
   @GetMapping("/student/lessons/{id}")
