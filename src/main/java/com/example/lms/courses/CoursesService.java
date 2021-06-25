@@ -113,8 +113,8 @@ public class CoursesService {
     return coursesRepository.findById(id).orElseThrow(() -> new NotFoundException("Такого курса не найдено"));
   }
 
-  public Page<Course> getCourses(Pageable pageable) {
-    return coursesRepository.findAll(pageable);
+  public Page<Course> getCourses(String query, Pageable pageable) {
+    return coursesRepository.findAllByNameContaining(query, pageable);
   }
 
   public void changeCourseImage(Long id, ChangeCourseImageDto changeCourseImageDto) throws IOException {
@@ -186,6 +186,17 @@ public class CoursesService {
     coursesRepository.save(course);
   }
 
+  private void addExistingLessonsToNewStudentCourse(List<Lesson> courseLessons, StudentCourse studentCourse) {
+    List<StudentLesson> studentLessons = courseLessons.stream().map(courseLesson -> {
+      StudentLesson studentLesson = new StudentLesson();
+      studentLesson.setStudentCourse(studentCourse);
+      studentLesson.setLesson(courseLesson);
+      studentLesson.setStatus("не выполнено");
+      return studentLesson;
+    }).collect(Collectors.toList());
+    studentLessonRepository.saveAll(studentLessons);
+  }
+
   @Transactional(rollbackFor = Exception.class)
   public void assign(AssignCourseDto assignCourseDto) {
     User user = usersRepository.findByUsername(assignCourseDto.getUsername())
@@ -203,14 +214,7 @@ public class CoursesService {
 
     List<Lesson> courseLessons = lessonRepository.findAllByCourseId(course.getId());
     if (!courseLessons.isEmpty()) {
-      List<StudentLesson> studentLessons = courseLessons.stream().map(courseLesson -> {
-        StudentLesson studentLesson = new StudentLesson();
-        studentLesson.setStudentCourse(studentCourse);
-        studentLesson.setLesson(courseLesson);
-        studentLesson.setStatus("не выполнено");
-        return studentLesson;
-      }).collect(Collectors.toList());
-      studentLessonRepository.saveAll(studentLessons);
+      addExistingLessonsToNewStudentCourse(courseLessons, studentCourse);
     }
   }
 

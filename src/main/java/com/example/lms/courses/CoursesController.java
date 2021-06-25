@@ -1,5 +1,8 @@
 package com.example.lms.courses;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 import javax.validation.Valid;
 
 import com.example.lms.courses.dto.AssignCourseDto;
@@ -25,6 +28,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import lombok.RequiredArgsConstructor;
@@ -226,14 +230,22 @@ public class CoursesController {
   }
 
   @GetMapping("/")
-  public String getIndexPage(Pageable pageable, Model model) {
-    Page<Course> coursesPage = coursesService.getCourses(pageable);
+  public String getIndexPage(Pageable pageable, @RequestParam(required = false) String query, Model model) {
+    String queryParam = query != null ? query : "";
+    Page<Course> coursesPage = coursesService.getCourses(queryParam, pageable);
 
     model.addAttribute("currentPage", pageable.getPageNumber() + 1);
     model.addAttribute("totalPages", coursesPage.getTotalPages());
     model.addAttribute("totalElements", coursesPage.getTotalElements());
     model.addAttribute("courses", coursesPage.getContent());
+    model.addAttribute("query", query);
     return "index";
+  }
+
+  @PostMapping("/")
+  public String setCoursesFilter(@RequestParam(required = false) String queryFilter) throws UnsupportedEncodingException {
+    String queryParam = queryFilter.equals("") ? "" : "?query=" + URLEncoder.encode(queryFilter, "UTF-8");
+    return "redirect:/" + queryParam;
   }
 
   @GetMapping("/courses/{id}")

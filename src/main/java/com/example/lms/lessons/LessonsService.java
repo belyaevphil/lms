@@ -97,7 +97,7 @@ public class LessonsService {
   //   lessonFileRepository.saveAll(lessonFiles);
   // }
 
-  private void saveLessonForEachCourseOwner(List<StudentCourse> studentsCourses, Lesson lesson) {
+  private void addNewLessonToExistingStudentsCourses(List<StudentCourse> studentsCourses, Lesson lesson) {
     List<StudentLesson> studentsLessons = studentsCourses.stream().map(studentCourse -> {
       StudentLesson studentLesson = new StudentLesson();
       studentLesson.setStudentCourse(studentCourse);
@@ -120,7 +120,7 @@ public class LessonsService {
 
     List<StudentCourse> studentsCourses = studentsCoursesRepository.findAllByCourseId(courseId);
     if (!studentsCourses.isEmpty()) {
-      saveLessonForEachCourseOwner(studentsCourses, lesson);
+      addNewLessonToExistingStudentsCourses(studentsCourses, lesson);
     }
 
     // Spring automatically generates 1 file with empty name, if none was present

@@ -86,7 +86,9 @@
             <input class="form-check-input" id="agreement" type="checkbox" required />
             <label class="form-check-label" for="agreement"
               >Я даю согласие на обработку
-              <a th:href="@{/personalData.pdf}">персональных данных</a></label
+              <a th:href="@{/static/personalData.pdf}" target="_blank" referrerpolicy="no-referrer"
+                >персональных данных</a
+              ></label
             >
           </div>
           <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />

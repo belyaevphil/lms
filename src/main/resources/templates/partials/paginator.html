@@ -8,7 +8,7 @@
       <a
         class="page-link"
         th:if="${currentPage > 1}"
-        th:href="@{${currentUrl}(page=${currentPage - 1},size=${size})}"
+        th:href="@{|${currentUrl}?${query != null ? 'query=' + query + '&' : ''}page=${currentPage - 1}&size=${size}|}"
         >&laquo;</a
       >
       <span class="page-link" th:if="${currentPage <= 1}">&laquo;</span>
@@ -21,7 +21,7 @@
       <a
         class="page-link"
         th:if="${currentPage != page}"
-        th:href="@{${currentUrl}(page=${page},size=${size})}"
+        th:href="@{|${currentUrl}?${query != null ? 'query=' + query + '&' : ''}page=${page}&size=${size}|}"
         >[[${page}]]</a
       >
       <span class="page-link" th:if="${currentPage == page}">[[${page}]]</span>
@@ -34,7 +34,7 @@
       <a
         class="page-link"
         th:if="${currentPage != page}"
-        th:href="@{${currentUrl}(page=${page},size=${size})}"
+        th:href="@{|${currentUrl}?${query != null ? 'query=' + query + '&' : ''}page=${page}&size=${size}|}"
         >[[${page}]]</a
       >
       <span class="page-link" th:if="${currentPage == page}">[[${page}]]</span>
@@ -47,7 +47,7 @@
       <a
         class="page-link"
         th:if="${currentPage != page}"
-        th:href="@{${currentUrl}(page=${page},size=${size})}"
+        th:href="@{|${currentUrl}?${query != null ? 'query=' + query + '&' : ''}page=${page}&size=${size}|}"
         >[[${page}]]</a
       >
       <span class="page-link" th:if="${currentPage == page}">[[${page}]]</span>
@@ -60,7 +60,7 @@
       <a
         class="page-link"
         th:if="${currentPage != page}"
-        th:href="@{${currentUrl}(page=${page},size=${size})}"
+        th:href="@{|${currentUrl}?${query != null ? 'query=' + query + '&' : ''}page=${page}&size=${size}|}"
         >[[${page}]]</a
       >
       <span class="page-link" th:if="${currentPage == page}">[[${page}]]</span>
@@ -69,7 +69,7 @@
       <a
         class="page-link"
         th:if="${currentPage < totalPages}"
-        th:href="@{${currentUrl}(page=${currentPage + 1},size=${size})}"
+        th:href="@{|${currentUrl}?${query != null ? 'query=' + query + '&' : ''}page=${currentPage + 1}&size=${size}|}"
         >&raquo;</a
       >
       <span class="page-link" th:if="${currentPage >= totalPages}">&raquo;</span>
