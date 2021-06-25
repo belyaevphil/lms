@@ -157,7 +157,7 @@ public class CoursesController {
     return "redirect:/student/courses" + queryParam;
   }
 
-  @GetMapping("/courses/create")
+  @GetMapping("/admin/create-course")
   @PreAuthorize("hasAuthority('ADMIN')")
   public String getCreateCoursePage(Model model) {
     CreateCourseDto createCourseDto = new CreateCourseDto();
@@ -167,7 +167,7 @@ public class CoursesController {
     return "admin/createCourse";
   }
 
-  @PostMapping("/courses/create")
+  @PostMapping("/admin/create-course")
   @PreAuthorize("hasAuthority('ADMIN')")
   public String create(
     @Valid CreateCourseDto createCourseDto,
@@ -177,68 +177,68 @@ public class CoursesController {
     try {
       if (bindingResult.hasErrors()) {
         redirectAttributes.addFlashAttribute("createCourseDtoBindingResult", bindingResult);
-        return "redirect:/courses/create";
+        return "redirect:/admin/create-course";
       }
 
       coursesService.create(createCourseDto);
 
       redirectAttributes.addFlashAttribute("success", "Курс был создан успешно");
-      return "redirect:/courses/create";
+      return "redirect:/admin/create-course";
     } catch (Exception e) {
       redirectAttributes.addFlashAttribute("error", e.getMessage());
-      return "redirect:/courses/create";
+      return "redirect:/admin/create-course";
     }
   }
 
-  @GetMapping("/courses/assign")
+  @GetMapping("/admin/assign-course")
   @PreAuthorize("hasAuthority('ADMIN')")
   public String getAssignCoursePage(AssignCourseDto assignCourseDto, Model model) {
     model.addAttribute("org.springframework.validation.BindingResult.assignCourseDto", model.asMap().get("assignCourseDtoBindingResult"));
     return "admin/assignCourse";
   }
 
-  @PostMapping("/courses/assign")
+  @PostMapping("/admin/assign-course")
   @PreAuthorize("hasAuthority('ADMIN')")
   public String assign(@Valid AssignCourseDto assignCourseDto, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
     try {
       if (bindingResult.hasErrors()) {
         redirectAttributes.addFlashAttribute("assignCourseDtoBindingResult", bindingResult);
-        return "redirect:/courses/assign";
+        return "redirect:/admin/assign-course";
       }
 
       coursesService.assign(assignCourseDto);
 
       redirectAttributes.addFlashAttribute("success", "Курс был назначен успешно");
-      return "redirect:/courses/assign";
+      return "redirect:/admin/assign-course";
     } catch (Exception e) {
       redirectAttributes.addFlashAttribute("error", e.getMessage());
-      return "redirect:/courses/assign";
+      return "redirect:/admin/assign-course";
     }
   }
 
-  @GetMapping("/courses/assign/teacher")
+  @GetMapping("/admin/assign-teacher")
   @PreAuthorize("hasAuthority('ADMIN')")
   public String getAssignTeacherPage(AssignTeacherDto assignTeacherDto, Model model) {
     model.addAttribute("org.springframework.validation.BindingResult.assignTeacherDto", model.asMap().get("assignTeacherDtoBindingResult"));
     return "admin/assignTeacher";
   }
 
-  @PostMapping("/courses/assign/teacher")
+  @PostMapping("/admin/assign-teacher")
   @PreAuthorize("hasAuthority('ADMIN')")
   public String assignTeacher(@Valid AssignTeacherDto assignTeacherDto, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
     try {
       if (bindingResult.hasErrors()) {
         redirectAttributes.addFlashAttribute("assignTeacherDtoBindingResult", bindingResult);
-        return "redirect:/courses/assign/teacher";
+        return "redirect:/admin/assign-teacher";
       }
 
       coursesService.assignTeacher(assignTeacherDto);
 
       redirectAttributes.addFlashAttribute("success", "Преподаватель был назначен успешно");
-      return "redirect:/courses/assign/teacher";
+      return "redirect:/admin/assign-teacher";
     } catch (Exception e) {
       redirectAttributes.addFlashAttribute("error", e.getMessage());
-      return "redirect:/courses/assign/teacher";
+      return "redirect:/admin/assign-teacher";
     }
   }
 
