@@ -39,7 +39,7 @@ public class CoursesController {
   private final CoursesService coursesService;
   private final LessonsService lessonsService;
 
-  @GetMapping("/courses/teacher/{id}/create/lesson")
+  @GetMapping("/teacher/courses/{id}/create-lesson")
   @PreAuthorize("hasAuthority('TEACHER')")
   public String getCreateLessonPage(CreateLessonDto createLessonDto, Model model) {
     model.addAttribute("org.springframework.validation.BindingResult.createLessonDto", model.asMap().get("createLessonDtoBindingResult"));
@@ -47,7 +47,7 @@ public class CoursesController {
     return "teacher/createLesson";
   }
 
-  @PostMapping("/courses/teacher/{id}/create/lesson")
+  @PostMapping("/teacher/courses/{id}/create-lesson")
   @PreAuthorize("hasAuthority('TEACHER')")
   public String createLesson(
     @PathVariable("id") Long id,
@@ -58,20 +58,20 @@ public class CoursesController {
     try {
       if (bindingResult.hasErrors()) {
         redirectAttributes.addFlashAttribute("createLessonDtoBindingResult", bindingResult);
-        return "redirect:/courses/teacher/" + id + "/create/lesson";
+        return "redirect:/courses/teacher/" + id + "/create-lesson";
       }
 
       lessonsService.create(createLessonDto, id);
 
       redirectAttributes.addFlashAttribute("success", "Урок был создан успешно");
-      return "redirect:/courses/teacher/" + id + "/create/lesson";
+      return "redirect:/courses/teacher/" + id + "/create-lesson";
     } catch (Exception e) {
       redirectAttributes.addFlashAttribute("error", e.getMessage());
-      return "redirect:/courses/teacher/" + id + "/create/lesson";
+      return "redirect:/courses/teacher/" + id + "/create-lesson";
     }
   }
 
-  @GetMapping("/courses/teacher/{id}")
+  @GetMapping("/teacher/courses/{id}")
   @PreAuthorize("hasAuthority('TEACHER')")
   public String getTeacherCourse(@PathVariable("id") Long id, Model model) {
     Course teacherCourse = coursesService.getTeacherCourse(id);
@@ -85,7 +85,7 @@ public class CoursesController {
     return "teacher/course";
   }
 
-  @PostMapping("/courses/teacher/{id}")
+  @PostMapping("/teacher/courses/{id}")
   @PreAuthorize("hasAuthority('TEACHER')")
   public String editCourseNote(
     @PathVariable("id") Long id,
@@ -109,7 +109,7 @@ public class CoursesController {
     }
   }
 
-  @GetMapping("/courses/teacher")
+  @GetMapping("/teacher/courses")
   @PreAuthorize("hasAuthority('TEACHER')")
   public String getTeacherCourses(@AuthenticationPrincipal UserDetailsImpl principal, Pageable pageable, Model model) {
     Long teacherId = principal.getUserData().getId();
@@ -122,7 +122,7 @@ public class CoursesController {
     return "teacher/courses";
   }
 
-  @GetMapping("/courses/student/{id}")
+  @GetMapping("/student/courses/{id}")
   @PreAuthorize("hasAuthority('STUDENT')")
   public String getStudentCourse(@PathVariable("id") Long id, Model model) {
     StudentCourseDto studentCourseDto = coursesService.getStudentCourse(id);
@@ -131,7 +131,7 @@ public class CoursesController {
     return "student/course";
   }
 
-  @GetMapping("/courses/student")
+  @GetMapping("/student/courses")
   @PreAuthorize("hasAuthority('STUDENT')")
   public String getStudentCourses(@AuthenticationPrincipal UserDetailsImpl principal, Pageable pageable, Model model) {
     Long studentId = principal.getUserData().getId();

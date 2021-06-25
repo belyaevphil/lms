@@ -15,9 +15,10 @@
         <div class="alert alert-success" role="alert" th:if="${success}" th:text="${success}"></div>
         <div class="alert alert-danger" role="alert" th:if="${error}" th:text="${error}"></div>
         <h1>[[${teacherLessonToGrade.lesson.name}]]</h1>
+        <p><strong>Задание к уроку:</strong> [(${teacherLessonToGrade.lesson.description})]</p>
         <p><strong>Ответ:</strong> [(${teacherLessonToGrade.answer})]</p>
         <form
-          th:action="@{/lessons/teacher/{id}/grade(id=${teacherLessonToGrade.id})}"
+          th:action="@{|/teacher/lessons/${teacherLessonToGrade.id}/grade|}"
           th:object="${gradeAnswerDto}"
           method="post"
           id="gradeAnswerForm"

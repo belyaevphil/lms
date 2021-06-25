@@ -71,8 +71,8 @@ public class LessonsService {
     return studentLessonRepository.findByUserIdAndId(teacherId, lessonId).orElseThrow(() -> new NotFoundException("Такого урока не найдено"));
   }
 
-  public TeacherLessonsToGradeDto getTeacherLessonsToGrade(Long teacherId, Long courseId, Pageable pageable) {
-    Page<Long> idsPage = studentLessonRepository.findAllIdsByTeacherIdAndCourseIdAndStatus(teacherId, courseId, "ожидается проверка", pageable);
+  public TeacherLessonsToGradeDto getTeacherLessonsToGrade(Long teacherId, Pageable pageable) {
+    Page<Long> idsPage = studentLessonRepository.findAllIdsByTeacherIdAndStatus(teacherId, "ожидается проверка", pageable);
     List<StudentLesson> studentLessons = studentLessonRepository.fetchAllByIds(idsPage.getContent());
     TeacherLessonsToGradeDto teacherLessonsToGradeDto = new TeacherLessonsToGradeDto();
     teacherLessonsToGradeDto.setCurrentPage(pageable.getPageNumber() + 1);

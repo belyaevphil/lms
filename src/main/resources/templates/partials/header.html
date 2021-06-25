@@ -34,8 +34,8 @@
                 Студенту
               </a>
               <div class="dropdown-menu" aria-labelledby="studentDropdown">
-                <a class="dropdown-item" th:href="@{/overview/student}">Обзор</a>
-                <a class="dropdown-item" th:href="@{/courses/student}">Мои курсы</a>
+                <a class="dropdown-item" th:href="@{/student/overview}">Обзор</a>
+                <a class="dropdown-item" th:href="@{/student/courses}">Мои курсы</a>
               </div>
             </li>
             <li class="nav-item dropdown" sec:authorize="hasAuthority('TEACHER')">
@@ -52,7 +52,8 @@
               </a>
               <div class="dropdown-menu" aria-labelledby="teacherDropdown">
                 <a class="dropdown-item" th:href="@{/how-to-teach}">Как обучать?</a>
-                <a class="dropdown-item" th:href="@{/courses/teacher}">Курсы</a>
+                <a class="dropdown-item" th:href="@{/teacher/courses}">Курсы</a>
+                <a class="dropdown-item" th:href="@{/teacher/lessons-to-grade}">Проверка заданий</a>
               </div>
             </li>
             <li class="nav-item dropdown" sec:authorize="hasAuthority('ADMIN')">

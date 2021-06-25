@@ -25,7 +25,7 @@
             <div class="text-danger" th:if="${#fields.hasErrors('note')}" th:errors="*{note}"></div>
           </div>
         </form> -->
-        <a class="btn btn-success" th:href="@{|/courses/teacher/${teacherCourse.id}/create/lesson|}"
+        <a class="btn btn-success" th:href="@{|/teacher/courses/${teacherCourse.id}/create-lesson|}"
           >Создать урок</a
         >
         <div class="row mt-4">
@@ -36,7 +36,7 @@
             <div class="card border-0 shadow">
               <div class="card-body">
                 <h5 class="card-title" th:text="${teacherLesson.name}"></h5>
-                <a th:href="@{|/lessons/teacher/${teacherLesson.id}|}">Перейти</a>
+                <a th:href="@{|/teacher/lessons/${teacherLesson.id}|}">Перейти</a>
               </div>
             </div>
           </div>

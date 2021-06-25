@@ -25,7 +25,7 @@
                 <h5 class="card-title">[[${studentLesson.lesson.name}]]</h5>
                 <p class="card-text">Статус: [[${studentLesson.status}]]</p>
                 <p class="card-text">Оценка: [[${studentLesson.grade?: '-'}]]</p>
-                <a th:href="@{|/lessons/${studentLesson.id}|}">Перейти</a>
+                <a th:href="@{|/student/lessons/${studentLesson.id}|}">Перейти</a>
               </div>
             </div>
           </li>

@@ -31,7 +31,7 @@
                   class="card-text text-truncate"
                   th:text="|Средний балл: ${studentCourseDto.averageGrade?: '0'}|"
                 ></p>
-                <a th:href="@{|/courses/student/${studentCourseDto.studentCourse.id}|}">Перейти</a>
+                <a th:href="@{|/student/courses/${studentCourseDto.studentCourse.id}|}">Перейти</a>
               </div>
             </div>
           </li>

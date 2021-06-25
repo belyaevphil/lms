@@ -21,7 +21,7 @@
             <div class="card border-0 shadow">
               <div class="card-body">
                 <h5 class="card-title" th:text="${teacherLessonToGrade.lesson.name}"></h5>
-                <a th:href="@{|/lessons/teacher/${teacherLessonToGrade.id}/grade|}">Перейти</a>
+                <a th:href="@{|/teacher/lessons-to-grade/${teacherLessonToGrade.id}|}">Перейти</a>
               </div>
             </div>
           </li>

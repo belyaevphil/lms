@@ -126,7 +126,7 @@ public class UsersController {
     }
   }
 
-  @GetMapping("/overview/student")
+  @GetMapping("/student/overview")
   @PreAuthorize("hasAuthority('STUDENT')")
   public String getStudentOverviewPage(@AuthenticationPrincipal UserDetailsImpl principal, Model model) {
     Long userId = principal.getUserData().getId();

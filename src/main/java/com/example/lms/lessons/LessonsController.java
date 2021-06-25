@@ -52,7 +52,7 @@ public class LessonsController {
       .body(resource);
   }
 
-  @GetMapping("/lessons/teacher/{id}")
+  @GetMapping("/teacher/lessons/{id}")
   @PreAuthorize("hasAuthority('TEACHER')")
   public String getTeacherLesson(@PathVariable("id") Long id, Model model) {
     Lesson lesson = lessonsService.get(id);
@@ -66,7 +66,7 @@ public class LessonsController {
     return "teacher/lesson";
   }
 
-  @PostMapping("/lessons/teacher/{id}")
+  @PostMapping("/teacher/lessons/{id}")
   @PreAuthorize("hasAuthority('TEACHER')")
   public String edit(
     @PathVariable("id") Long id,
@@ -77,24 +77,24 @@ public class LessonsController {
     try {
       if (bindingResult.hasErrors()) {
         redirectAttributes.addFlashAttribute("editLessonDtoBindingResult", bindingResult);
-        return "redirect:/lessons/teacher/" + id;
+        return "redirect:/teacher/lessons/" + id;
       }
 
       lessonsService.edit(id, editLessonDto);
 
       redirectAttributes.addFlashAttribute("success", "Урок был отредактирован успешно");
-      return "redirect:/lessons/teacher/" + id;
+      return "redirect:/teacher/lessons/" + id;
     } catch (Exception e) {
       redirectAttributes.addFlashAttribute("error", e.getMessage());
-      return "redirect:/lessons/teacher/" + id;
+      return "redirect:/teacher/lessons/" + id;
     }
   }
 
-  @GetMapping("/lessons/teacher/{id}/grade")
+  @GetMapping("/teacher/lessons-to-grade/{lessonId}")
   @PreAuthorize("hasAuthority('TEACHER')")
-  public String getTeacherLessonToGrade(@AuthenticationPrincipal UserDetailsImpl principal, @PathVariable("id") Long id, Model model) {
+  public String getTeacherLessonToGrade(@AuthenticationPrincipal UserDetailsImpl principal, @PathVariable Long lessonId, Model model) {
     Long teacherId = principal.getUserData().getId();
-    StudentLesson teacherLessonToGrade = lessonsService.getTeacherLessonToGrade(teacherId, id);
+    StudentLesson teacherLessonToGrade = lessonsService.getTeacherLessonToGrade(teacherId, lessonId);
     GradeAnswerDto gradeAnswerDto = new GradeAnswerDto();
     int gradePlaceholder = 5;
     gradeAnswerDto.setGrade(gradePlaceholder);
@@ -105,11 +105,11 @@ public class LessonsController {
     return "teacher/lessonToGrade";
   }
 
-  @PostMapping("/lessons/teacher/{id}/grade")
+  @PostMapping("/teacher/lessons-to-grade/{lessonId}")
   @PreAuthorize("hasAuthority('TEACHER')")
   public String grade(
     @AuthenticationPrincipal UserDetailsImpl principal,
-    @PathVariable("id") Long id,
+    @PathVariable Long id,
     @Valid GradeAnswerDto gradeAnswerDto,
     BindingResult bindingResult,
     RedirectAttributes redirectAttributes
@@ -117,7 +117,7 @@ public class LessonsController {
     try {
       if (bindingResult.hasErrors()) {
         redirectAttributes.addFlashAttribute("gradeAnswerDtoBindingResult", bindingResult);
-        return "redirect:/lessons/teacher/" + id + "/grade";
+        return "redirect:/teacher//lessons-to-grade/" + id;
       }
 
       Long teacherId = principal.getUserData().getId();
@@ -126,23 +126,22 @@ public class LessonsController {
       lessonsService.grade(teacherLessonToGrade, gradeAnswerDto);
 
       redirectAttributes.addFlashAttribute("success", "Оценка была выставлена успешно");
-      return "redirect:/lessons/teacher/" + id + "/grade";
+      return "redirect:/teacher//lessons-to-grade/" + id;
     } catch (Exception e) {
       redirectAttributes.addFlashAttribute("error", e.getMessage());
-      return "redirect:/lessons/teacher/" + id + "/grade";
+      return "redirect:/teacher//lessons-to-grade/" + id;
     }
   }
 
-  @GetMapping("/courses/teacher/{id}/grade")
+  @GetMapping("/teacher/lessons-to-grade")
   @PreAuthorize("hasAuthority('TEACHER')")
   public String getTeacherLessonsToGrade(
     @AuthenticationPrincipal UserDetailsImpl principal,
     Pageable pageable,
-    @PathVariable("id") Long courseId,
     Model model
   ) {
     Long teacherId = principal.getUserData().getId();
-    TeacherLessonsToGradeDto teacherLessonsToGradeDto = lessonsService.getTeacherLessonsToGrade(teacherId, courseId, pageable);
+    TeacherLessonsToGradeDto teacherLessonsToGradeDto = lessonsService.getTeacherLessonsToGrade(teacherId, pageable);
 
     model.addAttribute("currentPage", teacherLessonsToGradeDto.getCurrentPage());
     model.addAttribute("totalPages", teacherLessonsToGradeDto.getTotalPages());
@@ -151,7 +150,7 @@ public class LessonsController {
     return "teacher/lessonsToGrade";
   }
 
-  @GetMapping("/lessons/{id}")
+  @GetMapping("/student/lessons/{id}")
   @PreAuthorize("hasAuthority('STUDENT')")
   public String getStudentLesson(@PathVariable("id") Long id, Model model) {
     StudentLesson studentLesson = lessonsService.getStudentLesson(id);
@@ -164,7 +163,7 @@ public class LessonsController {
     return "student/lesson";
   }
 
-  @PostMapping("/lessons/{id}")
+  @PostMapping("/student/lessons/{id}")
   @PreAuthorize("hasAuthority('STUDENT')")
   public String addAnswer(
     @PathVariable("id") Long id,
@@ -175,16 +174,16 @@ public class LessonsController {
     try {
       if (bindingResult.hasErrors()) {
         redirectAttributes.addFlashAttribute("addAnswerDtoBindingResult", bindingResult);
-        return "redirect:/lessons/" + id;
+        return "redirect:/student/lessons/" + id;
       }
 
       lessonsService.addAnswer(id, addAnswerDto);
 
       redirectAttributes.addFlashAttribute("success", "Ответ был добавлен успешно");
-      return "redirect:/lessons/" + id;
+      return "redirect:/student/lessons/" + id;
     } catch (Exception e) {
       redirectAttributes.addFlashAttribute("error", e.getMessage());
-      return "redirect:/lessons/" + id;
+      return "redirect:/student/lessons/" + id;
     }
   }
 }
