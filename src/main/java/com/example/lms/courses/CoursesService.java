@@ -89,8 +89,8 @@ public class CoursesService {
     return convertStudentCourseToDto(studentCourse);
   }
 
-  public StudentCoursesDto getStudentCourses(Long studentId, Pageable pageable) {
-    Page<Long> idsPage = studentsCoursesRepository.findAllIdsByStudentId(studentId, pageable);
+  public StudentCoursesDto getStudentCourses(String queryParam, Long studentId, Pageable pageable) {
+    Page<Long> idsPage = studentsCoursesRepository.findAllIdsCourseNameContainingByStudentId(queryParam, studentId, pageable);
     List<StudentCourseDto> studentCourses = studentsCoursesRepository.fetchAllByIds(idsPage.getContent())
       .stream().map(studentCourse -> convertStudentCourseToDto(studentCourse)).collect(Collectors.toList());
     StudentCoursesDto studentCoursesDto = new StudentCoursesDto();

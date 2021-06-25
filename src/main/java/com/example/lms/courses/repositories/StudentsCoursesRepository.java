@@ -22,8 +22,8 @@ public interface StudentsCoursesRepository extends JpaRepository<StudentCourse, 
 
   public List<StudentCourse> findAllByCourseId(Long courseId);
 
-  @Query("SELECT sc.id FROM StudentCourse sc LEFT JOIN sc.user u WHERE u.id = :id")
-  public Page<Long> findAllIdsByStudentId(Long id, Pageable pageable);
+  @Query("SELECT sc.id FROM StudentCourse sc LEFT JOIN sc.course c LEFT JOIN sc.user u WHERE c.name LIKE %:name% AND u.id = :id")
+  public Page<Long> findAllIdsCourseNameContainingByStudentId(String name, Long id, Pageable pageable);
 
   @Query("SELECT DISTINCT sc FROM StudentCourse sc LEFT JOIN FETCH sc.studentLessons sl LEFT JOIN FETCH sc.course c WHERE sc.id IN :ids")
   public List<StudentCourse> fetchAllByIds(List<Long> ids);

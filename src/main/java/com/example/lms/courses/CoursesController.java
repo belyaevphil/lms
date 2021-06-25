@@ -133,15 +133,28 @@ public class CoursesController {
 
   @GetMapping("/student/courses")
   @PreAuthorize("hasAuthority('STUDENT')")
-  public String getStudentCourses(@AuthenticationPrincipal UserDetailsImpl principal, Pageable pageable, Model model) {
+  public String getStudentCourses(
+    @AuthenticationPrincipal UserDetailsImpl principal,
+    Pageable pageable,
+    @RequestParam(required = false) String query,
+    Model model
+  ) {
+    String queryParam = query != null ? query : "";
     Long studentId = principal.getUserData().getId();
-    StudentCoursesDto studentCoursesDto = coursesService.getStudentCourses(studentId, pageable);
+    StudentCoursesDto studentCoursesDto = coursesService.getStudentCourses(queryParam, studentId, pageable);
 
     model.addAttribute("currentPage", studentCoursesDto.getCurrentPage());
     model.addAttribute("totalPages", studentCoursesDto.getTotalPages());
     model.addAttribute("totalElements", studentCoursesDto.getTotalElements());
     model.addAttribute("studentCoursesDto", studentCoursesDto.getStudentCourseDtos());
+    model.addAttribute("query", query);
     return "student/courses";
+  }
+
+  @PostMapping("/student/courses")
+  public String setStudentCoursesFilter(@RequestParam(required = false) String queryFilter) throws UnsupportedEncodingException {
+    String queryParam = queryFilter.equals("") ? "" : "?query=" + URLEncoder.encode(queryFilter, "UTF-8");
+    return "redirect:/student/courses" + queryParam;
   }
 
   @GetMapping("/courses/create")

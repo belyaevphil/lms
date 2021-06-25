@@ -16,11 +16,9 @@
         </button>
         <div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent">
           <ul class="navbar-nav">
-            <li class="nav-item">
+            <!-- <li class="nav-item">
               <a class="nav-link" th:href="@{/how-to-learn}">Как учиться?</a>
-            </li>
-          </ul>
-          <ul class="navbar-nav">
+            </li> -->
             <li class="nav-item dropdown" sec:authorize="hasAuthority('TEACHER')">
               <a
                 class="nav-link dropdown-toggle"
@@ -51,7 +49,7 @@
                 Преподавателю
               </a>
               <div class="dropdown-menu" aria-labelledby="teacherDropdown">
-                <a class="dropdown-item" th:href="@{/how-to-teach}">Как обучать?</a>
+                <!-- <a class="dropdown-item" th:href="@{/how-to-teach}">Как обучать?</a> -->
                 <a class="dropdown-item" th:href="@{/teacher/courses}">Курсы</a>
                 <a class="dropdown-item" th:href="@{/teacher/lessons-to-grade}">Проверка заданий</a>
               </div>
@@ -76,6 +74,8 @@
                 <a class="dropdown-item" th:href="@{/courses/create}">Создать курс</a>
               </div>
             </li>
+          </ul>
+          <ul class="navbar-nav">
             <li class="nav-item dropdown" sec:authorize="hasAuthority('STUDENT')">
               <a
                 class="nav-link dropdown-toggle"
@@ -86,7 +86,8 @@
                 aria-haspopup="true"
                 aria-expanded="false"
               >
-                [[${#authentication.principal.username}]]
+                [[${#authentication.principal.userData.firstName}]]
+                [[${#authentication.principal.userData.lastName}]]
               </a>
               <div class="dropdown-menu" aria-labelledby="profileDropdown">
                 <a class="dropdown-item" th:href="@{/profile}">Мой профиль</a>
