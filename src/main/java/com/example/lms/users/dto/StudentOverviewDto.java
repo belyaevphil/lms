@@ -10,5 +10,6 @@ public class StudentOverviewDto {
   private Integer lessonsCount;
   private Integer completedLessonsCount;
   private Integer idlingLessonsCount;
+  private Integer completeness;
   private Float averageGrade;
 }

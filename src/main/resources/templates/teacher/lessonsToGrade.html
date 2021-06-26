@@ -14,7 +14,7 @@
       <div class="container">
         <h1>Задания для проверки</h1>
         <form method="post">
-          <div class="input-group">
+          <div class="input-group mb-3">
             <input
               class="form-control"
               name="queryFilter"
@@ -27,14 +27,19 @@
             </div>
           </div>
         </form>
-        <ul class="row mt-4 list-unstyled">
+        <p th:if="${teacherLessonsToGrade.isEmpty()}">Не найдено ни одного задания</p>
+        <ul class="row mt-4 list-unstyled" th:if="${!teacherLessonsToGrade.isEmpty()}">
           <li
             class="col-12 col-md-6 col-xl-4 mb-4"
             th:each="teacherLessonToGrade : ${teacherLessonsToGrade}"
           >
             <div class="card border-0 shadow">
               <div class="card-body">
-                <h5 class="card-title" th:text="${teacherLessonToGrade.lesson.name}"></h5>
+                <h5 class="card-title">[[${teacherLessonToGrade.lesson.name}]]</h5>
+                <p class="card-text text-truncate">
+                  Выполнил: [[${teacherLessonToGrade.studentCourse.user.lastName}]]
+                  [[${teacherLessonToGrade.studentCourse.user.firstName}]]
+                </p>
                 <a th:href="@{|/teacher/lessons-to-grade/${teacherLessonToGrade.id}|}">Перейти</a>
               </div>
             </div>

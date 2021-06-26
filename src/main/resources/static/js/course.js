@@ -1,6 +1,6 @@
 $(document).ready(function () {
   $('#description').summernote({
-    height: 500,
+    height: 1000,
     placeholder: 'Описание курса',
     lang: 'ru-RU',
     toolbar: [

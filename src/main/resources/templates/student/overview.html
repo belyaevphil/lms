@@ -40,10 +40,7 @@
           <li class="col-12 col-md-6 col-xl-4 mb-4">
             <div class="card border-0 shadow">
               <div class="card-body">
-                <h3 class="card-title">
-                  [[${studentOverviewDto.completedCoursesCount / studentOverviewDto.coursesCount *
-                  100}]]%
-                </h3>
+                <h3 class="card-title">[[${studentOverviewDto.completeness}]] &#37;</h3>
                 <p class="card-text">Общая завершенность курсов</p>
               </div>
             </div>
@@ -81,50 +78,6 @@
             </div>
           </li>
         </ul>
-        <!-- <ul class="row mt-4 list-unstyled">
-          <li class="col-12 col-md-6 col-xl-4 mb-4">
-              <div class="card border-0 shadow">
-                <div class="card-body">
-                  <div class="card-title d-flex justify-content-between">
-                    <div>Общая завершенность курсов</div>
-                    <h6>
-                      [[${studentOverviewDto.completedCoursesCount / studentOverviewDto.coursesCount * 100}]]%
-                    </h6>
-                  </div>
-                  <div class="progress">
-                    <div
-                      class="progress-bar"
-                      role="progressbar"
-                      th:style="|width: ${studentOverviewDto.completedCoursesCount / studentOverviewDto.coursesCount * 100}%|"
-                      th:aria-valuenow="${studentOverviewDto.completedCoursesCount / studentOverviewDto.coursesCount * 100}"
-                      aria-valuemin="0"
-                      aria-valuemax="100"
-                    ></div>
-                  </div>
-                </div>
-              </div>
-          </li>
-          <li class="col-12 col-md-6 col-xl-4 mb-4">
-            <div class="card border-0 shadow">
-              <div class="card-body">
-                <div class="card-title d-flex justify-content-between">
-                  <div>Средний балл</div>
-                  <h6>[[${studentOverviewDto.averageGrade}]]</h6>
-                </div>
-                <div class="progress">
-                  <div
-                    class="progress-bar"
-                    role="progressbar"
-                    th:style="|width: ${studentOverviewDto.averageGrade / 5 * 100}%|"
-                    th:aria-valuenow="${studentOverviewDto.averageGrade / 5 * 100}"
-                    aria-valuemin="0"
-                    aria-valuemax="100"
-                  ></div>
-                </div>
-              </div>
-            </div>
-          </li>
-        </ul> -->
       </div>
     </main>
     <th:block th:replace="partials/footer :: footer"></th:block>

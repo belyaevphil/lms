@@ -17,13 +17,13 @@ public interface StudentLessonRepository extends JpaRepository<StudentLesson, Lo
   public Optional<StudentLesson> findByIdWithLessonFiles(Long id);
 
   @Query("FROM StudentLesson sl LEFT JOIN FETCH sl.lesson l LEFT JOIN FETCH sl.studentCourse sc LEFT JOIN FETCH sc.course c" + " " +
-    "LEFT JOIN c.teachers t LEFT JOIN t.user u WHERE u.id = :teacherId AND sl.id = :lessonId")
+    "LEFT JOIN c.teachers t LEFT JOIN FETCH t.user u WHERE u.id = :teacherId AND sl.id = :lessonId")
   public Optional<StudentLesson> findByUserIdAndId(Long teacherId, Long lessonId);
 
   @Query("SELECT sl.id FROM StudentLesson sl LEFT JOIN sl.lesson l LEFT JOIN sl.studentCourse sc LEFT JOIN sc.course c" + " " +
     "LEFT JOIN c.teachers t LEFT JOIN t.user u WHERE l.name LIKE %:name% AND u.id = :teacherId AND sl.status = :status")
   public Page<Long> findAllIdsByLessonNameContainingAndTeacherIdAndStatus(String name, Long teacherId, String status, Pageable pageable);
 
-  @Query("SELECT DISTINCT sl FROM StudentLesson sl LEFT JOIN FETCH sl.lesson l WHERE sl.id IN :ids")
+  @Query("SELECT DISTINCT sl FROM StudentLesson sl LEFT JOIN FETCH sl.lesson l LEFT JOIN FETCH sl.studentCourse sc LEFT JOIN FETCH sc.user u WHERE sl.id IN :ids")
   public List<StudentLesson> fetchAllByIds(List<Long> ids);
 }

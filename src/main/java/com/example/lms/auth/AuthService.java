@@ -37,14 +37,14 @@ public class AuthService {
     }
   }
 
-  @Transactional(rollbackFor = Throwable.class)
+  @Transactional(rollbackFor = Exception.class)
   public void signup(SignupDto signupDto) {
     if (!signupDto.getPassword().equals(signupDto.getConfirmPassword())) {
       throw new BadRequestException("Пароли не совпадают");
     }
 
     usersRepository.findByUsername(signupDto.getUsername()).ifPresent(candidate -> {
-      throw new BadRequestException("Имя пользователя уже существует");
+      throw new BadRequestException("Такой пользователь уже существует");
     });
 
     User newUser = new User();

@@ -13,7 +13,7 @@
         <h1>Добро пожаловать</h1>
         <p>Здесь вы можете выбрать курс и продолжить дальнейшее обучение вместе с нами</p>
         <form method="post">
-          <div class="input-group">
+          <div class="input-group mb-3">
             <input
               class="form-control"
               name="queryFilter"
@@ -26,6 +26,7 @@
             </div>
           </div>
         </form>
+        <p th:if="${courses.isEmpty()}">У вас пока нет курсов</p>
         <ul class="row mt-4 list-unstyled" th:if="${!courses.isEmpty()}">
           <li class="col-12 col-md-6 col-xl-4 mb-4" th:each="course : ${courses}">
             <div class="card border-0 shadow">

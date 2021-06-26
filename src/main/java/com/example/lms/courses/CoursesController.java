@@ -58,16 +58,16 @@ public class CoursesController {
     try {
       if (bindingResult.hasErrors()) {
         redirectAttributes.addFlashAttribute("createLessonDtoBindingResult", bindingResult);
-        return "redirect:/courses/teacher/" + id + "/create-lesson";
+        return "redirect:/teacher/courses/" + id + "/create-lesson";
       }
 
       lessonsService.create(createLessonDto, id);
 
       redirectAttributes.addFlashAttribute("success", "Урок был создан успешно");
-      return "redirect:/courses/teacher/" + id + "/create-lesson";
+      return "redirect:/teacher/courses/" + id + "/create-lesson";
     } catch (Exception e) {
       redirectAttributes.addFlashAttribute("error", e.getMessage());
-      return "redirect:/courses/teacher/" + id + "/create-lesson";
+      return "redirect:/teacher/courses/" + id + "/create-lesson";
     }
   }
 
@@ -152,6 +152,7 @@ public class CoursesController {
   }
 
   @PostMapping("/student/courses")
+  @PreAuthorize("hasAuthority('STUDENT')")
   public String setStudentCoursesFilter(@RequestParam(required = false) String queryFilter) throws UnsupportedEncodingException {
     String queryParam = queryFilter.equals("") ? "" : "?query=" + URLEncoder.encode(queryFilter, "UTF-8");
     return "redirect:/student/courses" + queryParam;

@@ -18,6 +18,7 @@ import com.example.lms.users.dto.StudentOverviewDto;
 import com.example.lms.users.entities.User;
 import com.example.lms.users.repositories.UsersRepository;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -26,6 +27,9 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class UsersService {
+  @Value("${uploads.path}")
+  private String uploadsPath;
+
   private final UsersRepository usersRepository;
   private final StudentsCoursesRepository studentsCoursesRepository;
   private final AuthService authService;
@@ -49,10 +53,10 @@ public class UsersService {
     if (!firstFileName.isEmpty()) {
       String imageUrl = UUID.randomUUID() + "-" + image.getOriginalFilename();
       if (!Objects.isNull(user.getImageUrl())) {
-        Files.delete(Path.of("D:/Desktop/Phil/projects/Java/uploads/images/profile/" + user.getImageUrl()));
+        Files.delete(Path.of(uploadsPath + "/images/profile/" + user.getImageUrl()));
       }
       Files
-        .copy(image.getInputStream(), Path.of("D:/Desktop/Phil/projects/Java/uploads/images/profile/" + imageUrl), StandardCopyOption.REPLACE_EXISTING);
+        .copy(image.getInputStream(), Path.of(uploadsPath + "/images/profile/" + imageUrl), StandardCopyOption.REPLACE_EXISTING);
       user.setImageUrl(imageUrl);
     }
 
@@ -62,7 +66,7 @@ public class UsersService {
   }
 
   public void deleteProfileImage(User user) throws IOException {
-    Files.delete(Path.of("D:/Desktop/Phil/projects/Java/uploads/images/profile/" + user.getImageUrl()));
+    Files.delete(Path.of(uploadsPath + "/images/profile/" + user.getImageUrl()));
     user.setImageUrl(null);
     usersRepository.save(user);
 
@@ -96,6 +100,9 @@ public class UsersService {
       .collect(Collectors.toList()).size())
     .reduce(0, (acc, count) -> acc + count);
 
+    int isCoursesCountZero = coursesCount == 0 ? 1 : coursesCount;
+    int completeness = Math.round((float)completedCoursesCount / isCoursesCountZero * 100);
+
     int sumOfAllLessonsGrades = studentCourses.stream().map(studentCourse -> studentCourse.getStudentLessons().stream()
       .map(studentLesson -> studentLesson.getGrade()).filter(grade -> Objects.nonNull(grade)).reduce(0, (acc, grade) -> acc + grade))
       .reduce(0, (acc, count) -> acc + count);
@@ -112,6 +119,7 @@ public class UsersService {
     studentOverviewDto.setLessonsCount(lessonsCount);
     studentOverviewDto.setCompletedLessonsCount(completedLessonsCount);
     studentOverviewDto.setIdlingLessonsCount(idlingLessonsCount);
+    studentOverviewDto.setCompleteness(completeness);
     studentOverviewDto.setAverageGrade(averageGrade);
     return studentOverviewDto;
   }

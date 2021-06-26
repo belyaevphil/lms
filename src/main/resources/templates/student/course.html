@@ -15,7 +15,13 @@
         <h1>[[${studentCourseDto.studentCourse.course.name}]]</h1>
         <p><strong>Завершенность:</strong> [[${studentCourseDto.completeness}]] &#37;</p>
         <p><strong>Средний балл:</strong> [[${studentCourseDto.averageGrade?: '0'}]]</p>
-        <ul class="row mt-4 list-unstyled">
+        <p th:if="${studentCourseDto.studentCourse.studentLessons.isEmpty()}">
+          Пока не добавлено ни одного урока
+        </p>
+        <ul
+          class="row mt-4 list-unstyled"
+          th:if="${!studentCourseDto.studentCourse.studentLessons.isEmpty()}"
+        >
           <li
             class="col-12 col-md-6 col-xl-4 mb-4"
             th:each="studentLesson : ${studentCourseDto.studentCourse.studentLessons}"

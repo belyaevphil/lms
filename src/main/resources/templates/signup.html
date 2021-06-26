@@ -12,9 +12,9 @@
 
     <main>
       <div class="container">
-        <h1>Создание аккаунта</h1>
         <div class="alert alert-success" role="alert" th:if="${success}" th:text="${success}"></div>
         <div class="alert alert-danger" role="alert" th:if="${error}" th:text="${error}"></div>
+        <h1>Создание аккаунта</h1>
         <form th:object="${signupDto}" method="post" id="signupForm">
           <div class="form-group">
             <label for="username">Имя пользователя</label>

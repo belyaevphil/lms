@@ -14,7 +14,7 @@
       <div class="container">
         <h1>Курсы</h1>
         <form method="post">
-          <div class="input-group">
+          <div class="input-group mb-3">
             <input
               class="form-control"
               name="queryFilter"
@@ -27,7 +27,7 @@
             </div>
           </div>
         </form>
-        <p th:if="${studentCoursesDto.isEmpty()}">У вас пока нет курсов</p>
+        <p th:if="${studentCoursesDto.isEmpty()}">Не найдено ни одного курса</p>
         <ul class="row mt-4 list-unstyled" th:if="${!studentCoursesDto.isEmpty()}">
           <li class="col-12 col-md-6 col-xl-4 mb-4" th:each="studentCourseDto : ${studentCoursesDto}">
             <div class="card border-0 shadow">

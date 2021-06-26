@@ -109,7 +109,7 @@ public class LessonsController {
   @PreAuthorize("hasAuthority('TEACHER')")
   public String grade(
     @AuthenticationPrincipal UserDetailsImpl principal,
-    @PathVariable Long id,
+    @PathVariable Long lessonId,
     @Valid GradeAnswerDto gradeAnswerDto,
     BindingResult bindingResult,
     RedirectAttributes redirectAttributes
@@ -117,19 +117,19 @@ public class LessonsController {
     try {
       if (bindingResult.hasErrors()) {
         redirectAttributes.addFlashAttribute("gradeAnswerDtoBindingResult", bindingResult);
-        return "redirect:/teacher//lessons-to-grade/" + id;
+        return "redirect:/teacher/lessons-to-grade/" + lessonId;
       }
 
       Long teacherId = principal.getUserData().getId();
-      StudentLesson teacherLessonToGrade = lessonsService.getTeacherLessonToGrade(teacherId, id);
+      StudentLesson teacherLessonToGrade = lessonsService.getTeacherLessonToGrade(teacherId, lessonId);
 
       lessonsService.grade(teacherLessonToGrade, gradeAnswerDto);
 
       redirectAttributes.addFlashAttribute("success", "Оценка была выставлена успешно");
-      return "redirect:/teacher//lessons-to-grade/" + id;
+      return "redirect:/teacher/lessons-to-grade/" + lessonId;
     } catch (Exception e) {
       redirectAttributes.addFlashAttribute("error", e.getMessage());
-      return "redirect:/teacher//lessons-to-grade/" + id;
+      return "redirect:/teacher/lessons-to-grade/" + lessonId;
     }
   }
 

@@ -15,7 +15,7 @@
         <div class="alert alert-success" role="alert" th:if="${success}" th:text="${success}"></div>
         <div class="alert alert-danger" role="alert" th:if="${error}" th:text="${error}"></div>
         <h1>[[${course.name}]]</h1>
-        <img class="img-thumbnail mb-2" th:src="@{|/uploads/images/course/${course.imageUrl?: 'default.png'}|}" th:alt="${course.name}">
+        <img class="img-thumbnail mb-2" th:src="@{|/uploads/images/course/${course.imageUrl?: 'default.jpg'}|}" th:alt="${course.name}">
         <th:block sec:authorize="hasAuthority('ADMIN')">
           <form class="mb-3" th:object="${changeCourseImageDto}" method="post" th:action="@{|/courses/${course.id}/change/image|}" enctype="multipart/form-data">
             <div class="form-group">

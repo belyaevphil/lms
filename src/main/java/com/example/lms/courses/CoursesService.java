@@ -38,6 +38,7 @@ import com.example.lms.users.repositories.TeachersRepository;
 import com.example.lms.users.repositories.UsersRepository;
 import com.example.lms.users.repositories.UsersRolesRepository;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -49,6 +50,9 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class CoursesService {
+  @Value("${uploads.path}")
+  private String uploadsPath;
+
   private final CoursesRepository coursesRepository;
   private final UsersRepository usersRepository;
   private final StudentsCoursesRepository studentsCoursesRepository;
@@ -70,7 +74,8 @@ public class CoursesService {
     int lessonsCount = studentCourse.getStudentLessons().size();
     studentCourseResponseDto.setLessonsCount(lessonsCount);
 
-    int completeness = Math.round((float)completedLessonsCount / lessonsCount * 100);
+    int isLessonsCountZero = lessonsCount == 0 ? 1 : lessonsCount;
+    int completeness = Math.round((float)completedLessonsCount / isLessonsCountZero * 100);
     studentCourseResponseDto.setCompleteness(completeness);
 
     int sumOfAllLessonsGrades = studentCourse.getStudentLessons().stream().map(studentLesson -> studentLesson.getGrade())
@@ -128,10 +133,10 @@ public class CoursesService {
     if (!firstFileName.isEmpty()) {
       String imageUrl = UUID.randomUUID() + "-" + image.getOriginalFilename();
       if (!Objects.isNull(course.getImageUrl())) {
-        Files.delete(Path.of("D:/Desktop/Phil/projects/Java/uploads/images/course/" + course.getImageUrl()));
+        Files.delete(Path.of(uploadsPath + "/images/course/" + course.getImageUrl()));
       }
       Files
-        .copy(image.getInputStream(), Path.of("D:/Desktop/Phil/projects/Java/uploads/images/course/" + imageUrl), StandardCopyOption.REPLACE_EXISTING);
+        .copy(image.getInputStream(), Path.of(uploadsPath + "/images/course/" + imageUrl), StandardCopyOption.REPLACE_EXISTING);
       course.setImageUrl(imageUrl);
     }
 
@@ -140,7 +145,7 @@ public class CoursesService {
 
   public void deleteCourseImage(Long id) throws IOException {
     Course course = coursesRepository.findById(id).orElseThrow(() -> new NotFoundException("Курс не найден"));
-    Files.delete(Path.of("D:/Desktop/Phil/projects/Java/uploads/images/course/" + course.getImageUrl()));
+    Files.delete(Path.of(uploadsPath + "/images/course/" + course.getImageUrl()));
     course.setImageUrl(null);
     coursesRepository.save(course);
   }
@@ -165,7 +170,7 @@ public class CoursesService {
     if (!firstFileName.isEmpty()) {
       String imageUrl = UUID.randomUUID() + "-" + image.getOriginalFilename();
       Files
-        .copy(image.getInputStream(), Path.of("D:/Desktop/Phil/projects/Java/uploads/images/course/" + imageUrl), StandardCopyOption.REPLACE_EXISTING);
+        .copy(image.getInputStream(), Path.of(uploadsPath + "/images/course/" + imageUrl), StandardCopyOption.REPLACE_EXISTING);
       newCourse.setImageUrl(imageUrl);
     }
 
