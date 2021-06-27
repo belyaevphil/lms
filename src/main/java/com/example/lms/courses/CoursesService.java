@@ -125,6 +125,7 @@ public class CoursesService {
   public void changeCourseImage(Long id, ChangeCourseImageDto changeCourseImageDto) throws IOException {
     Course course = coursesRepository.findById(id).orElseThrow(() -> new NotFoundException("Курс не найден"));
 
+    // Spring automatically generates 1 file with empty name, if none was present
     MultipartFile image = changeCourseImageDto.getImage();
     String firstFileName = image.getOriginalFilename();
     if (Objects.isNull(firstFileName)) {

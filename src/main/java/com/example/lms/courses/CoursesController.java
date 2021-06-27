@@ -263,7 +263,6 @@ public class CoursesController {
   }
 
   @GetMapping("/courses/{id}")
-  @PreAuthorize("hasAuthority('STUDENT')")
   public String getCourse(@PathVariable("id") Long id, Model model) {
     Course course = coursesService.getCourse(id);
 

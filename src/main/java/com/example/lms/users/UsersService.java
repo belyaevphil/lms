@@ -45,6 +45,7 @@ public class UsersService {
   }
 
   public void changeProfileImage(User user, ChangeProfileImageDto changeProfileImageDto) throws IOException {
+    // Spring automatically generates 1 file with empty name, if none was present
     MultipartFile image = changeProfileImageDto.getImage();
     String firstFileName = image.getOriginalFilename();
     if (Objects.isNull(firstFileName)) {

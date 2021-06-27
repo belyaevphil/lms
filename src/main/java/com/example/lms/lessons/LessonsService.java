@@ -1,13 +1,6 @@
 package com.example.lms.lessons;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 import com.example.lms.courses.dto.CreateLessonDto;
@@ -21,9 +14,7 @@ import com.example.lms.lessons.dto.EditLessonDto;
 import com.example.lms.lessons.dto.GradeAnswerDto;
 import com.example.lms.lessons.dto.TeacherLessonsToGradeDto;
 import com.example.lms.lessons.entities.Lesson;
-import com.example.lms.lessons.entities.LessonFile;
 import com.example.lms.lessons.entities.StudentLesson;
-import com.example.lms.lessons.repositories.LessonFileRepository;
 import com.example.lms.lessons.repositories.LessonRepository;
 import com.example.lms.lessons.repositories.StudentLessonRepository;
 
@@ -31,7 +22,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
 import lombok.RequiredArgsConstructor;
 
@@ -41,7 +31,6 @@ public class LessonsService {
   private final StudentLessonRepository studentLessonRepository;
   private final CoursesRepository coursesRepository;
   private final StudentsCoursesRepository studentsCoursesRepository;
-  private final LessonFileRepository lessonFileRepository;
   private final LessonRepository lessonRepository;
 
   public Lesson get(Long id) {
@@ -83,21 +72,6 @@ public class LessonsService {
     return teacherLessonsToGradeDto;
   }
 
-  // private void saveLessonFiles(MultipartFile[] files, Lesson lesson) throws IOException {
-  //   List<LessonFile> lessonFiles = new ArrayList<>();
-  //   for (MultipartFile file : files) {
-  //     String path = "./uploads/lessons/" + UUID.randomUUID() + "-" + file.getOriginalFilename();
-  //     Files.copy(file.getInputStream(), Path.of(path), StandardCopyOption.REPLACE_EXISTING);
-
-  //     LessonFile lessonFile = new LessonFile();
-  //     lessonFile.setLesson(lesson);
-  //     lessonFile.setOriginalName(file.getOriginalFilename());
-  //     lessonFile.setPath(path);
-  //     lessonFiles.add(lessonFile);
-  //   }
-  //   lessonFileRepository.saveAll(lessonFiles);
-  // }
-
   private void addNewLessonToExistingStudentsCourses(List<StudentCourse> studentsCourses, Lesson lesson) {
     List<StudentLesson> studentsLessons = studentsCourses.stream().map(studentCourse -> {
       StudentLesson studentLesson = new StudentLesson();
@@ -123,16 +97,6 @@ public class LessonsService {
     if (!studentsCourses.isEmpty()) {
       addNewLessonToExistingStudentsCourses(studentsCourses, lesson);
     }
-
-    // Spring automatically generates 1 file with empty name, if none was present
-    // MultipartFile[] files = createLessonDto.getFiles();
-    // String firstFileName = files[0].getOriginalFilename();
-    // if (Objects.isNull(firstFileName)) {
-    //   return;
-    // }
-    // if (!firstFileName.isEmpty()) {
-    //   saveLessonFiles(files, lesson);
-    // }
   }
 
   @Transactional(rollbackFor = Throwable.class)
@@ -141,15 +105,5 @@ public class LessonsService {
     lesson.setName(editLessonDto.getName());
     lesson.setDescription(editLessonDto.getDescription());
     lessonRepository.save(lesson);
-
-    // Spring automatically generates 1 file with empty name, if none was present
-    // MultipartFile[] files = editLessonDto.getFiles();
-    // String firstFileName = files[0].getOriginalFilename();
-    // if (Objects.isNull(firstFileName)) {
-    //   return;
-    // }
-    // if (!firstFileName.isEmpty()) {
-    //   saveLessonFiles(files, lesson);
-    // }
   }
 }

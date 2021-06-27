@@ -38,7 +38,4 @@ public class Lesson {
 
   @OneToMany(mappedBy = "lesson", fetch = FetchType.LAZY)
   private List<StudentLesson> studentLessons;
-
-  @OneToMany(mappedBy = "lesson", fetch = FetchType.LAZY)
-  private List<LessonFile> lessonFiles;
 }
