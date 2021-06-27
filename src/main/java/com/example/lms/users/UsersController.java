@@ -24,16 +24,6 @@ import lombok.RequiredArgsConstructor;
 public class UsersController {
   private final UsersService usersService;
 
-  @GetMapping("/how-to-learn")
-  public String getHowToLearnPage() {
-    return "howToLearn";
-  }
-
-  @GetMapping("/how-to-teach")
-  public String getHowToTeachPage() {
-    return "howToTeach";
-  }
-
   @GetMapping("/profile")
   @PreAuthorize("hasAuthority('STUDENT')")
   public String getProfilePage(@AuthenticationPrincipal UserDetailsImpl principal, Model model) {
