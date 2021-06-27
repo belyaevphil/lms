@@ -1,9 +1,7 @@
 package com.example.lms.lessons;
 
 import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
 import java.net.URLEncoder;
-import java.nio.file.Path;
 
 import javax.validation.Valid;
 
@@ -15,11 +13,7 @@ import com.example.lms.lessons.entities.Lesson;
 import com.example.lms.lessons.entities.StudentLesson;
 import com.example.lms.security.UserDetailsImpl;
 
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -37,20 +31,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class LessonsController {
   private final LessonsService lessonsService;
-
-  @GetMapping("/download")
-  @PreAuthorize("hasAuthority('STUDENT')")
-  public ResponseEntity<Resource> downloadFile(
-    @RequestParam("path") String path,
-    @RequestParam("name") String name
-  ) throws MalformedURLException, UnsupportedEncodingException {
-    Path filePath = Path.of(path);
-    Resource resource = new UrlResource(filePath.toUri());
-    return ResponseEntity.ok()
-      .contentType(MediaType.parseMediaType("application/octet-stream"))
-      .header("Content-Disposition", "attachment; filename=\"" + URLEncoder.encode(name, "UTF-8") + "\"")
-      .body(resource);
-  }
 
   @GetMapping("/teacher/lessons/{id}")
   @PreAuthorize("hasAuthority('TEACHER')")

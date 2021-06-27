@@ -96,16 +96,16 @@ public class CoursesController {
     try {
       if (bindingResult.hasErrors()) {
         redirectAttributes.addFlashAttribute("editCourseNoteDtoBindingResult", bindingResult);
-        return "redirect:/courses/teacher/" + id;
+        return "redirect:/teacher/courses/" + id;
       }
 
       coursesService.editCourseNote(id, editCourseNoteDto);
 
       redirectAttributes.addFlashAttribute("success", "Описание было редактировано успешно");
-      return "redirect:/courses/teacher/" + id;
+      return "redirect:/teacher/courses/" + id;
     } catch (Exception e) {
       redirectAttributes.addFlashAttribute("error", e.getMessage());
-      return "redirect:/courses/teacher/" + id;
+      return "redirect:/teacher/courses/" + id;
     }
   }
 

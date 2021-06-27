@@ -13,8 +13,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface StudentLessonRepository extends JpaRepository<StudentLesson, Long> {
-  @Query("FROM StudentLesson sl JOIN FETCH sl.lesson l LEFT JOIN FETCH l.lessonFiles lf WHERE sl.id = :id")
-  public Optional<StudentLesson> findByIdWithLessonFiles(Long id);
+  @Query("FROM StudentLesson sl JOIN FETCH sl.lesson l WHERE sl.id = :id")
+  public Optional<StudentLesson> findById(Long id);
 
   @Query("FROM StudentLesson sl LEFT JOIN FETCH sl.lesson l LEFT JOIN FETCH sl.studentCourse sc LEFT JOIN FETCH sc.course c" + " " +
     "LEFT JOIN c.teachers t LEFT JOIN FETCH t.user u WHERE u.id = :teacherId AND sl.id = :lessonId")

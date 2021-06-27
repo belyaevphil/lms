@@ -38,7 +38,7 @@ public class LessonsService {
   }
 
   public StudentLesson getStudentLesson(Long id) {
-    return studentLessonRepository.findByIdWithLessonFiles(id).orElseThrow(() -> new NotFoundException("Такого урока не найдено"));
+    return studentLessonRepository.findById(id).orElseThrow(() -> new NotFoundException("Такого урока не найдено"));
   }
 
   public void addAnswer(Long studentLessonId, AddAnswerDto addAnswerDto) {
