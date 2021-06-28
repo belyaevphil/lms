@@ -57,13 +57,14 @@ public class LessonsService {
   }
 
   public StudentLesson getTeacherLessonToGrade(Long teacherId, Long lessonId) {
-    return studentLessonRepository.findByUserIdAndId(teacherId, lessonId).orElseThrow(() -> new NotFoundException("Такого урока не найдено"));
+    Long id = studentLessonRepository.findTeacherLessonToGrade(teacherId, lessonId)
+      .orElseThrow(() -> new NotFoundException("Такого урока не найдено"));
+    return studentLessonRepository.fetchTeacherLessonToGrade(id);
   }
 
   public TeacherLessonsToGradeDto getTeacherLessonsToGrade(String queryParam, Long teacherId, Pageable pageable) {
-    Page<Long> idsPage = studentLessonRepository
-      .findAllIdsByLessonNameContainingAndTeacherIdAndStatus(queryParam, teacherId, "ожидается проверка", pageable);
-    List<StudentLesson> studentLessons = studentLessonRepository.fetchAllByIds(idsPage.getContent());
+    Page<Long> idsPage = studentLessonRepository.findTeacherLessonsToGrade(queryParam, teacherId, pageable);
+    List<StudentLesson> studentLessons = studentLessonRepository.fetchTeacherLessonsToGrade(idsPage.getContent());
     TeacherLessonsToGradeDto teacherLessonsToGradeDto = new TeacherLessonsToGradeDto();
     teacherLessonsToGradeDto.setCurrentPage(pageable.getPageNumber() + 1);
     teacherLessonsToGradeDto.setTotalPages(idsPage.getTotalPages());
@@ -83,7 +84,7 @@ public class LessonsService {
     studentLessonRepository.saveAll(studentsLessons);
   }
 
-  @Transactional(rollbackFor = Throwable.class)
+  @Transactional(rollbackFor = Exception.class)
   public void create(CreateLessonDto createLessonDto, Long courseId) {
     Course course = coursesRepository.findById(courseId).orElseThrow(() -> new NotFoundException("Такого курса не найдено"));
 
@@ -99,7 +100,6 @@ public class LessonsService {
     }
   }
 
-  @Transactional(rollbackFor = Throwable.class)
   public void edit(Long id, EditLessonDto editLessonDto) {
     Lesson lesson = lessonRepository.findById(id).orElseThrow(() -> new NotFoundException("Такого урока не найдено"));
     lesson.setName(editLessonDto.getName());
