@@ -25,8 +25,8 @@ public interface StudentsCoursesRepository extends JpaRepository<StudentCourse, 
   @Query("SELECT sc.id FROM StudentCourse sc LEFT JOIN sc.course c LEFT JOIN sc.user u WHERE c.name LIKE %:name% AND u.id = :id")
   public Page<Long> findStudentCourses(String name, Long id, Pageable pageable);
 
-  @Query("SELECT DISTINCT sc FROM StudentCourse sc LEFT JOIN FETCH sc.studentLessons sl LEFT JOIN FETCH sc.course c WHERE sc.id IN :ids")
-  public List<StudentCourse> fetchStudentCourses(List<Long> studentCoursesIds);
+  @Query("SELECT DISTINCT sc FROM StudentCourse sc LEFT JOIN FETCH sc.studentLessons sl LEFT JOIN FETCH sc.course c WHERE sc.id IN :coursesIds")
+  public List<StudentCourse> fetchStudentCourses(List<Long> coursesIds);
 
   @Query("SELECT DISTINCT sc FROM StudentCourse sc LEFT JOIN FETCH sc.studentLessons sl LEFT JOIN sc.user u WHERE u.id = :studentId")
   public List<StudentCourse> fetchStudentCourses(Long studentId);

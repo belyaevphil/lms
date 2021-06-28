@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <th:block th:replace="partials/globalCss :: globalCss"></th:block>
-    <title>[[${studentLesson.lesson.name}]]</title>
+    <title>Урок | [[${studentLesson.lesson.name}]]</title>
     <link rel="stylesheet" th:href="@{/static/summernote-0.8.18-dist/summernote-bs4.min.css}" />
   </head>
   <body>
@@ -18,15 +18,6 @@
         <h1>[[${studentLesson.lesson.name}]]</h1>
         <p><strong>Задание к уроку:</strong> [(${studentLesson.lesson.description})]</p>
         <p><strong>Текущая оценка:</strong> [[${studentLesson.grade?: '-'}]]</p>
-        <!-- <div th:if="${!studentLesson.lesson.lessonFiles.isEmpty()}">
-          <h2>Материалы к уроку</h2>
-          <a
-            class="d-block"
-            th:each="lessonFile : ${studentLesson.lesson.lessonFiles}"
-            th:text="${lessonFile.originalName}"
-            th:href="@{/download(path=${lessonFile.path},name=${lessonFile.originalName})}"
-          ></a>
-        </div> -->
         <form th:object="${addAnswerDto}" method="post" id="addAnswerForm">
           <div class="form-group">
             <label for="answer">Ответ на задание</label>

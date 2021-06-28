@@ -18,6 +18,6 @@ public interface CoursesRepository extends JpaRepository<Course, Long> {
 
   public Page<Course> findAllByNameContaining(String name, Pageable pageable);
 
-  @Query("FROM Course c LEFT JOIN FETCH c.lessons l WHERE c.id = :id")
+  @Query("SELECT c FROM Course c LEFT JOIN FETCH c.lessons l WHERE c.id = :id")
   public Optional<Course> findByIdWithLessons(Long id);
 }
