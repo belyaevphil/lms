@@ -89,14 +89,14 @@ public class CoursesService {
   }
   
   public StudentCourseDto getStudentCourse(Long id) {
-    StudentCourse studentCourse = studentsCoursesRepository.findByIdWithStudentLessons(id)
+    StudentCourse studentCourse = studentsCoursesRepository.fetchStudentCourse(id)
       .orElseThrow(() -> new NotFoundException("Такого курса не найдено"));
     return convertStudentCourseToDto(studentCourse);
   }
 
   public StudentCoursesDto getStudentCourses(String queryParam, Long studentId, Pageable pageable) {
-    Page<Long> idsPage = studentsCoursesRepository.findAllIdsCourseNameContainingByStudentId(queryParam, studentId, pageable);
-    List<StudentCourseDto> studentCourses = studentsCoursesRepository.fetchAllByIds(idsPage.getContent())
+    Page<Long> idsPage = studentsCoursesRepository.findStudentCourses(queryParam, studentId, pageable);
+    List<StudentCourseDto> studentCourses = studentsCoursesRepository.fetchStudentCourses(idsPage.getContent())
       .stream().map(studentCourse -> convertStudentCourseToDto(studentCourse)).collect(Collectors.toList());
     StudentCoursesDto studentCoursesDto = new StudentCoursesDto();
     studentCoursesDto.setCurrentPage(pageable.getPageNumber() + 1);

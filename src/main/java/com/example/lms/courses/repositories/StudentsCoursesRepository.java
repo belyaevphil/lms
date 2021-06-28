@@ -18,16 +18,16 @@ public interface StudentsCoursesRepository extends JpaRepository<StudentCourse, 
   public Optional<StudentCourse> findByUserAndCourse(User user, Course course);
 
   @Query("FROM StudentCourse sc LEFT JOIN FETCH sc.studentLessons sl LEFT JOIN FETCH sl.lesson l LEFT JOIN FETCH sc.course c WHERE sc.id = :id")
-  public Optional<StudentCourse> findByIdWithStudentLessons(Long id);
+  public Optional<StudentCourse> fetchStudentCourse(Long id);
 
   public List<StudentCourse> findAllByCourseId(Long courseId);
 
   @Query("SELECT sc.id FROM StudentCourse sc LEFT JOIN sc.course c LEFT JOIN sc.user u WHERE c.name LIKE %:name% AND u.id = :id")
-  public Page<Long> findAllIdsCourseNameContainingByStudentId(String name, Long id, Pageable pageable);
+  public Page<Long> findStudentCourses(String name, Long id, Pageable pageable);
 
   @Query("SELECT DISTINCT sc FROM StudentCourse sc LEFT JOIN FETCH sc.studentLessons sl LEFT JOIN FETCH sc.course c WHERE sc.id IN :ids")
-  public List<StudentCourse> fetchAllByIds(List<Long> ids);
+  public List<StudentCourse> fetchStudentCourses(List<Long> studentCoursesIds);
 
   @Query("SELECT DISTINCT sc FROM StudentCourse sc LEFT JOIN FETCH sc.studentLessons sl LEFT JOIN sc.user u WHERE u.id = :studentId")
-  public List<StudentCourse> fetchAllByStudentId(Long studentId);
+  public List<StudentCourse> fetchStudentCourses(Long studentId);
 }

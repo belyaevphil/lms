@@ -75,7 +75,7 @@ public class UsersService {
   }
 
   public StudentOverviewDto getStudentOverviewData(Long studentId) {
-    List<StudentCourse> studentCourses = studentsCoursesRepository.fetchAllByStudentId(studentId);
+    List<StudentCourse> studentCourses = studentsCoursesRepository.fetchStudentCourses(studentId);
 
     int coursesCount = studentCourses.size();
 
