@@ -106,7 +106,7 @@ public class LessonsController {
       lessonsService.grade(teacherLessonToGrade, gradeAnswerDto);
 
       redirectAttributes.addFlashAttribute("success", "Оценка была выставлена успешно");
-      return "redirect:/teacher/lessons-to-grade/" + lessonId;
+      return "redirect:/teacher/lessons-to-grade";
     } catch (Exception e) {
       redirectAttributes.addFlashAttribute("error", e.getMessage());
       return "redirect:/teacher/lessons-to-grade/" + lessonId;
